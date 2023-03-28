@@ -32,16 +32,11 @@ function ComplaintList(props) {
     }
 
     const setData = (data) => {
-        let { id, title, description, categoryId , categoryName , rate , gstPer, model , serialNo } = data;
+        let { id, title, description, status} = data;
         localStorage.setItem('id', id);
         localStorage.setItem('title', title);
         localStorage.setItem('description', description);
-        localStorage.setItem('categoryId', categoryId);
-        localStorage.setItem('categoryName', categoryName);
-        localStorage.setItem('rate', rate);
-        localStorage.setItem('gstPer', gstPer);
-        localStorage.setItem('model', model);
-        localStorage.setItem('serialNo', serialNo);
+        localStorage.setItem('status', status);
     }
 
 
@@ -69,9 +64,7 @@ function ComplaintList(props) {
                                                 <th>Sr. No. </th>
                                                 <th>Title</th>
                                                 <th>Description</th>
-                                                <th>Category</th>
-                                                <th>Rate</th>
-                                                <th>Tax %</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -82,9 +75,7 @@ function ComplaintList(props) {
                                                         <td> {post?.id} </td>
                                                         <td>{post?.title}</td>
                                                         <td>{post?.description}</td>
-                                                        <td>{post?.categoryName}</td>
-                                                        <td>{post?.rate}</td>
-                                                        <td>{post?.gstPer}</td>
+                                                        <td>{post?.status}</td>
                                                         <td>    
                                                                 <Link  to={"/addComplaint"} title={"Edit"}> Edit </Link>
                                                         </td>

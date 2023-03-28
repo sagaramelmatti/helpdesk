@@ -16,7 +16,7 @@ const getAll = () => {
     return http.delete(`/complaints/${id}`);
   };
 
-const ProductDataService =  {
+const ComplaintDataService =  {
       getAll,
       get,
       create,
@@ -24,4 +24,4 @@ const ProductDataService =  {
       remove,
 };
 
-export default ProductDataService;
+export default ComplaintDataService;

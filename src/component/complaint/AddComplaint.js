@@ -12,11 +12,9 @@ function AddComplaint(props) {
 
     const [id, setId] = useState("");
     const [title, setTitle] = useState("");
-    const [hsnCode, setHsnCode] = useState("");
+    const [description, setDescription] = useState("");
     const [departmentId, setDepartmentId] = useState("");
-    const [userId, setTaxId] = useState("");
-    const [rate, setRate] = useState("");
-    
+    const [userId, setUserId] = useState("");
 
     React.useEffect(() => {
       async function getDepartments() {
@@ -27,27 +25,14 @@ function AddComplaint(props) {
           }));
       }
 
-      async function getUsers() {
-        const response = await fetch("http://localhost:8080/api/users/");
-        const body = await response.json();
-        setUsers(body.map(item => {
-            return { value: item.id, label: item.name };
-          }));
-          
-      }
-
       getDepartments();
-      getUsers();
-
     }, []);
 
     useEffect(() => {
         setId(localStorage.getItem('iD'));
         setTitle(localStorage.getItem('title'));
-        setHsnCode(localStorage.getItem('hsnCode'));
+        setDescription(localStorage.getItem('description'));
         setDepartmentId(localStorage.getItem('departmentId'));
-        setRate(localStorage.getItem('rate'));
-        setTaxId(localStorage.getItem('userId'));
         
     }, []);
 
@@ -55,11 +40,9 @@ function AddComplaint(props) {
         event.preventDefault();
         var data = {
             title : title,
-            hsnCode : hsnCode,
+            description : description,
             departmentId : departmentId,
-            userId : userId,
-            rate : rate,
-            
+            userId : userId
         };
 
         //console.log(`data=`+data.userId);
@@ -92,14 +75,14 @@ function AddComplaint(props) {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="form-group required">
-                                                <label className="control-label">HSN / SAC Code</label>
-                                                <input type="text" className="form-control" name="hsnCode" value={hsnCode} onChange={(e) => setHsnCode(e.target.value)} />
+                                                <label className="control-label">Title</label>
+                                                <input type="text" className="form-control" name="title" value={title} onChange={(e) => setTitle(e.target.value)} />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="form-group required">
-                                                <label className="control-label">Title</label>
-                                                <input type="text" className="form-control" name="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                                                <label className="control-label">Description</label>
+                                                <input type="text" className="form-control" name="description" value={description} onChange={(e) => setDescription(e.target.value)} />
                                             </div>
                                         </div>
                                     </div>
@@ -109,24 +92,6 @@ function AddComplaint(props) {
                                                 <label className="control-label">Department</label>
                                                     <select className='form-control select2' value={departmentId} onChange={(e) => setDepartmentId(e.target.value)}>
                                                         {department.map(o => (
-                                                            <option key={o.value} value={o.value}>{o.label}</option>
-                                                        ))}
-                                                    </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="form-group required">
-                                                <label className="control-label">Rate</label>
-                                                <input type="text" className="form-control" name="rate" value={rate} onChange={(e) => setRate(e.target.value)} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="form-group required">
-                                                <label className="control-label">Tax</label>
-                                                    <select className='form-control select2' value={userId} defaultValue={"default"} onChange={(e) => setTaxId(e.target.value)} >
-                                                        {users.map(o => (
                                                             <option key={o.value} value={o.value}>{o.label}</option>
                                                         ))}
                                                     </select>

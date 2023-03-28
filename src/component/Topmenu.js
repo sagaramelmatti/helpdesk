@@ -18,14 +18,17 @@ function Topmenu(props) {
                                 <ul className="nav navbar-nav">
                                     
                                     <li>
-                                        <Link to="/products"><i className="fa fa-address-book"></i> Product List</Link>
+                                        <Link to="/complaints"><i className="fa fa-address-book"></i> Complaint List</Link>
                                     </li>
                                    
                                     <li>
-                                        <Link to="/users"><i className="fa fa-address-book"></i> Customer List</Link>
+                                        <Link to="/departments"><i className="fa fa-address-book"></i> Admin Department List</Link>
                                     </li>
                                     <li>
-                                        <Link to="/departments"><i className="fa fa-address-book"></i> Department List</Link>
+                                        <Link to="/users"><i className="fa fa-address-book"></i> Admin User List</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/adminComplaints"><i className="fa fa-address-book"></i> Admin Complaint List</Link>
                                     </li>
 
                                     <li className="dropdown">
