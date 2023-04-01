@@ -1,59 +1,67 @@
-import React from 'react';
-import {  Link } from "react-router-dom";
+import React from "react";
+import { Link, Navigate } from "react-router-dom";
+import useLogout from "./authentication/useLogOut";
+import { PATH_ROOT } from "./constants";
+
+import { navigationConstants } from "./constants";
 
 function Topmenu(props) {
-    return (
-        <>
-            <div className="wrapper">
-                <header className="main-header">
-                    <nav className="navbar navbar-static-top">
-                        <div className="container">
-                            <div className="navbar-header">
-                                <a href="<?php echo base_url();?>/ledzer" className="navbar-brand"><b>Ledzer</b></a>
-                                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                                    <i className="fa fa-bars"></i>
-                                </button>
-                            </div>
-                            <div className="collapse navbar-collapse pull-left" id="navbar-collapse">
-                                <ul className="nav navbar-nav">
-                                    
-                                    <li>
-                                        <Link to="/complaints"><i className="fa fa-address-book"></i> Complaint List</Link>
-                                    </li>
-                                   
-                                    <li>
-                                        <Link to="/departments"><i className="fa fa-address-book"></i> Admin Department List</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/users"><i className="fa fa-address-book"></i> Admin User List</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/adminComplaints"><i className="fa fa-address-book"></i> Admin Complaint List</Link>
-                                    </li>
+  const role = localStorage.getItem("role");
 
-                                    <li className="dropdown">
-                                        <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-wrench"></i>&nbsp;&nbsp; Setting <span className="caret"></span></a>
-                                        <ul className="dropdown-menu" role="menu">
-                                            <li className="divider"></li>
-                                            <li>
-                                                <Link to="/customers"><i className="fa fa-address-book"></i> Customer List</Link>
-                                            </li>
-                                            
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <i className="fa fa-power-off"></i> <span></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                </header>
-            </div>
-        </>
+  const logout = useLogout();
+
+  const signOut = async () => {
+    await logout();
+    Navigate(PATH_ROOT, { replace: true });
+  };
+
+  const renderNavBar = () => {
+    return navigationConstants?.map((item) =>
+      item?.rolesList?.includes(role) ? (
+        <li key={role.label}>
+          <Link
+            to={item?.path}
+            onClick={() => (item?.key === "log_out" ? signOut() : null)}
+          >
+            <i className={`fa ${item?.iconName}`}></i> {item?.label}
+          </Link>
+        </li>
+      ) : (
+        ""
+      )
     );
+  };
+  return (
+    <>
+      <div className="wrapper">
+        <header className="main-header">
+          <nav className="navbar navbar-static-top">
+            <div className="container">
+              <div className="navbar-header">
+                <a href="/" className="navbar-brand">
+                  <b>Ledzer</b>
+                </a>
+                <button
+                  type="button"
+                  className="navbar-toggle collapsed"
+                  data-toggle="collapse"
+                  data-target="#navbar-collapse"
+                >
+                  <i className="fa fa-bars"></i>
+                </button>
+              </div>
+              <div
+                className="collapse navbar-collapse pull-left"
+                id="navbar-collapse"
+              >
+                <ul className="nav navbar-nav">{renderNavBar()}</ul>
+              </div>
+            </div>
+          </nav>
+        </header>
+      </div>
+    </>
+  );
 }
 
 export default Topmenu;
