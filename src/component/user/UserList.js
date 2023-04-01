@@ -79,7 +79,7 @@ function UserList(props) {
                                                         <td> {user?.id} </td>
                                                         <td>{user?.name}</td>
                                                         <td>{user?.email}</td>
-                                                        <td>{user?.departmentId}</td>
+                                                        <td>{user?.department.name}</td>
                                                         <td>{user?.status}</td>
                                                         <td>    
                                                                 <Link  to={"/users/"+ user?.id} title={"Edit"}> Edit </Link>

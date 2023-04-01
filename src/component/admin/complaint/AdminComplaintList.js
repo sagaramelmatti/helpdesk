@@ -58,14 +58,40 @@ function AdminComplaintList(props) {
                                     <button className="btn btn-default" onClick="reload_table()"><i className="glyphicon glyphicon-refresh"></i> Reload</button>
                                     <br />
                                     <br />
+
+    <div id="myModal" className="modal fade">
+        <div className="modal-dialog">
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h5 className="modal-title">Your Feedback</h5>
+                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div className="modal-body">
+                    <form>
+                        
+                        <div className="form-group">
+                            <label for="inputComment">Comments</label>
+                            <textarea className="form-control" id="inputComment" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" className="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
                                     <table id="table" className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Sr. No. </th>
-                                                <th>Title</th>
-                                                <th>Description</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
+                                                <th width="20%">Title</th>
+                                                <th width="40%">Description</th>
+                                                <th width="10%">Status</th>
+                                                <th width="15%">change status</th>
+                                                <th width="15%">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -77,7 +103,7 @@ function AdminComplaintList(props) {
                                                         <td>{complaint?.description}</td>
                                                         <td>{complaint?.status}</td>
                                                         <td>    
-                                                                <Link  to={"/addComplaint"} title={"Edit"}> Edit </Link>
+                                                        <button href="#myModal" class="btn btn-primary" data-toggle="modal"><i className="fa fa-pencil"></i> Change </button>    
                                                         </td>
                                                         <td><button className="btn btn-danger" onClick={() => onDelete(complaint?.id)}><i className="fa fa-trash-o"></i> Delete </button></td>
                                                     </tr>
