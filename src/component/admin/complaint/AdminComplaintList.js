@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-import { sendComplaintData } from "../../../api/CommonApi";
+import { sendAdminComplaint } from "../../../api/CommonApi";
 import PageLoader from "../../common/PageLoader";
 
 function AdminComplaintList(props) {
@@ -50,10 +51,11 @@ function AdminComplaintList(props) {
       status: statusParam,
       comment: commentMessage,
     };
-    sendComplaintData(complaintChangeData, complaintId).then((response) => {
+    sendAdminComplaint(complaintChangeData, complaintId).then((response) => {
       if (response?.status === 200) {
         setIsLoading(false);
         getComplaints();
+        toast.success("Status Updated");
       }
       setIsLoading(false);
     });
@@ -186,7 +188,11 @@ function AdminComplaintList(props) {
                               <td> {complaint?.id} </td>
                               <td>{complaint?.title}</td>
                               <td>{complaint?.description}</td>
-                              <td>{complaint?.status}</td>
+                              <td>
+                                {complaint?.status === "A"
+                                  ? "Active"
+                                  : "Denied"}
+                              </td>
                               <td>{complaint?.comment}</td>
                               <td>
                                 <button

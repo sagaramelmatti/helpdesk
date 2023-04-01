@@ -2,12 +2,17 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useLocation, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import { sendUserComplaint } from "../../api/CommonApi";
+import PageLoader from "../common/PageLoader";
 
 function UserList(props) {
   const [users, setUsers] = useState([]);
   const [complaints, setComplaints] = useState([]);
   const [complaintId, setComplaintId] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getUsers();
@@ -15,14 +20,17 @@ function UserList(props) {
 
   // get users
   const getUsers = () => {
+    setIsLoading(true);
     axios
       .get("http://localhost:8080/api/admin/findAllUsers/")
       .then((response) => {
         if (response.status === 200) {
+          setIsLoading(false);
           setUsers(response?.data);
         }
       })
       .catch((error) => {
+        setIsLoading(false);
         console.log(error);
       });
   };
@@ -46,10 +54,17 @@ function UserList(props) {
   const sendComplaints = (statusParam) => {
     const complaintChangeData = {
       status: statusParam,
-      complaintId: complaintId,
-      comment: commentMessage,
+      // comment: commentMessage,
     };
 
+    sendUserComplaint(complaintChangeData, complaintId).then((response) => {
+      if (response?.status === 200) {
+        toast.success("Status Updated");
+        setIsLoading(false);
+        getUsers();
+      }
+      setIsLoading(false);
+    });
     console.log("complaintChangeData", complaintChangeData);
   };
 
@@ -151,60 +166,66 @@ function UserList(props) {
                     </div>
                   </div>
 
-                  <table
-                    id="table"
-                    className="table table-bordered table-hover"
-                  >
-                    <thead>
-                      <tr>
-                        <th width="10%">Sr. No </th>
-                        <th width="20%">Name</th>
-                        <th width="20%">Email</th>
-                        <th width="20%">Department</th>
-                        <th width="10%">Status</th>
-                        <th width="10%"></th>
-                        <th width="10%">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users &&
-                        users.map((user) => (
-                          <tr key={user?.id}>
-                            <td> {user?.id} </td>
-                            <td>{user?.name}</td>
-                            <td>{user?.email}</td>
-                            <td>{user?.department?.name}</td>
-                            <td>{user?.status}</td>
-                            <td>
-                              <Link to={"/users/" + user?.id} title={"Edit"}>
-                                {" "}
-                                Edit{" "}
-                              </Link>
-                            </td>
-                            <td>
-                              <button
-                                href="#myModal"
-                                class="btn btn-primary"
-                                data-toggle="modal"
-                                onClick={() => {
-                                  setComplaintId(user?.id);
-                                }}
-                              >
-                                <i className="fa fa-pencil"></i> Change{" "}
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                className="btn btn-danger"
-                                onClick={() => onDelete(user?.id)}
-                              >
-                                <i className="fa fa-trash-o"></i> Delete{" "}
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                  {isLoading ? (
+                    <PageLoader />
+                  ) : (
+                    <table
+                      id="table"
+                      className="table table-bordered table-hover"
+                    >
+                      <thead>
+                        <tr>
+                          <th width="10%">Sr. No </th>
+                          <th width="20%">Name</th>
+                          <th width="20%">Email</th>
+                          <th width="20%">Department</th>
+                          <th width="10%">Status</th>
+                          <th width="10%"></th>
+                          <th width="10%">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {users &&
+                          users.map((user) => (
+                            <tr key={user?.id}>
+                              <td> {user?.id} </td>
+                              <td>{user?.name}</td>
+                              <td>{user?.email}</td>
+                              <td>{user?.department?.name}</td>
+                              <td>
+                                {user?.status === "A" ? "Active" : "Denied"}
+                              </td>
+                              <td>
+                                <Link to={"/users/" + user?.id} title={"Edit"}>
+                                  {" "}
+                                  Edit{" "}
+                                </Link>
+                              </td>
+                              <td>
+                                <button
+                                  href="#myModal"
+                                  class="btn btn-primary"
+                                  data-toggle="modal"
+                                  onClick={() => {
+                                    setComplaintId(user?.id);
+                                  }}
+                                >
+                                  <i className="fa fa-pencil"></i> Change{" "}
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={() => onDelete(user?.id)}
+                                >
+                                  <i className="fa fa-trash-o"></i> Delete{" "}
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
               </div>
             </div>

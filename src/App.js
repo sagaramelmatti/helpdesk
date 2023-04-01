@@ -27,12 +27,14 @@ import AdminComplaintList from "./component/admin/complaint/AdminComplaintList";
 import { Login } from "./component/authentication/Login";
 import ProtectedRoutes from "./component/authentication/ProtectedRoutes";
 import { AuthProvider } from "./context/AuthProvider";
+import Toaster from "./component/common/Toaster";
 
 function App() {
   return (
     <>
       <body className="hold-transition skin-blue layout-top-nav">
         <div className="wrapper">
+          <Toaster />
           <Router>
             <AuthProvider>
               <Routes>

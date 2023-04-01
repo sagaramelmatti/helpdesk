@@ -1,7 +1,10 @@
 import axiosInstance from "../axiosInstance";
-import { API_UPDATE_COMPLAINT_STATUS } from "../component/constants";
+import {
+  API_UPDATE_COMPLAINT_STATUS,
+  API_UPDATE_USER_STATUS,
+} from "../component/constants";
 
-export const sendComplaintData = async (data, id) => {
+export const sendAdminComplaint = async (data, id) => {
   const result = axiosInstance
     .put(`${API_UPDATE_COMPLAINT_STATUS}${id}`, data)
     .catch((response) => {
@@ -14,9 +17,9 @@ export const sendComplaintData = async (data, id) => {
   return result;
 };
 
-export const sendUserData = async (data) => {
+export const sendUserComplaint = async (data, id) => {
   const result = axiosInstance
-    .post("./", data)
+    .put(`${API_UPDATE_USER_STATUS}${id}`, data)
     .then((response) => {
       return response;
     })
