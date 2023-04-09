@@ -132,6 +132,7 @@ export const Login = () => {
         localStorage.setItem("name", res.data.name);
         localStorage.setItem("role", res.data.roles[0]);
         localStorage.setItem("email", res.data.email);
+        localStorage.setItem("userId", res.data.id);
         const updatedUser = {
           token: res.data.accessToken,
           name: res.data.name,

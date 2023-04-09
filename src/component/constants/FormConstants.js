@@ -104,3 +104,57 @@ export const navigationConstants = [
 ];
 
 // export const userNavigation = [];
+
+export const addComplaintFormConstants = [
+  {
+    key: "title",
+    label: "Title",
+    type: "text",
+    roleList: ["ROLE_ADMIN", "ROLE_USER"],
+  },
+  {
+    key: "description",
+    label: "Description",
+    type: "text",
+    roleList: ["ROLE_ADMIN", "ROLE_USER"],
+  },
+  {
+    key: "departmentId",
+    label: "Department",
+    type: "select",
+    roleList: ["ROLE_ADMIN", "ROLE_USER"],
+  },
+  {
+    key: "userId",
+    label: "User List",
+    type: "select",
+    roleList: ["ROLE_ADMIN"],
+  },
+];
+
+export const addUserFormConstants = [
+  {
+    key: "name",
+    label: "Name",
+    type: "text",
+    formName: ["add_user", "edit_user"],
+  },
+  {
+    key: "email",
+    label: "Email",
+    type: "email",
+    formName: ["add_user", "edit_user"],
+  },
+  {
+    key: "password",
+    label: "Password",
+    type: "password",
+    formName: ["add_user"],
+  },
+  {
+    key: "departmentId",
+    label: "Department",
+    type: "select",
+    formName: ["add_user", "edit_user"],
+  },
+];

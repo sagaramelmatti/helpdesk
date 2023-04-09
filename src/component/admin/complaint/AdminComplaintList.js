@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import { sendAdminComplaint } from "../../../api/CommonApi";
 import PageLoader from "../../common/PageLoader";
+import AddComplaint from "../../complaint/AddComplaint";
 
 function AdminComplaintList(props) {
   const [complaints, setComplaints] = useState([]);
   const [complaintId, setComplaintId] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getComplaints();
@@ -19,7 +23,7 @@ function AdminComplaintList(props) {
   const getComplaints = () => {
     setIsLoading(true);
     axios
-      .get("http://localhost:8080/api/admin/findAllComplaints/")
+      .get("http://localhost:8080/api/admin/complaints/")
       .then((response) => {
         if (response.status === 200) {
           setComplaints(response?.data);
@@ -32,9 +36,11 @@ function AdminComplaintList(props) {
   };
 
   const onDelete = (id) => {
-    axios.delete(`http://localhost:8080/api/complaints/${id}`).then(() => {
-      getComplaints();
-    });
+    axios
+      .delete(`http://localhost:8080/api/admin/complaints/${id}`)
+      .then(() => {
+        getComplaints();
+      });
   };
 
   const setData = (data) => {
@@ -213,6 +219,15 @@ function AdminComplaintList(props) {
                                   onClick={() => onDelete(complaint?.id)}
                                 >
                                   <i className="fa fa-trash-o"></i> Delete{" "}
+                                </button>{" "}
+                                &nbsp;
+                                <button
+                                  className="btn btn-success"
+                                  onClick={() =>
+                                    navigate(`/editComplaint/${complaint?.id}`)
+                                  }
+                                >
+                                  <i className="fa fa-trash-o"></i> Edit{" "}
                                 </button>
                               </td>
                             </tr>

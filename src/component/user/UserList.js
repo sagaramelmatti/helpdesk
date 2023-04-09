@@ -22,7 +22,7 @@ function UserList(props) {
   const getUsers = () => {
     setIsLoading(true);
     axios
-      .get("http://localhost:8080/api/admin/findAllUsers/")
+      .get("http://localhost:8080/api/admin/users/")
       .then((response) => {
         if (response.status === 200) {
           setIsLoading(false);
@@ -36,7 +36,7 @@ function UserList(props) {
   };
 
   const onDelete = (id) => {
-    axios.delete(`http://localhost:8080/api/users/${id}`).then(() => {
+    axios.delete(`http://localhost:8080/api/admin/users/${id}`).then(() => {
       getUsers();
     });
   };
@@ -65,7 +65,6 @@ function UserList(props) {
       }
       setIsLoading(false);
     });
-    console.log("complaintChangeData", complaintChangeData);
   };
 
   return (

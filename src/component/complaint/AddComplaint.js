@@ -1,121 +1,158 @@
-import React, { useState, useEffect } from 'react';
-import {Link, Routes, Route, useNavigate} from 'react-router-dom'
-import Select from 'react-select';
-import axios from 'axios';
-import ComplaintDataService from '../../services/ComplaintDataService';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+
+import { addComplaints, getDepartmentList, getUsers } from "../../api";
+import { addComplaintFormConstants } from "../constants";
+import { toast } from "react-toastify";
 
 function AddComplaint(props) {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const [department, setDepartment] = React.useState([]);
-    const [user, setUsers] = React.useState([]);
+  const [departmentList, setDepartmentList] = useState({});
+  const [userList, setUserList] = useState({});
+  const [addComplaintFormFields, setAddComplaintFormFields] = useState({
+    title: "",
+    description: "",
+    userId: "",
+    departmentId: "",
+    status: "New Complaint",
+  });
 
-    const [id, setId] = useState("");
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [departmentId, setDepartmentId] = useState("");
-    const [userId, setUserId] = useState("");
+  const localUserId = localStorage.getItem("userId");
+  const role = localStorage.getItem("role");
 
-    React.useEffect(() => {
-      async function getDepartments() {
-        const response = await fetch("http://localhost:8080/api/complaints/");
-        const body = await response.json();
-        setDepartment(body.map(item => {
-            return { value: item.id, label: item.name };
-          }));
+  useEffect(() => {
+    if (localUserId) {
+      if (role === "ROLE_USER") {
+        setAddComplaintFormFields({
+          ...addComplaintFormFields,
+          userId: localUserId,
+        });
       }
-
-      getDepartments();
-    }, []);
-
-    useEffect(() => {
-        setId(localStorage.getItem('iD'));
-        setTitle(localStorage.getItem('title'));
-        setDescription(localStorage.getItem('description'));
-        setDepartmentId(localStorage.getItem('departmentId'));
-        
-    }, []);
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        var data = {
-            title : title,
-            description : description,
-            departmentId : departmentId,
-            userId : userId
-        };
-
-        //console.log(`data=`+data.userId);
-
-        ComplaintDataService.create(data)
-          .then(response => {
-            console.log(response.data);
-            navigate("/complaints");
-          })
-          .catch(e => {
-            console.log(e);
-          });
     }
+    if (role === "ROLE_ADMIN") {
+      getUsers().then((response) => {
+        if (response?.status === 200) {
+          const userListTemp = response?.data?.map((item) => {
+            return { value: item?.id, label: item?.name };
+          });
+          setUserList(userListTemp);
+          return response?.data;
+        }
+      });
+    }
+  }, [localUserId, role]);
 
-    return (
-        <>
-            <div className="content-wrapper">
-                <section className="content-header">
-                    <h1>Add New Complaint</h1>
-                </section>
-                <section className="content">
-                    <div className="row">
-                        <div className="col-xs-12">
-                            <div className="box">
-                                <div className="box-header">
-                                    <h3 className="box-title"> Complaint Master</h3>
-                                </div>
-                                <div className="box-body">
-                                    <form method ="post" className='form' onSubmit={handleSubmit}>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="form-group required">
-                                                <label className="control-label">Title</label>
-                                                <input type="text" className="form-control" name="title" value={title} onChange={(e) => setTitle(e.target.value)} />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="form-group required">
-                                                <label className="control-label">Description</label>
-                                                <input type="text" className="form-control" name="description" value={description} onChange={(e) => setDescription(e.target.value)} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="form-group required">
-                                                <label className="control-label">Department</label>
-                                                    <select className='form-control select2' value={departmentId} onChange={(e) => setDepartmentId(e.target.value)}>
-                                                        {department.map(o => (
-                                                            <option key={o.value} value={o.value}>{o.label}</option>
-                                                        ))}
-                                                    </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-3">
-                                        </div>
-                                        <div className="col-md-3">
-                                            <button type="submit" className="btn btn-success btn-block btn-flat r-btn">Save</button>
-                                        </div>
-                                        <div className="col-md-6">
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+  useEffect(() => {
+    getDepartmentList().then((response) => {
+      if (response?.status === 200) {
+        const departmentListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setDepartmentList(departmentListTemp);
+      }
+    });
+  }, []);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    addComplaints(addComplaintFormFields).then((response) => {
+      if (response?.status === 200) {
+        toast.success("Complaint added successfully");
+        if (role === "ROLE_ADMIN") {
+          navigate("/adminComplaints");
+        } else {
+          navigate("/complaints");
+        }
+      } else {
+        toast.error("Something went wrong, please try again");
+      }
+    });
+  };
+
+  const renderFormFields = () => {
+    return addComplaintFormConstants?.map((formField) => {
+      if (formField?.roleList?.includes(role)) {
+        return formField?.type === "text" ? (
+          <div className="col-md-6" key={formField?.key}>
+            <div className="form-group required">
+              <label className="control-label">{formField?.label}</label>
+              <input
+                type={formField?.type}
+                className="form-control"
+                name={formField?.key}
+                value={addComplaintFormFields?.[formField?.key]}
+                onChange={(e) =>
+                  setAddComplaintFormFields({
+                    ...addComplaintFormFields,
+                    [formField?.key]: e.target.value,
+                  })
+                }
+              />
             </div>
-        </>
-    );
+          </div>
+        ) : (
+          <div className="col-md-6" key={formField?.key}>
+            <div className="form-group required">
+              <label className="control-label">{formField?.label}</label>
+              <Select
+                onChange={(e) =>
+                  setAddComplaintFormFields({
+                    ...addComplaintFormFields,
+                    [formField?.key]: e.value,
+                  })
+                }
+                options={
+                  formField?.key === "departmentId" ? departmentList : userList
+                }
+              />
+            </div>
+          </div>
+        );
+      }
+    });
+  };
+
+  return (
+    <>
+      <div className="content-wrapper">
+        <section className="content-header">
+          <h1>Add New Complaint</h1>
+        </section>
+        <section className="content" style={{ minHeight: "500px" }}>
+          <div className="row">
+            <div className="col-xs-12">
+              <div className="box">
+                <div className="box-header">
+                  <h3 className="box-title"> Complaint Master</h3>
+                </div>
+                <div className="box-body">
+                  <div className="row">{renderFormFields()}</div>
+                  <div className="row">
+                    <div className="col-md-12 text-center">
+                      <button
+                        style={{ width: "200px", display: "inline-block" }}
+                        type="submit"
+                        className="btn btn-success btn-block btn-flat r-btn"
+                        onClick={(e) => {
+                          handleSubmit(e);
+                        }}
+                      >
+                        Save
+                      </button>
+                    </div>
+                    <div className="col-md-6"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
+  );
 }
 
 export default AddComplaint;

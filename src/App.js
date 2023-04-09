@@ -24,6 +24,7 @@ import AddDepartment from "./component/department/AddDepartment";
 import EditDepartment from "./component/department/EditDepartment";
 import ComplaintList from "./component/complaint/ComplaintList";
 import AddComplaint from "./component/complaint/AddComplaint";
+import EditComplaint from "./component/complaint/EditComplaint";
 import AdminComplaintList from "./component/admin/complaint/AdminComplaintList";
 import { Login } from "./component/authentication/Login";
 import ProtectedRoutes from "./component/authentication/ProtectedRoutes";
@@ -37,7 +38,6 @@ function App() {
 
   function ShowRoleWiseComponent({ children }) {
     if (role === "ROLE_ADMIN") {
-      console.log("11111");
       return <>{children}</>;
     } else {
       return <PageNotFound />;
@@ -46,7 +46,7 @@ function App() {
 
   function UserComponent({ children }) {
     if (role === "ROLE_USER") {
-      return <>{children}</>;
+      return <>{("user", children)}</>;
     } else {
       return <PageNotFound />;
     }
@@ -63,90 +63,32 @@ function App() {
                 <Route path={PATH_LOGIN} element={<Login />} />
                 <Route path={PATH_PAGE_NOT_FOUND} element={<PageNotFound />} />
                 <Route element={<ProtectedRoutes />}>
-                  <Route
-                    path="/"
-                    exact
-                    element={
-                      <ShowRoleWiseComponent>
-                        <UserList />
-                      </ShowRoleWiseComponent>
-                    }
-                  />
-                  <Route
-                    path="/addUser"
-                    exact
-                    element={
-                      <ShowRoleWiseComponent>
-                        <AddUser />
-                      </ShowRoleWiseComponent>
-                    }
-                  />
-                  <Route
-                    path="/users"
-                    element={
-                      <ShowRoleWiseComponent>
-                        <UserList />
-                      </ShowRoleWiseComponent>
-                    }
-                  />
-                  <Route
-                    path="/users/:id"
-                    element={
-                      <ShowRoleWiseComponent>
-                        <EditUser />
-                      </ShowRoleWiseComponent>
-                    }
-                  />
+                  <Route path="/" exact element={<UserList />} />
+                  <Route path="/addUser" exact element={<AddUser />} />
+                  <Route path="/users" element={<UserList />} />
+                  <Route path="/users/:id" element={<EditUser />} />
                   <Route
                     path="/addComplaint"
                     exact
-                    element={
-                      <ShowRoleWiseComponent>
-                        <AddComplaint />
-                      </ShowRoleWiseComponent>
-                    }
+                    element={<AddComplaint />}
                   />
                   <Route
-                    path="/departments"
-                    element={
-                      <ShowRoleWiseComponent>
-                        <DepartmentList />
-                      </ShowRoleWiseComponent>
-                    }
+                    path="/editComplaint/:id"
+                    exact
+                    element={<EditComplaint />}
                   />
-                  <Route
-                    path="/departments/:id"
-                    element={
-                      <ShowRoleWiseComponent>
-                        <EditDepartment />
-                      </ShowRoleWiseComponent>
-                    }
-                  />
+                  <Route path="/departments" element={<DepartmentList />} />
+                  <Route path="/departments/:id" element={<EditDepartment />} />
                   <Route
                     path="/addDepartment"
                     exact
-                    element={
-                      <ShowRoleWiseComponent>
-                        <AddDepartment />
-                      </ShowRoleWiseComponent>
-                    }
+                    element={<AddDepartment />}
                   />
                   <Route
                     path="/adminComplaints"
-                    element={
-                      <ShowRoleWiseComponent>
-                        <AdminComplaintList />
-                      </ShowRoleWiseComponent>
-                    }
+                    element={<AdminComplaintList />}
                   />
-                  <Route
-                    path="/complaints"
-                    element={
-                      <UserComponent>
-                        <ComplaintList />
-                      </UserComponent>
-                    }
-                  />
+                  <Route path="/complaints" element={<ComplaintList />} />
                   <Route path={PATH_PROFILE} element={<Profile />} />
                 </Route>
               </Routes>

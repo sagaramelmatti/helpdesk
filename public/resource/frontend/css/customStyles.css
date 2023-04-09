@@ -43,3 +43,65 @@
 .login-btn:disabled {
   cursor: not-allowed !important;
 }
+
+.modalOverlay .modal-heading {
+  color: black;
+  font-size: 25px;
+  font-family: 500;
+}
+
+.modal-title {
+  font-size: 24px;
+}
+
+.cross-icon {
+  position: absolute;
+  top: 16px;
+  right: 21px;
+  width: 35px;
+  cursor: pointer;
+}
+
+.check-icon {
+  position: absolute;
+  top: 24px;
+  right: 21px;
+  width: 35px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.modal-body {
+  max-height: 491px;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.modal-body-container {
+  min-height: 450px;
+}
+
+.test-title span {
+  vertical-align: top;
+}
+
+.popup {
+  max-width: 325px;
+}
+
+.popup .cross {
+  width: 24px;
+}
+
+.animation-icon img {
+  height: 42px;
+  width: 42px;
+}
+
+.event-lable {
+  display: block;
+  max-height: 20vh;
+  overflow: auto;
+}
