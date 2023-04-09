@@ -4,12 +4,13 @@ import {
   USERS,
   DEPARTMENTS,
   COMPLAINTS,
+  PATH_PROFILE,
 } from "./RouteConstants";
 
 export const loginFormConstantants = [
   {
-    key: "username",
-    label: "Username",
+    key: "email",
+    label: "email",
     type: "text",
   },
   {
@@ -21,14 +22,19 @@ export const loginFormConstantants = [
 
 export const registerFormConstantants = [
   {
-    key: "full_name",
-    label: "Full Name",
+    key: "name",
+    label: "Name",
     type: "text",
   },
   {
     key: "email",
     label: "Email",
     type: "text",
+  },
+  {
+    key: "departmentId",
+    label: "Department",
+    type: "select",
   },
   {
     key: "password",
@@ -47,7 +53,7 @@ export const navigationConstants = [
     label: "Complaint List",
     path: COMPLAINTS,
     iconName: "fa-address-book",
-    rolesList: ["ROLE_ADMIN", "ROLE_USER"],
+    rolesList: ["ROLE_USER"],
   },
   {
     label: "Admin Department List",
@@ -68,6 +74,13 @@ export const navigationConstants = [
     rolesList: ["ROLE_ADMIN"],
   },
   {
+    key: "profile",
+    label: "Profile",
+    path: PATH_PROFILE,
+    iconName: "fa-address-book",
+    rolesList: ["ROLE_ADMIN", "ROLE_USER"],
+  },
+  {
     label: "Setting",
     path: "",
     iconName: "fa-wrench",
@@ -80,6 +93,7 @@ export const navigationConstants = [
       },
     ],
   },
+
   {
     key: "log_out",
     label: "",

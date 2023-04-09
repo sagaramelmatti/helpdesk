@@ -1,9 +1,10 @@
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
 import useLogout from "./authentication/useLogOut";
-import { PATH_ROOT } from "./constants";
+import { PATH_LOGIN } from "./constants";
 
 import { navigationConstants } from "./constants";
+import { removeUserLocalStorageData } from "../component/common/StoreLocalData";
 
 function Topmenu(props) {
   const role = localStorage.getItem("role");
@@ -12,7 +13,8 @@ function Topmenu(props) {
 
   const signOut = async () => {
     await logout();
-    Navigate(PATH_ROOT, { replace: true });
+    removeUserLocalStorageData();
+    Navigate(PATH_LOGIN, { replace: true });
   };
 
   const renderNavBar = () => {
@@ -38,7 +40,7 @@ function Topmenu(props) {
           <nav className="navbar navbar-static-top">
             <div className="container">
               <div className="navbar-header">
-                <a href="/" className="navbar-brand">
+                <a href="#" className="navbar-brand">
                   <b>Ledzer</b>
                 </a>
                 <button

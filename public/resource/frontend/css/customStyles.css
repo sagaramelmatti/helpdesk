@@ -39,3 +39,7 @@
 .login-btn {
   margin-top: 10px;
 }
+
+.login-btn:disabled {
+  cursor: not-allowed !important;
+}
