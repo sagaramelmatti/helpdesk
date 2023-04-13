@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDepartmentList, getUsers, updateUser } from "../../api";
+import { getDepartmentList, getLocationList, getUsers, updateUser } from "../../api";
 import { addUserFormConstants } from "../constants";
 import Select from "react-select";
 import { toast } from "react-toastify";
@@ -12,9 +12,12 @@ function EditUser(props) {
     email: "",
     password: "",
     departmentId: "",
+    locationId: "",
     status: "",
   });
+
   const [departmentList, setDepartmentList] = useState({});
+  const [locationList, setLocationList] = useState({});
 
   const params = useParams();
   let navigate = useNavigate();
@@ -44,6 +47,16 @@ function EditUser(props) {
         setDepartmentList(departmentListTemp);
       }
     });
+
+    getLocationList().then((response) => {
+      if (response?.status === 200) {
+        const locationListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setDepartmentList(locationListTemp);
+      }
+    });
+
   }, []);
 
   const handleUserSave = () => {
@@ -61,6 +74,14 @@ function EditUser(props) {
     if (departmentList && userData?.departmentId) {
       return departmentList?.find(
         (list) => list?.value === Number(userData?.departmentId)
+      );
+    }
+  };
+
+  const findLocationOption = () => {
+    if (locationList && userData?.locationId) {
+      return locationList?.find(
+        (list) => list?.value === Number(userData?.locationId)
       );
     }
   };

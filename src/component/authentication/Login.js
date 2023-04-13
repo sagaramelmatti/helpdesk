@@ -4,7 +4,7 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 
 import { loginFormConstantants, registerFormConstantants } from "../constants";
-import { signIn, signUp, getDepartmentList } from "../../api";
+import { signIn, signUp, getDepartmentList , getLocationList } from "../../api";
 import AuthContext from "../../context/AuthProvider";
 
 export const Login = () => {
@@ -15,11 +15,13 @@ export const Login = () => {
     email: "",
     name: "",
     departmentId: null,
+    locationId: null,
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [departmentList, setDepartmentList] = useState({});
+  const [locationList, setLocationList] = useState({});
 
   const [showForm, setShowForm] = useState("login");
   const { setAuth } = useContext(AuthContext);
@@ -35,6 +37,16 @@ export const Login = () => {
         setDepartmentList(departmentListTemp);
       }
     });
+
+    getLocationList().then((response) => {
+      if (response?.status === 200) {
+        const locationListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setLocationList(locationListTemp);
+      }
+    });
+
   }, []);
 
   // Check Email Validation

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getDepartmentList, signUp } from "../../api";
+import { getDepartmentList, getLocationList, signUp } from "../../api";
 import { addUserFormConstants } from "../constants";
 import Select from "react-select";
 import { toast } from "react-toastify";
@@ -14,9 +14,12 @@ function AddUser(props) {
     email: "",
     password: "",
     departmentId: "",
+    locationId: "",
     status: "A",
   });
+
   const [departmentList, setDepartmentList] = useState({});
+  const [locationList, setLocationList] = useState({});
 
   useEffect(() => {
     getDepartmentList().then((response) => {
@@ -27,11 +30,21 @@ function AddUser(props) {
         setDepartmentList(departmentListTemp);
       }
     });
+
+    getLocationList().then((response) => {
+      if (response?.status === 200) {
+        const locationListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setLocationList(locationListTemp);
+      }
+    });
+
+
   }, []);
 
   const handleUserSave = () => {
     signUp(userData).then((res) => {
-      console.log("11111", userData);
       console.log("res.data", res.data);
       if (res.status === 200) {
         toast.success(res?.data?.message);

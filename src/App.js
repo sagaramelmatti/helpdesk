@@ -26,6 +26,9 @@ import ComplaintList from "./component/complaint/ComplaintList";
 import AddComplaint from "./component/complaint/AddComplaint";
 import EditComplaint from "./component/complaint/EditComplaint";
 import AdminComplaintList from "./component/admin/complaint/AdminComplaintList";
+import LocationList from "./component/location/LocationList";
+import AddLocation from "./component/location/AddLocation";
+import EditLocation from "./component/location/EditLocation";
 import { Login } from "./component/authentication/Login";
 import ProtectedRoutes from "./component/authentication/ProtectedRoutes";
 import { AuthProvider } from "./context/AuthProvider";
@@ -83,6 +86,13 @@ function App() {
                     path="/addDepartment"
                     exact
                     element={<AddDepartment />}
+                  />
+                  <Route path="/locations" element={<LocationList />} />
+                  <Route path="/locations/:id" element={<EditLocation />} />
+                  <Route
+                    path="/addLocation"
+                    exact
+                    element={<AddLocation />}
                   />
                   <Route
                     path="/adminComplaints"

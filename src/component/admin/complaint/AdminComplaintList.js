@@ -136,7 +136,7 @@ function AdminComplaintList(props) {
                             className="btn btn-success"
                             onClick={() => {
                               setComplaintId("");
-                              sendComplaints("A");
+                              sendComplaints("Approved");
                               setCommentMessage("");
                             }}
                           >
@@ -148,11 +148,11 @@ function AdminComplaintList(props) {
                             className="btn btn-danger"
                             onClick={() => {
                               setComplaintId("");
-                              sendComplaints("D");
+                              sendComplaints("Denied");
                               setCommentMessage("");
                             }}
                           >
-                            Deny
+                            Denied
                           </button>
                           <button
                             type="button"
@@ -194,11 +194,7 @@ function AdminComplaintList(props) {
                               <td> {complaint?.id} </td>
                               <td>{complaint?.title}</td>
                               <td>{complaint?.description}</td>
-                              <td>
-                                {complaint?.status === "A"
-                                  ? "Active"
-                                  : "Denied"}
-                              </td>
+                              <td>{complaint?.status}</td>
                               <td>{complaint?.comment}</td>
                               <td>
                                 <button

@@ -4,6 +4,7 @@ import {
   API_UPDATE_COMPLAINT_STATUS,
   API_UPDATE_USER_STATUS,
   DEPARTMENT_LIST,
+  LOCATION_LIST,
   API_GET_ADMIN_USERS,
   API_USER_COMPLAINTS,
 } from "../component/constants";
@@ -37,6 +38,19 @@ export const sendUserComplaint = async (data, id) => {
 export const getDepartmentList = async () => {
   const result = await axiosInstance
     .get(DEPARTMENT_LIST)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  return result;
+};
+
+export const getLocationList = async () => {
+  const result = await axiosInstance
+    .get(LOCATION_LIST)
     .then((response) => {
       return response;
     })

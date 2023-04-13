@@ -1,8 +1,8 @@
 import {
-  CUSTOMERS,
   ADMIN_COMPLAINTS,
   USERS,
   DEPARTMENTS,
+  LOCATIONS,
   COMPLAINTS,
   PATH_PROFILE,
 } from "./RouteConstants";
@@ -62,6 +62,12 @@ export const navigationConstants = [
     rolesList: ["ROLE_ADMIN"],
   },
   {
+    label: "Admin Location List",
+    path: LOCATIONS,
+    iconName: "fa-address-book",
+    rolesList: ["ROLE_ADMIN"],
+  },
+  {
     label: "Admin User List",
     path: USERS,
     iconName: "fa-address-book",
@@ -80,20 +86,6 @@ export const navigationConstants = [
     iconName: "fa-address-book",
     rolesList: ["ROLE_ADMIN", "ROLE_USER"],
   },
-  {
-    label: "Setting",
-    path: "",
-    iconName: "fa-wrench",
-    rolesList: ["ROLE_ADMIN"],
-    subMenu: [
-      {
-        label: "Customer List",
-        path: CUSTOMERS,
-        iconName: "fa-address-book",
-      },
-    ],
-  },
-
   {
     key: "log_out",
     label: "",
@@ -122,7 +114,13 @@ export const addComplaintFormConstants = [
     key: "departmentId",
     label: "Department",
     type: "select",
-    roleList: ["ROLE_ADMIN", "ROLE_USER"],
+    roleList: ["ROLE_ADMIN"],
+  },
+  {
+    key: "locationId",
+    label: "Location",
+    type: "select",
+    roleList: ["ROLE_ADMIN"],
   },
   {
     key: "userId",
@@ -154,6 +152,12 @@ export const addUserFormConstants = [
   {
     key: "departmentId",
     label: "Department",
+    type: "select",
+    formName: ["add_user", "edit_user"],
+  },
+  {
+    key: "locationId",
+    label: "Location",
     type: "select",
     formName: ["add_user", "edit_user"],
   },

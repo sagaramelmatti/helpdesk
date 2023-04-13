@@ -15,6 +15,10 @@ export const API_ADMIN_COMPLAINTS = "/admin/complaints";
 
 export const DEPARTMENT_LIST = "/departments";
 
+// dropdown
+
+export const LOCATION_LIST = "/locations";
+
 // Add Complaints
 export const API_ADD_ADMIN_COMPLAINTS = "/admin/complaints/";
 export const API_ADD_USER_COMPLAINTS = "/complaints/";
