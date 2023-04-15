@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDepartmentList, getLocationList, getUsers, updateUser } from "../../api";
+import {
+  getDepartmentList,
+  getLocationList,
+  getUsers,
+  updateUser,
+} from "../../api";
 import { addUserFormConstants } from "../constants";
 import Select from "react-select";
 import { toast } from "react-toastify";
@@ -53,10 +58,9 @@ function EditUser(props) {
         const locationListTemp = response?.data?.map((item) => {
           return { value: item?.id, label: item?.name };
         });
-        setDepartmentList(locationListTemp);
+        setLocationList(locationListTemp);
       }
     });
-
   }, []);
 
   const handleUserSave = () => {
@@ -70,19 +74,21 @@ function EditUser(props) {
     });
   };
 
-  const findDepartmentOption = () => {
-    if (departmentList && userData?.departmentId) {
-      return departmentList?.find(
-        (list) => list?.value === Number(userData?.departmentId)
-      );
+  const showOptionsList = (formFieldKey) => {
+    switch (formFieldKey) {
+      case "departmentId":
+        return departmentList;
+      case "locationId":
+        return locationList;
+      default:
+        return "";
     }
   };
 
-  const findLocationOption = () => {
-    if (locationList && userData?.locationId) {
-      return locationList?.find(
-        (list) => list?.value === Number(userData?.locationId)
-      );
+  const findSelectedOption = (fieldKey) => {
+    const fieldKeyTemp = showOptionsList(fieldKey);
+    if (fieldKeyTemp?.length) {
+      return fieldKeyTemp?.find((list) => list?.value === userData?.[fieldKey]);
     }
   };
 
@@ -110,15 +116,11 @@ function EditUser(props) {
             <div className="form-group required">
               <label className="control-label">{formField?.label}</label>
               <Select
-                // value={
-                //   departmentList &&
-                //   userData?.departmentId &&
-                //   findDepartmentOption()
-                // }
+                value={findSelectedOption(formField.key)}
                 onChange={(e) =>
                   setUserData({ ...userData, [formField.key]: e.value })
                 }
-                options={departmentList}
+                options={showOptionsList(formField.key)}
               />
             </div>
           </div>

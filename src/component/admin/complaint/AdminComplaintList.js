@@ -2,16 +2,27 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
-import { sendAdminComplaint } from "../../../api/CommonApi";
+import {
+  sendAdminComplaint,
+  getDepartmentList,
+  getLocationList,
+  getUsers,
+  getAdminComplaints,
+} from "../../../api/CommonApi";
 import PageLoader from "../../common/PageLoader";
-import AddComplaint from "../../complaint/AddComplaint";
+import { filterFormFields } from "../../constants";
 
 function AdminComplaintList(props) {
   const [complaints, setComplaints] = useState([]);
   const [complaintId, setComplaintId] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [departmentList, setDepartmentList] = useState({});
+  const [locationList, setLocationList] = useState({});
+  const [userList, setUserList] = useState({});
+  const [filterParams, setFilterParams] = useState({});
 
   const navigate = useNavigate();
 
@@ -19,20 +30,45 @@ function AdminComplaintList(props) {
     getComplaints();
   }, []);
 
+  useEffect(() => {
+    getDepartmentList().then((response) => {
+      if (response?.status === 200) {
+        const departmentListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setDepartmentList(departmentListTemp);
+      }
+    });
+
+    getLocationList().then((response) => {
+      if (response?.status === 200) {
+        const locationListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setLocationList(locationListTemp);
+      }
+    });
+
+    getUsers().then((response) => {
+      if (response?.status === 200) {
+        const userListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setUserList(userListTemp);
+        return response?.data;
+      }
+    });
+  }, []);
+
   // get complaints
-  const getComplaints = () => {
+  const getComplaints = (filterFormFieldsParams) => {
     setIsLoading(true);
-    axios
-      .get("http://localhost:8080/api/admin/complaints/")
-      .then((response) => {
-        if (response.status === 200) {
-          setComplaints(response?.data);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false);
-      });
+    getAdminComplaints(filterFormFieldsParams).then((response) => {
+      setIsLoading(false);
+      if (response.status === 200) {
+        setComplaints(response?.data);
+      }
+    });
   };
 
   const onDelete = (id) => {
@@ -67,6 +103,30 @@ function AdminComplaintList(props) {
     });
   };
 
+  const showOptionsList = (formFieldKey) => {
+    switch (formFieldKey) {
+      case "departmentId":
+        return departmentList;
+      case "userId":
+        return userList;
+      case "locationId":
+        return locationList;
+      default:
+        return "";
+    }
+  };
+
+  const findSelectedValue = (keyParam) => {
+    const listName = showOptionsList(keyParam);
+    if (listName?.length && filterParams?.[keyParam]) {
+      const selectedList = listName?.find(
+        (item) => item?.value === filterParams?.[keyParam]
+      );
+      return selectedList;
+    }
+    return "";
+  };
+
   return (
     <>
       <div className="content-wrapper">
@@ -81,14 +141,62 @@ function AdminComplaintList(props) {
                   <h3 className="box-title"> Complaint List</h3>
                 </div>
                 <div className="box-body">
-                  <a href="addComplaint">
-                    <button className="btn btn-success">
-                      <i className="glyphicon glyphicon-plus"></i> Add Complaint
-                    </button>
-                  </a>
-                  <button className="btn btn-default" onClick="reload_table()">
-                    <i className="glyphicon glyphicon-refresh"></i> Reload
-                  </button>
+                  <div className="row">
+                    <div className="col-xs-2">
+                      <br />
+                      <a href="addComplaint">
+                        <button className="btn btn-success">
+                          <i className="glyphicon glyphicon-plus"></i> Add
+                          Complaint
+                        </button>
+                      </a>
+                      <button
+                        className="btn btn-default"
+                        onClick="reload_table()"
+                      >
+                        <i className="glyphicon glyphicon-refresh"></i> Reload
+                      </button>
+                    </div>
+                    {filterFormFields?.map((formField) => {
+                      return (
+                        <div className="col-xs-2">
+                          <label className="control-label">
+                            {formField?.label}
+                          </label>
+                          <Select
+                            onChange={(e) =>
+                              setFilterParams({
+                                ...filterParams,
+                                [formField.key]: e.value,
+                              })
+                            }
+                            options={showOptionsList(formField?.key)}
+                            value={findSelectedValue(formField?.key)}
+                          />
+                        </div>
+                      );
+                    })}
+                    <div className="col-xs-2">
+                      <br />
+                      <button
+                        className="btn btn-success"
+                        onClick={() => {
+                          getComplaints(filterParams);
+                        }}
+                      >
+                        <i className="glyphicon glyphicon-search"></i> Search
+                      </button>
+                      <button
+                        className="btn btn-default"
+                        onClick={() => {
+                          setFilterParams({});
+                          getComplaints(null);
+                        }}
+                      >
+                        <i className="glyphicon glyphicon-refresh"></i> Clear
+                      </button>
+                    </div>
+                  </div>
                   <br />
                   <br />
 
@@ -179,21 +287,29 @@ function AdminComplaintList(props) {
                       <thead>
                         <tr>
                           <th>Sr. No. </th>
-                          <th width="20%">Title</th>
-                          <th width="30%">Description</th>
+                          <th width="10%">Title</th>
+                          <th width="10%">Description</th>
+                          <th width="10%">User name</th>
+                          <th width="10%">User email</th>
+                          <th width="10%">User location</th>
+                          <th width="10%">Department</th>
                           <th width="10%">Status</th>
                           <th width="10%">Comment</th>
-                          <th width="15%">change status</th>
-                          <th width="15%">Action</th>
+                          <th width="10%">change status</th>
+                          <th width="10%">Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {complaints &&
+                        {complaints?.length ? (
                           complaints.map((complaint) => (
                             <tr key={complaint?.id}>
                               <td> {complaint?.id} </td>
                               <td>{complaint?.title}</td>
                               <td>{complaint?.description}</td>
+                              <td>{complaint?.user?.name}</td>
+                              <td>{complaint?.user?.email}</td>
+                              <td>{complaint?.location?.name}</td>
+                              <td>{complaint?.department?.name}</td>
                               <td>{complaint?.status}</td>
                               <td>{complaint?.comment}</td>
                               <td>
@@ -227,7 +343,14 @@ function AdminComplaintList(props) {
                                 </button>
                               </td>
                             </tr>
-                          ))}
+                          ))
+                        ) : (
+                          <tr>
+                            <td colspan="10" className="text-center">
+                              <h3>No records found</h3>
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   )}

@@ -7,6 +7,7 @@ import {
   LOCATION_LIST,
   API_GET_ADMIN_USERS,
   API_USER_COMPLAINTS,
+  API_ADMIN_COMPLAINTS,
 } from "../component/constants";
 
 export const sendAdminComplaint = async (data, id) => {
@@ -74,9 +75,15 @@ export const addComplaints = async (data) => {
   return result;
 };
 
-export const getUsers = async () => {
+export const getUsers = async (filterParams) => {
+  let queryString;
+  if (filterParams) {
+    queryString = Object.keys(filterParams)
+      .map((key) => key + "=" + filterParams[key])
+      .join("&");
+  }
   const result = await axiosInstance
-    .get(API_GET_ADMIN_USERS)
+    .get(`${API_GET_ADMIN_USERS}?${queryString ? queryString : ""}`)
     .then((response) => {
       return response;
     })
@@ -120,5 +127,24 @@ export const updateComplaintById = async (apiPath, complaintId, data) => {
     .catch((err) => {
       return err;
     });
+  return result;
+};
+
+export const getAdminComplaints = async (filterParams) => {
+  let queryString;
+  if (filterParams) {
+    queryString = Object.keys(filterParams)
+      .map((key) => key + "=" + filterParams[key])
+      .join("&");
+  }
+  const result = await axiosInstance
+    .get(`${API_ADMIN_COMPLAINTS}?${queryString ? queryString : ""}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+
   return result;
 };

@@ -1,11 +1,19 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { useLocation, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
-import { sendUserComplaint } from "../../api/CommonApi";
+import {
+  sendUserComplaint,
+  getLocationList,
+  getDepartmentList,
+  getUsers,
+} from "../../api/CommonApi";
 import PageLoader from "../common/PageLoader";
+import { filterFormFields, userStatusList } from "../constants";
+
+const page = "user_list";
 
 function UserList(props) {
   const [users, setUsers] = useState([]);
@@ -13,31 +21,53 @@ function UserList(props) {
   const [complaintId, setComplaintId] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [locationList, setLocationList] = useState({});
+  const [departmentList, setDepartmentList] = useState({});
+  const [userOptionList, setUserOptionList] = useState({});
+  const [filterParams, setFilterParams] = useState({});
 
   useEffect(() => {
-    getUsers();
+    getUsersData();
+  }, []);
+
+  useEffect(() => {
+    getLocationList().then((response) => {
+      if (response?.status === 200) {
+        const locationListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setLocationList(locationListTemp);
+      }
+    });
+
+    getDepartmentList().then((response) => {
+      if (response?.status === 200) {
+        const departmentListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setDepartmentList(departmentListTemp);
+      }
+    });
   }, []);
 
   // get users
-  const getUsers = () => {
+  const getUsersData = (filterParamsFields) => {
     setIsLoading(true);
-    axios
-      .get("http://localhost:8080/api/admin/users/")
-      .then((response) => {
-        if (response.status === 200) {
-          setIsLoading(false);
-          setUsers(response?.data);
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.log(error);
-      });
+    getUsers(filterParamsFields).then((response) => {
+      setIsLoading(false);
+      if (response.status === 200) {
+        const userListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setUserOptionList(userListTemp);
+        setUsers(response?.data);
+      }
+    });
   };
 
   const onDelete = (id) => {
     axios.delete(`http://localhost:8080/api/admin/users/${id}`).then(() => {
-      getUsers();
+      getUsersData();
     });
   };
 
@@ -61,10 +91,36 @@ function UserList(props) {
       if (response?.status === 200) {
         toast.success("Status Updated");
         setIsLoading(false);
-        getUsers();
+        getUsersData();
       }
       setIsLoading(false);
     });
+  };
+
+  const showOptionsList = (formFieldKey) => {
+    switch (formFieldKey) {
+      case "departmentId":
+        return departmentList;
+      case "userId":
+        return userOptionList;
+      case "locationId":
+        return locationList;
+      case "statusId":
+        return userStatusList;
+      default:
+        return "";
+    }
+  };
+
+  const findSelectedValue = (keyParam) => {
+    const listName = showOptionsList(keyParam);
+    if (listName?.length && filterParams?.[keyParam]) {
+      const selectedList = listName?.find(
+        (item) => item?.value === filterParams?.[keyParam]
+      );
+      return selectedList;
+    }
+    return "";
   };
 
   return (
@@ -81,14 +137,64 @@ function UserList(props) {
                   <h3 className="box-title"> User List</h3>
                 </div>
                 <div className="box-body">
-                  <a href="addUser">
-                    <button className="btn btn-success">
-                      <i className="glyphicon glyphicon-plus"></i> Add User
-                    </button>
-                  </a>
-                  <button className="btn btn-default" onClick="reload_table()">
-                    <i className="glyphicon glyphicon-refresh"></i> Reload
-                  </button>
+                  <div className="row">
+                    <div className="col-xs-4">
+                      <br />
+                      <a href="addUser">
+                        <button className="btn btn-success">
+                          <i className="glyphicon glyphicon-plus"></i> Add User
+                        </button>
+                      </a>
+                      <button
+                        className="btn btn-default"
+                        onClick="reload_table()"
+                      >
+                        <i className="glyphicon glyphicon-refresh"></i> Reload
+                      </button>
+                    </div>
+                    {filterFormFields?.map((formField) => {
+                      if (formField?.pageName?.includes(page))
+                        return (
+                          <div className="col-xs-2">
+                            <label className="control-label">
+                              {formField?.label}
+                            </label>
+                            <Select
+                              onChange={(e) =>
+                                setFilterParams({
+                                  ...filterParams,
+                                  [formField.key]: e.value,
+                                })
+                              }
+                              options={showOptionsList(formField?.key)}
+                              value={findSelectedValue(formField?.key)}
+                            />
+                          </div>
+                        );
+                    })}
+                    <div className="col-xs-2">
+                      <br />
+                      <label className="control-label"></label>
+                      <button
+                        className="btn btn-success"
+                        onClick={() => {
+                          getUsersData(filterParams);
+                        }}
+                      >
+                        <i className="glyphicon glyphicon-search"></i> Search
+                      </button>
+                      <button
+                        className="btn btn-default"
+                        onClick={() => {
+                          setFilterParams({});
+                          getUsersData(null);
+                        }}
+                      >
+                        <i className="glyphicon glyphicon-refresh"></i> Clear
+                        Search
+                      </button>
+                    </div>
+                  </div>
                   <br />
                   <br />
 
@@ -178,19 +284,21 @@ function UserList(props) {
                           <th width="20%">Name</th>
                           <th width="20%">Email</th>
                           <th width="20%">Department</th>
+                          <th width="20%">Location</th>
                           <th width="10%">Status</th>
                           <th width="10%"></th>
                           <th width="10%">Status</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {users &&
+                        {users?.length ? (
                           users.map((user) => (
                             <tr key={user?.id}>
                               <td> {user?.id} </td>
                               <td>{user?.name}</td>
                               <td>{user?.email}</td>
                               <td>{user?.department?.name}</td>
+                              <td>{user?.location?.name}</td>
                               <td>
                                 {user?.status === "A" ? "Active" : "Denied"}
                               </td>
@@ -221,7 +329,14 @@ function UserList(props) {
                                 </button>
                               </td>
                             </tr>
-                          ))}
+                          ))
+                        ) : (
+                          <tr>
+                            <td colspan="10" className="text-center">
+                              <h3>No records found</h3>
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   )}

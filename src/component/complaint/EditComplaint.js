@@ -8,6 +8,7 @@ import {
   getUsers,
   getComplaintById,
   updateComplaintById,
+  getLocationList,
 } from "../../api";
 import { addComplaintFormConstants } from "../constants";
 import { toast } from "react-toastify";
@@ -21,12 +22,14 @@ function EditComplaint(props) {
 
   const [departmentList, setDepartmentList] = useState({});
   const [userList, setUserList] = useState({});
+  const [locationList, setLocationList] = useState({});
   const [addComplaintFormFields, setAddComplaintFormFields] = useState({
     title: "",
     description: "",
     userId: "",
     departmentId: "",
     status: "",
+    locationId: "",
   });
 
   const localUserId = localStorage.getItem("userId");
@@ -42,6 +45,7 @@ function EditComplaint(props) {
           userId: res?.data?.userId || "",
           departmentId: res?.data?.departmentId || "",
           status: res?.data?.status || "",
+          locationId: res?.data?.locationId || "",
         });
       });
     }
@@ -67,6 +71,15 @@ function EditComplaint(props) {
         setDepartmentList(departmentListTemp);
       }
     });
+
+    getLocationList().then((response) => {
+      if (response?.status === 200) {
+        const locationListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setLocationList(locationListTemp);
+      }
+    });
   }, []);
 
   const handleSubmit = (event) => {
@@ -89,10 +102,24 @@ function EditComplaint(props) {
     );
   };
 
-  const findDepartmentOption = (listParam) => {
-    if (listParam && addComplaintFormFields?.departmentId) {
-      return listParam?.find(
-        (list) => list?.value === Number(addComplaintFormFields?.departmentId)
+  const showOptionsList = (formFieldKey) => {
+    switch (formFieldKey) {
+      case "departmentId":
+        return departmentList;
+      case "userId":
+        return userList;
+      case "locationId":
+        return locationList;
+      default:
+        return "";
+    }
+  };
+
+  const findSelectedOption = (listParam) => {
+    const listParamTemp = showOptionsList(listParam);
+    if (listParamTemp?.length) {
+      return listParamTemp?.find(
+        (list) => list?.value === addComplaintFormFields[listParam]
       );
     }
   };
@@ -123,18 +150,14 @@ function EditComplaint(props) {
             <div className="form-group required">
               <label className="control-label">{formField?.label}</label>
               <Select
-                // value={findDepartmentOption(
-                //   formField?.key === "departmentId" ? departmentList : userList
-                // )}
+                value={findSelectedOption(formField?.key)}
                 onChange={(e) =>
                   setAddComplaintFormFields({
                     ...addComplaintFormFields,
                     [formField?.key]: e.value,
                   })
                 }
-                options={
-                  formField?.key === "departmentId" ? departmentList : userList
-                }
+                options={showOptionsList(formField?.key)}
               />
             </div>
           </div>

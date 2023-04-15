@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
-import { addComplaints, getDepartmentList, getUsers } from "../../api";
+import {
+  addComplaints,
+  getDepartmentList,
+  getLocationList,
+  getUsers,
+} from "../../api";
 import { addComplaintFormConstants } from "../constants";
 import { toast } from "react-toastify";
 
@@ -18,6 +23,7 @@ function AddComplaint(props) {
     departmentId: "",
     status: "New Complaint",
   });
+  const [locationList, setLocationList] = useState({});
 
   const localUserId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
@@ -53,6 +59,15 @@ function AddComplaint(props) {
         setDepartmentList(departmentListTemp);
       }
     });
+
+    getLocationList().then((response) => {
+      if (response?.status === 200) {
+        const locationListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setLocationList(locationListTemp);
+      }
+    });
   }, []);
 
   const handleSubmit = (event) => {
@@ -71,6 +86,21 @@ function AddComplaint(props) {
       }
     });
   };
+
+  const showOptionsList = (formFieldKey) => {
+    switch (formFieldKey) {
+      case "departmentId":
+        return departmentList;
+      case "userId":
+        return userList;
+      case "locationId":
+        return locationList;
+      default:
+        return "";
+    }
+  };
+
+  console.log("addComplaintFormFields", addComplaintFormFields);
 
   const renderFormFields = () => {
     return addComplaintFormConstants?.map((formField) => {
@@ -104,14 +134,13 @@ function AddComplaint(props) {
                     [formField?.key]: e.value,
                   })
                 }
-                options={
-                  formField?.key === "departmentId" ? departmentList : userList
-                }
+                options={showOptionsList(formField?.key)}
               />
             </div>
           </div>
         );
       }
+      return "";
     });
   };
 

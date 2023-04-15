@@ -21,9 +21,7 @@ function ComplaintList(props) {
           setComplaints(response?.data);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const onDelete = (id) => {
@@ -73,6 +71,8 @@ function ComplaintList(props) {
                         <th>Sr. No. </th>
                         <th>Title</th>
                         <th>Description</th>
+                        <th>Department</th>
+                        <th>Location</th>
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
@@ -84,6 +84,9 @@ function ComplaintList(props) {
                             <td> {post?.id} </td>
                             <td>{post?.title}</td>
                             <td>{post?.description}</td>
+                            <td>{post?.department?.name}</td>
+                            <td>{post?.location?.name}</td>
+
                             <td>{post?.status}</td>
                             <td>
                               <Link

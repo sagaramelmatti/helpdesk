@@ -114,13 +114,13 @@ export const addComplaintFormConstants = [
     key: "departmentId",
     label: "Department",
     type: "select",
-    roleList: ["ROLE_ADMIN"],
+    roleList: ["ROLE_ADMIN", "ROLE_USER"],
   },
   {
     key: "locationId",
     label: "Location",
     type: "select",
-    roleList: ["ROLE_ADMIN"],
+    roleList: ["ROLE_ADMIN", "ROLE_USER"],
   },
   {
     key: "userId",
@@ -160,5 +160,47 @@ export const addUserFormConstants = [
     label: "Location",
     type: "select",
     formName: ["add_user", "edit_user"],
+  },
+];
+
+export const filterFormFields = [
+  {
+    key: "locationId",
+    label: "Location",
+    type: "select",
+    listName: "departmentList",
+    pageName: ["admin_complaints_list", "user_list"],
+  },
+  {
+    key: "userId",
+    label: "User",
+    type: "select",
+    listName: "userList",
+    pageName: ["admin_complaints_list", "user_list"],
+  },
+  {
+    key: "departmentId",
+    label: "Department",
+    type: "select",
+    listName: "locationList",
+    pageName: ["admin_complaints_list"],
+  },
+  {
+    key: "statusId",
+    label: "Status",
+    type: "select",
+    listName: "statusList",
+    pageName: ["admin_complaints_list", "user_list"],
+  },
+];
+
+export const userStatusList = [
+  {
+    label: "Active",
+    value: "A",
+  },
+  {
+    label: "Deactive",
+    value: "D",
   },
 ];

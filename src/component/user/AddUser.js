@@ -39,8 +39,6 @@ function AddUser(props) {
         setLocationList(locationListTemp);
       }
     });
-
-
   }, []);
 
   const handleUserSave = () => {
@@ -54,6 +52,8 @@ function AddUser(props) {
       }
     });
   };
+
+  console.log("user", userData);
 
   const renderFormFields = () => {
     return addUserFormConstants?.map((formField) => {
@@ -81,7 +81,11 @@ function AddUser(props) {
               onChange={(e) =>
                 setUserData({ ...userData, [formField.key]: e.value })
               }
-              options={departmentList}
+              options={
+                formField?.key === "departmentId"
+                  ? departmentList
+                  : locationList
+              }
             />
           </div>
         </div>
