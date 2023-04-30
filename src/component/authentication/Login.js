@@ -261,9 +261,7 @@ export const Login = () => {
                     </button>
                   </div>
                 </div>
-                {showForm === "login"
-                  ? renderFormLink("Register a new membership", "register")
-                  : renderFormLink("I already have a membership", "login")}
+                
               </div>
             </div>
           </div>

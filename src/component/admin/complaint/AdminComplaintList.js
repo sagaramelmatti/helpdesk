@@ -287,15 +287,17 @@ function AdminComplaintList(props) {
                       <thead>
                         <tr>
                           <th>Sr. No. </th>
+						  <th width="10%">Complaint Date</th>
+						  <th width="10%">Resolved Date</th>
                           <th width="10%">Title</th>
                           <th width="10%">Description</th>
                           <th width="10%">User name</th>
                           <th width="10%">User email</th>
-                          <th width="10%">User location</th>
-                          <th width="10%">Department</th>
-                          <th width="10%">Status</th>
+                          <th width="5%">User location</th>
+                          <th width="5%">Department</th>
+                          <th width="5%">Status</th>
                           <th width="10%">Comment</th>
-                          <th width="10%">change status</th>
+                          <th width="5%">change status</th>
                           <th width="10%">Action</th>
                         </tr>
                       </thead>
@@ -304,6 +306,8 @@ function AdminComplaintList(props) {
                           complaints.map((complaint) => (
                             <tr key={complaint?.id}>
                               <td> {complaint?.id} </td>
+							  <td>{complaint?.complaint_added_date} </td>
+							  <td>{complaint?.complaint_resolved_date} </td>
                               <td>{complaint?.title}</td>
                               <td>{complaint?.description}</td>
                               <td>{complaint?.user?.name}</td>
@@ -322,7 +326,7 @@ function AdminComplaintList(props) {
                                     setCommentMessage(complaint?.comment);
                                   }}
                                 >
-                                  <i className="fa fa-pencil"></i> Change{" "}
+                                  Change{" "}
                                 </button>
                               </td>
                               <td>
@@ -330,7 +334,7 @@ function AdminComplaintList(props) {
                                   className="btn btn-danger"
                                   onClick={() => onDelete(complaint?.id)}
                                 >
-                                  <i className="fa fa-trash-o"></i> Delete{" "}
+                                  <i className="fa fa-trash-o"></i>{" "}
                                 </button>{" "}
                                 &nbsp;
                                 <button
@@ -339,7 +343,7 @@ function AdminComplaintList(props) {
                                     navigate(`/editComplaint/${complaint?.id}`)
                                   }
                                 >
-                                  <i className="fa fa-trash-o"></i> Edit{" "}
+                                  <i className="fa fa-pencil"></i> {" "}
                                 </button>
                               </td>
                             </tr>
