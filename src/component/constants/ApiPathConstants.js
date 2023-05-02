@@ -25,3 +25,6 @@ export const API_ADD_USER_COMPLAINTS = "/complaints/";
 
 // user
 export const API_GET_ADMIN_USERS = "/admin/users/";
+
+//Report
+export const API_ADMIN_COMPLAINTS_REPORT = "/admin/reports/complaints";

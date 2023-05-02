@@ -4,6 +4,7 @@ import {
   DEPARTMENTS,
   LOCATIONS,
   COMPLAINTS,
+  REPORTS,
   PATH_PROFILE,
 } from "./RouteConstants";
 
@@ -64,6 +65,12 @@ export const navigationConstants = [
   {
     label: "Admin Location List",
     path: LOCATIONS,
+    iconName: "fa-address-book",
+    rolesList: ["ROLE_ADMIN"],
+  },
+  {
+    label: "Admin Reports",
+    path: REPORTS,
     iconName: "fa-address-book",
     rolesList: ["ROLE_ADMIN"],
   },

@@ -1,4 +1,7 @@
 import axiosInstance from "../axiosInstance";
+import { saveAs } from 'file-saver';
+
+
 import {
   API_ADD_USER_COMPLAINTS,
   API_UPDATE_COMPLAINT_STATUS,
@@ -8,6 +11,7 @@ import {
   API_GET_ADMIN_USERS,
   API_USER_COMPLAINTS,
   API_ADMIN_COMPLAINTS,
+  API_ADMIN_COMPLAINTS_REPORT,
 } from "../component/constants";
 
 export const sendAdminComplaint = async (data, id) => {
@@ -144,6 +148,26 @@ export const getAdminComplaints = async (filterParams) => {
     })
     .catch((error) => {
       return error;
+    });
+
+  return result;
+};
+
+export const getAdminComplaintsReport = async (filterParams) => {
+  let queryString;
+  if (filterParams) {
+    queryString = Object.keys(filterParams)
+      .map((key) => key + "=" + filterParams[key])
+      .join("&");
+  }
+  const result = await axiosInstance
+    .get(`${API_ADMIN_COMPLAINTS_REPORT}?${queryString ? queryString : ""}`)
+    .then((res) => {
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      saveAs(pdfBlob, 'newPdf.pdf');
+    })
+    .catch((error) => {
+      console.log(error);
     });
 
   return result;

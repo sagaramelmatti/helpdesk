@@ -29,6 +29,7 @@ import AdminComplaintList from "./component/admin/complaint/AdminComplaintList";
 import LocationList from "./component/location/LocationList";
 import AddLocation from "./component/location/AddLocation";
 import EditLocation from "./component/location/EditLocation";
+import ComplaintReport from "./component/report/ComplaintReport";
 import { Login } from "./component/authentication/Login";
 import ProtectedRoutes from "./component/authentication/ProtectedRoutes";
 import { AuthProvider } from "./context/AuthProvider";
@@ -99,6 +100,7 @@ function App() {
                     element={<AdminComplaintList />}
                   />
                   <Route path="/complaints" element={<ComplaintList />} />
+                  <Route path="/reports" element={<ComplaintReport />} />
                   <Route path={PATH_PROFILE} element={<Profile />} />
                 </Route>
               </Routes>
