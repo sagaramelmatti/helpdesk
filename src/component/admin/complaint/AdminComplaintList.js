@@ -12,7 +12,7 @@ import {
   getAdminComplaints,
 } from "../../../api/CommonApi";
 import PageLoader from "../../common/PageLoader";
-import { filterFormFields } from "../../constants";
+import { filterFormFields, userStatusList } from "../../constants";
 
 function AdminComplaintList(props) {
   const [complaints, setComplaints] = useState([]);
@@ -111,6 +111,8 @@ function AdminComplaintList(props) {
         return userList;
       case "locationId":
         return locationList;
+      case "statusId":
+        return userStatusList;
       default:
         return "";
     }
@@ -287,8 +289,8 @@ function AdminComplaintList(props) {
                       <thead>
                         <tr>
                           <th>Sr. No. </th>
-						  <th width="10%">Complaint Date</th>
-						  <th width="10%">Resolved Date</th>
+                          <th width="10%">Complaint Date</th>
+                          <th width="10%">Resolved Date</th>
                           <th width="10%">Title</th>
                           <th width="10%">Description</th>
                           <th width="10%">User name</th>
@@ -306,8 +308,8 @@ function AdminComplaintList(props) {
                           complaints.map((complaint) => (
                             <tr key={complaint?.id}>
                               <td> {complaint?.id} </td>
-							  <td>{complaint?.complaint_added_date} </td>
-							  <td>{complaint?.complaint_resolved_date} </td>
+                              <td>{complaint?.complaint_added_date} </td>
+                              <td>{complaint?.complaint_resolved_date} </td>
                               <td>{complaint?.title}</td>
                               <td>{complaint?.description}</td>
                               <td>{complaint?.user?.name}</td>
@@ -343,7 +345,7 @@ function AdminComplaintList(props) {
                                     navigate(`/editComplaint/${complaint?.id}`)
                                   }
                                 >
-                                  <i className="fa fa-pencil"></i> {" "}
+                                  <i className="fa fa-pencil"></i>{" "}
                                 </button>
                               </td>
                             </tr>

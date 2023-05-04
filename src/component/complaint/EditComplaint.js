@@ -190,6 +190,13 @@ function EditComplaint(props) {
                         onClick={(e) => {
                           handleSubmit(e);
                         }}
+                        disabled={
+                          !addComplaintFormFields?.title ||
+                          !addComplaintFormFields?.description |
+                            !addComplaintFormFields?.userId ||
+                          !addComplaintFormFields?.departmentId ||
+                          !addComplaintFormFields?.locationId
+                        }
                       >
                         Update
                       </button>

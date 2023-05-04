@@ -39,6 +39,7 @@ function EditUser(props) {
         password: currentUser?.password,
         departmentId: currentUser?.departmentId,
         status: currentUser?.status,
+        locationId: currentUser?.locationId,
       });
     });
   }, [params.id]);
@@ -155,6 +156,12 @@ function EditUser(props) {
                       type="submit"
                       className="btn btn-success btn-block btn-flat r-btn"
                       onClick={() => handleUserSave()}
+                      disabled={
+                        (!userData?.name ||
+                          !userData?.email ||
+                          !userData?.departmentId,
+                        !userData?.locationId)
+                      }
                     >
                       Update
                     </button>

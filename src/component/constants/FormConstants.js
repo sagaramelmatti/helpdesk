@@ -211,3 +211,21 @@ export const userStatusList = [
     value: "D",
   },
 ];
+
+export const adminReportsSelectConstants = [
+  {
+    key: "location",
+    label: "Location",
+    type: "select",
+  },
+  {
+    key: "from_date",
+    label: "From date",
+    type: "calender",
+  },
+  {
+    key: "to_date",
+    label: "To date",
+    type: "calender",
+  },
+];

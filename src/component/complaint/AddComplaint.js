@@ -168,6 +168,9 @@ function AddComplaint(props) {
                         onClick={(e) => {
                           handleSubmit(e);
                         }}
+                        disabled={Object.values(addComplaintFormFields)?.some(
+                          (item) => item === "" || item === null
+                        )}
                       >
                         Save
                       </button>

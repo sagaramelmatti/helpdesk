@@ -105,3 +105,19 @@
   max-height: 20vh;
   overflow: auto;
 }
+
+.react-date-picker {
+  width: 100%;
+}
+
+.react-date-picker__wrapper {
+  min-height: 40px;
+  font-size: 18px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(128, 130, 133);
+  border: 1px solid rgb(188, 190, 192);
+  border-radius: 4px;
+  font-family: SourceSansProRegular;
+  width: 100%;
+  cursor: pointer;
+}

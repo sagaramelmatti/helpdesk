@@ -43,7 +43,6 @@ function AddUser(props) {
 
   const handleUserSave = () => {
     signUp(userData).then((res) => {
-      console.log("res.data", res.data);
       if (res.status === 200) {
         toast.success(res?.data?.message);
         navigate("/users");
@@ -52,8 +51,6 @@ function AddUser(props) {
       }
     });
   };
-
-  console.log("user", userData);
 
   const renderFormFields = () => {
     return addUserFormConstants?.map((formField) => {
@@ -120,6 +117,13 @@ function AddUser(props) {
                       type="submit"
                       className="btn btn-success btn-block btn-flat r-btn"
                       onClick={() => handleUserSave()}
+                      disabled={
+                        !userData?.name ||
+                        !userData?.email ||
+                        !userData?.password ||
+                        !userData?.departmentId ||
+                        !userData?.locationId
+                      }
                     >
                       Save
                     </button>
