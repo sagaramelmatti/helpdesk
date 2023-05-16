@@ -43,7 +43,7 @@ function ComplaintReport(props) {
 
   const returnParam = (key, param) => {
     if (key === "from_date" || key === "to_date") {
-      return moment(reportParam[param]).format("DD/MM/YYYY");
+      return moment(param).format("DD/MM/YYYY");
     }
     return param;
   };
