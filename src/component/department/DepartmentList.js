@@ -14,7 +14,7 @@ function DepartmentList(props) {
     // get departments
     const getDepartments = () => {
         axios
-            .get("http://localhost:8080/api/departments/")
+            .get("http://localhost:8081/api/departments/")
             .then((response) => {
                 if (response.status === 200) {
                     setDepartments(response?.data);
@@ -26,7 +26,7 @@ function DepartmentList(props) {
     };
 
     const onDelete = (id) => {
-        axios.delete(`http://localhost:8080/api/departments/${id}`)
+        axios.delete(`http://localhost:8081/api/departments/${id}`)
         .then(() => {
             getDepartments();
         })
