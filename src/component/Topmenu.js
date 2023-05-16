@@ -41,7 +41,7 @@ function Topmenu(props) {
             <div className="container">
               <div className="navbar-header">
                 <a href="#" className="navbar-brand">
-                  <b>Ledzer</b>
+                  <b>Helpdesk</b>
                 </a>
                 <button
                   type="button"
