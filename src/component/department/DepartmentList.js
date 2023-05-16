@@ -61,8 +61,8 @@ function DepartmentList(props) {
                                         <thead>
                                             <tr>
                                                 <th width="10%">Sr. No </th>
-                                                <th width="60%">Name</th>
-                                                <th width="15%"></th>
+                                                <th width="30%">Name</th>
+                                                <th width="30%">Location</th>
                                                 <th width="15%"></th>
                                             </tr>
                                         </thead>
@@ -72,9 +72,8 @@ function DepartmentList(props) {
                                                     <tr key={department?.id} >
                                                         <td> {department?.id} </td>
                                                         <td>{department?.name}</td>
-                                                        <td>    
-                                                                <Link  to={"/addDepartment"} title={"Edit"}> Edit </Link>
-                                                        </td>
+                                                        <td>{department?.location.name}</td>
+                                                        
                                                         <td><button className="btn btn-danger" onClick={() => onDelete(department?.id)}><i className="fa fa-trash-o"></i> Delete </button></td>
                                                     </tr>
                                                 ))}

@@ -65,7 +65,6 @@ function LocationList(props) {
                                                 <th width="20%">Location Incharge</th>
                                                 <th width="20%">Incharge Email</th>
                                                 <th width="15%"></th>
-                                                <th width="15%"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -76,9 +75,7 @@ function LocationList(props) {
                                                         <td>{location?.name}</td>
                                                         <td>{location?.headName}</td>
                                                         <td>{location?.email}</td>
-                                                        <td>    
-                                                                <Link  to={"/addLocation"} title={"Edit"}> Edit </Link>
-                                                        </td>
+                                                       
                                                         <td><button className="btn btn-danger" onClick={() => onDelete(location?.id)}><i className="fa fa-trash-o"></i> Delete </button></td>
                                                     </tr>
                                                 ))}
