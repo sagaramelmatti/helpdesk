@@ -15,7 +15,7 @@ function ComplaintList(props) {
   // get complaints
   const getComplaints = () => {
     axios
-      .get(`http://localhost:8080/api/complaints/findByUser/${userId}`)
+      .get(`http://localhost:8081/api/complaints/findByUser/${userId}`)
       .then((response) => {
         if (response.status === 200) {
           setComplaints(response?.data);
@@ -25,7 +25,7 @@ function ComplaintList(props) {
   };
 
   const onDelete = (id) => {
-    axios.delete(`http://localhost:8080/api/complaints/${id}`).then(() => {
+    axios.delete(`http://localhost:8081/api/complaints/${id}`).then(() => {
       getComplaints();
     });
   };

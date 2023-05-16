@@ -8,17 +8,14 @@ function EditDepartment(props) {
 
   const [id, setId] = useState("");
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [contactNo, setContactNo] = useState("");
+  const [locationId, setLocationId] = useState("");
 
   const saveDepartment = () => {
     var data = {
       name: name,
-      address: address,
-      city: city,
-      contactNo: contactNo,
+      locationId: locationId
     };
+	
     DepartmentDataService.create(data)
       .then((response) => {
         navigate("/departments");
@@ -50,44 +47,6 @@ function EditDepartment(props) {
                           name="name"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group required">
-                        <label className="control-label">Address</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="address"
-                          value={address}
-                          onChange={(e) => setAddress(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group required">
-                        <label className="control-label">City</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="city"
-                          value={city}
-                          onChange={(e) => setCity(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group required">
-                        <label className="control-label">Contact No</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="contactNo"
-                          value={contactNo}
-                          onChange={(e) => setContactNo(e.target.value)}
                         />
                       </div>
                     </div>

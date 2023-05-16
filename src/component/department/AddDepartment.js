@@ -6,28 +6,42 @@ import DepartmentDataService from "../../services/DepartmentDataService";
 function AddDepartment(props) {
   const navigate = useNavigate(); // <-- hooks must be INSIDE the component
 
+  const [location, setLocation] = React.useState([]);
   const [id, setId] = useState("");
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [contactNo, setContactNo] = useState("");
+  const [locationId, setLocationId] = useState("");
 
-  const saveDepartment = () => {
+
+  React.useEffect(() => {
+
+    async function getLocations() {
+      const response = await fetch("http://localhost:8081/api/locations/");
+      const body = await response.json();
+      setLocation(body.map(item => {
+          return { value: item.id, label: item.name };
+        }));
+    }
+
+    getLocations();
+  }, []);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
     var data = {
       name: name,
-      address: address,
-      city: city,
-      contactNo: contactNo,
+      locationId: locationId
     };
+
+    //console.log(`data=`+data.taxId);
     DepartmentDataService.create(data)
-      .then((response) => {
+      .then(response => {
         console.log(response.data);
         navigate("/departments");
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e);
       });
-  };
+}
 
   return (
     <>
@@ -43,6 +57,7 @@ function AddDepartment(props) {
                   <h3 className="box-title"> Department Master</h3>
                 </div>
                 <div className="box-body">
+                <form method ="post" className='form' onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group required">
@@ -56,42 +71,17 @@ function AddDepartment(props) {
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
-                      <div className="form-group required">
-                        <label className="control-label">Address</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="address"
-                          value={address}
-                          onChange={(e) => setAddress(e.target.value)}
-                        />
-                      </div>
-                    </div>
                   </div>
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group required">
-                        <label className="control-label">City</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="city"
-                          value={city}
-                          onChange={(e) => setCity(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group required">
-                        <label className="control-label">Contact No</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="contactNo"
-                          value={contactNo}
-                          onChange={(e) => setContactNo(e.target.value)}
-                        />
+                        <label className="control-label">Location</label>
+                        <select className='form-control select2' value={locationId} onChange={(e) => setLocationId(e.target.value)}>
+                          <option key="" value="">Select Location</option>
+                            {location.map(o => (
+                                <option key={o.value} value={o.value}>{o.label}</option>
+                            ))}
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -101,14 +91,13 @@ function AddDepartment(props) {
                       <button
                         type="submit"
                         className="btn btn-success btn-block btn-flat r-btn"
-                        onClick={saveDepartment}
-                        disabled={!name || !address || !city || !contactNo}
-                      >
+                        >
                         Save
                       </button>
                     </div>
                     <div className="col-md-6"></div>
                   </div>
+                  </form>
                 </div>
               </div>
             </div>

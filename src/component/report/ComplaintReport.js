@@ -57,12 +57,12 @@ function ComplaintReport(props) {
     }
     axios
       .post(
-        `http://localhost:8080/api/admin/reports/complaints/?${
+        `http://localhost:8081/api/admin/reports/complaints/?${
           queryString ? queryString : ""
         }`
       )
       .then(() =>
-        axios.get("http://localhost:8080/api/admin/reports/complaints/", {
+        axios.get("http://localhost:8081/api/admin/reports/complaints/", {
           responseType: "blob",
         })
       )
@@ -140,9 +140,11 @@ function ComplaintReport(props) {
                       style={{ width: "250px" }}
                       onClick={() => createAndDownloadPdf()}
                       className="btn btn-success btn-block btn-flat r-btn"
-                      disabled={Object.values(reportParam)?.some(
+                      /*
+					  disabled={Object.values(reportParam)?.some(
                         (item) => item === "" || item === null
                       )}
+					  */
                     >
                       Download PDF
                     </button>

@@ -14,7 +14,7 @@ function LocationList(props) {
     // get locations
     const getLocations = () => {
         axios
-            .get("http://localhost:8080/api/locations/")
+            .get("http://localhost:8081/api/locations/")
             .then((response) => {
                 if (response.status === 200) {
                     setLocations(response?.data);
@@ -26,7 +26,7 @@ function LocationList(props) {
     };
 
     const onDelete = (id) => {
-        axios.delete(`http://localhost:8080/api/locations/${id}`)
+        axios.delete(`http://localhost:8081/api/locations/${id}`)
         .then(() => {
             getLocations();
         })

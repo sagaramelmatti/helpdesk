@@ -73,7 +73,7 @@ function AdminComplaintList(props) {
 
   const onDelete = (id) => {
     axios
-      .delete(`http://localhost:8080/api/admin/complaints/${id}`)
+      .delete(`http://localhost:8081/api/admin/complaints/${id}`)
       .then(() => {
         getComplaints();
       });

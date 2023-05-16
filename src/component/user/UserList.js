@@ -66,7 +66,7 @@ function UserList(props) {
   };
 
   const onDelete = (id) => {
-    axios.delete(`http://localhost:8080/api/admin/users/${id}`).then(() => {
+    axios.delete(`http://localhost:8081/api/admin/users/${id}`).then(() => {
       getUsersData();
     });
   };
