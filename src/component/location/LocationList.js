@@ -64,19 +64,16 @@ function LocationList(props) {
                                                 <th width="20%">Name</th>
                                                 <th width="20%">Location Incharge</th>
                                                 <th width="20%">Incharge Email</th>
-                                                <th width="15%"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {locations &&
-                                                locations.map((location) => (
+                                                locations.map((location, index) => (
                                                     <tr key={location?.id} >
-                                                        <td> {location?.id} </td>
+                                                        <td> {++index} </td>
                                                         <td>{location?.name}</td>
                                                         <td>{location?.headName}</td>
                                                         <td>{location?.email}</td>
-                                                       
-                                                        <td><button className="btn btn-danger" onClick={() => onDelete(location?.id)}><i className="fa fa-trash-o"></i> Delete </button></td>
                                                     </tr>
                                                 ))}
                                         </tbody>

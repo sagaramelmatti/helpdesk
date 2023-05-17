@@ -107,7 +107,7 @@ export const navigationConstants = [
 export const addComplaintFormConstants = [
   {
     key: "title",
-    label: "Title",
+    label: "Subject",
     type: "text",
     roleList: ["ROLE_ADMIN", "ROLE_USER"],
   },
@@ -115,12 +115,6 @@ export const addComplaintFormConstants = [
     key: "description",
     label: "Description",
     type: "text",
-    roleList: ["ROLE_ADMIN", "ROLE_USER"],
-  },
-  {
-    key: "departmentId",
-    label: "Department",
-    type: "select",
     roleList: ["ROLE_ADMIN", "ROLE_USER"],
   },
   {

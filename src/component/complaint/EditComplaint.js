@@ -4,7 +4,6 @@ import Select from "react-select";
 
 import {
   addComplaints,
-  getDepartmentList,
   getUsers,
   getComplaintById,
   updateComplaintById,
@@ -20,14 +19,12 @@ import {
 function EditComplaint(props) {
   const navigate = useNavigate();
 
-  const [departmentList, setDepartmentList] = useState({});
   const [userList, setUserList] = useState({});
   const [locationList, setLocationList] = useState({});
   const [addComplaintFormFields, setAddComplaintFormFields] = useState({
     title: "",
     description: "",
     userId: "",
-    departmentId: "",
     status: "",
     locationId: "",
   });
@@ -43,7 +40,6 @@ function EditComplaint(props) {
           title: res?.data?.title || "",
           description: res?.data?.description || "",
           userId: res?.data?.userId || "",
-          departmentId: res?.data?.departmentId || "",
           status: res?.data?.status || "",
           locationId: res?.data?.locationId || "",
         });
@@ -63,14 +59,6 @@ function EditComplaint(props) {
   }, [params.id, role]);
 
   useEffect(() => {
-    getDepartmentList().then((response) => {
-      if (response?.status === 200) {
-        const departmentListTemp = response?.data?.map((item) => {
-          return { value: item?.id, label: item?.name };
-        });
-        setDepartmentList(departmentListTemp);
-      }
-    });
 
     getLocationList().then((response) => {
       if (response?.status === 200) {
@@ -104,8 +92,6 @@ function EditComplaint(props) {
 
   const showOptionsList = (formFieldKey) => {
     switch (formFieldKey) {
-      case "departmentId":
-        return departmentList;
       case "userId":
         return userList;
       case "locationId":
@@ -194,7 +180,6 @@ function EditComplaint(props) {
                           !addComplaintFormFields?.title ||
                           !addComplaintFormFields?.description |
                             !addComplaintFormFields?.userId ||
-                          !addComplaintFormFields?.departmentId ||
                           !addComplaintFormFields?.locationId
                         }
                       >

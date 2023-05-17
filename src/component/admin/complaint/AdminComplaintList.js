@@ -291,12 +291,11 @@ function AdminComplaintList(props) {
                           <th>Sr. No. </th>
                           <th width="10%">Complaint Date</th>
                           <th width="10%">Resolved Date</th>
-                          <th width="10%">Title</th>
+                          <th width="10%">Subject</th>
                           <th width="10%">Description</th>
                           <th width="10%">User name</th>
                           <th width="10%">User email</th>
                           <th width="5%">User location</th>
-                          <th width="5%">Department</th>
                           <th width="5%">Status</th>
                           <th width="10%">Comment</th>
                           <th width="5%">change status</th>

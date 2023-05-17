@@ -230,43 +230,6 @@ function UserList(props) {
                             </div>
                           </form>
                         </div>
-                        <div className="modal-footer">
-                          <button
-                            type="button"
-                            data-dismiss="modal"
-                            className="btn btn-success"
-                            onClick={() => {
-                              setComplaintId("");
-                              sendComplaints("A");
-                              setCommentMessage("");
-                            }}
-                          >
-                            Approve
-                          </button>
-                          <button
-                            type="button"
-                            data-dismiss="modal"
-                            className="btn btn-danger"
-                            onClick={() => {
-                              setComplaintId("");
-                              sendComplaints("D");
-                              setCommentMessage("");
-                            }}
-                          >
-                            Deny
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-default"
-                            data-dismiss="modal"
-                            onClick={() => {
-                              setComplaintId("");
-                              setCommentMessage("");
-                            }}
-                          >
-                            Cancel
-                          </button>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -286,15 +249,14 @@ function UserList(props) {
                           <th width="20%">Department</th>
                           <th width="20%">Location</th>
                           <th width="10%">Status</th>
-                          <th width="10%"></th>
-                          <th width="10%">Status</th>
+                          <th width="20%">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         {users?.length ? (
-                          users.map((user) => (
+                          users.map((user,index) => (
                             <tr key={user?.id}>
-                              <td> {user?.id} </td>
+                              <td> {++index} </td>
                               <td>{user?.name}</td>
                               <td>{user?.email}</td>
                               <td>{user?.department?.name}</td>
@@ -307,18 +269,6 @@ function UserList(props) {
                                   {" "}
                                   Edit{" "}
                                 </Link>
-                              </td>
-                              <td>
-                                <button
-                                  href="#myModal"
-                                  class="btn btn-primary"
-                                  data-toggle="modal"
-                                  onClick={() => {
-                                    setComplaintId(user?.id);
-                                  }}
-                                >
-                                  <i className="fa fa-pencil"></i> Change{" "}
-                                </button>
                               </td>
                               <td>
                                 <button

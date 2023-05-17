@@ -69,9 +69,8 @@ function ComplaintList(props) {
                     <thead>
                       <tr>
                         <th>Sr. No. </th>
-                        <th>Title</th>
+                        <th>Subject</th>
                         <th>Description</th>
-                        <th>Department</th>
                         <th>Location</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -84,7 +83,6 @@ function ComplaintList(props) {
                             <td> {post?.id} </td>
                             <td>{post?.title}</td>
                             <td>{post?.description}</td>
-                            <td>{post?.department?.name}</td>
                             <td>{post?.location?.name}</td>
 
                             <td>{post?.status}</td>

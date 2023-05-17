@@ -4,7 +4,6 @@ import Select from "react-select";
 
 import {
   addComplaints,
-  getDepartmentList,
   getLocationList,
   getUsers,
 } from "../../api";
@@ -14,13 +13,11 @@ import { toast } from "react-toastify";
 function AddComplaint(props) {
   const navigate = useNavigate();
 
-  const [departmentList, setDepartmentList] = useState({});
   const [userList, setUserList] = useState({});
   const [addComplaintFormFields, setAddComplaintFormFields] = useState({
     title: "",
     description: "",
     userId: "",
-    departmentId: "",
     status: "New Complaint",
   });
   const [locationList, setLocationList] = useState({});
@@ -51,15 +48,6 @@ function AddComplaint(props) {
   }, [localUserId, role]);
 
   useEffect(() => {
-    getDepartmentList().then((response) => {
-      if (response?.status === 200) {
-        const departmentListTemp = response?.data?.map((item) => {
-          return { value: item?.id, label: item?.name };
-        });
-        setDepartmentList(departmentListTemp);
-      }
-    });
-
     getLocationList().then((response) => {
       if (response?.status === 200) {
         const locationListTemp = response?.data?.map((item) => {
@@ -89,8 +77,6 @@ function AddComplaint(props) {
 
   const showOptionsList = (formFieldKey) => {
     switch (formFieldKey) {
-      case "departmentId":
-        return departmentList;
       case "userId":
         return userList;
       case "locationId":

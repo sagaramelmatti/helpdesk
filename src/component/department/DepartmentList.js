@@ -63,20 +63,18 @@ function DepartmentList(props) {
                                                 <th width="10%">Sr. No </th>
                                                 <th width="30%">Name</th>
                                                 <th width="30%">Location</th>
-                                                <th width="15%"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {departments &&
-                                                departments.map((department) => (
+                                            {
+                                            departments &&
+                                                departments.map((department, index) => (
                                                     <tr key={department?.id} >
-                                                        <td> {department?.id} </td>
+                                                        <td> {++index} </td>
                                                         <td>{department?.name}</td>
                                                         <td>{department?.location.name}</td>
-                                                        
-                                                        <td><button className="btn btn-danger" onClick={() => onDelete(department?.id)}><i className="fa fa-trash-o"></i> Delete </button></td>
                                                     </tr>
-                                                ))}
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>
