@@ -105,8 +105,6 @@ function AdminComplaintList(props) {
 
   const showOptionsList = (formFieldKey) => {
     switch (formFieldKey) {
-      case "departmentId":
-        return departmentList;
       case "userId":
         return userList;
       case "locationId":
