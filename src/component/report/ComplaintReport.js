@@ -29,7 +29,7 @@ function ComplaintReport(props) {
   });
 
   const navigate = useNavigate();
-n
+
   useEffect(() => {
     getLocationList().then((response) => {
       if (response?.status === 200) {

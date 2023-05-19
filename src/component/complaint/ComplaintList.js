@@ -52,11 +52,11 @@ function ComplaintList(props) {
                   <h3 className="box-title"> Complaint List</h3>
                 </div>
                 <div className="box-body">
-                  <a href="addComplaint">
-                    <button className="btn btn-success">
+                  <Link to="/addComplaint">  
+                      <button className="btn btn-success">
                       <i className="glyphicon glyphicon-plus"></i> Add Complaint
-                    </button>
-                  </a>
+                      </button> 
+                  </Link> 
                   <button className="btn btn-default" onClick="reload_table()">
                     <i className="glyphicon glyphicon-refresh"></i> Reload
                   </button>

@@ -140,11 +140,10 @@ function UserList(props) {
                   <div className="row">
                     <div className="col-xs-4">
                       <br />
-                      <a href="addUser">
-                        <button className="btn btn-success">
+                      <Link to="/addUser"> <button className="btn btn-success">
                           <i className="glyphicon glyphicon-plus"></i> Add User
-                        </button>
-                      </a>
+                        </button> </Link> 
+                        
                       <button
                         className="btn btn-default"
                         onClick="reload_table()"
