@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import DepartmentDataService from "../../services/DepartmentDataService";
 
 function EditDepartment(props) {

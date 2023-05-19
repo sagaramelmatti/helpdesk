@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import DepartmentDataService from "../../services/DepartmentDataService";
 
 function AddDepartment(props) {
@@ -15,7 +14,7 @@ function AddDepartment(props) {
   React.useEffect(() => {
 
     async function getLocations() {
-      const response = await fetch("http://localhost:8081/api/locations/");
+      const response = await fetch("/api/locations/");
       const body = await response.json();
       setLocation(body.map(item => {
           return { value: item.id, label: item.name };

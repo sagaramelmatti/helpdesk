@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import axios from "../../axiosInstance";
 import { useLocation, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -14,7 +14,7 @@ function DepartmentList(props) {
     // get departments
     const getDepartments = () => {
         axios
-            .get("http://localhost:8081/api/departments/")
+            .get("/departments/")
             .then((response) => {
                 if (response.status === 200) {
                     setDepartments(response?.data);
@@ -26,7 +26,7 @@ function DepartmentList(props) {
     };
 
     const onDelete = (id) => {
-        axios.delete(`http://localhost:8081/api/departments/${id}`)
+        axios.delete(`/departments/${id}`)
         .then(() => {
             getDepartments();
         })

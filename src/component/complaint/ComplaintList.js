@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import axios from "../../axiosInstance";
 import { useLocation, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -15,7 +15,7 @@ function ComplaintList(props) {
   // get complaints
   const getComplaints = () => {
     axios
-      .get(`http://localhost:8081/api/complaints/findByUser/${userId}`)
+      .get(`/complaints/findByUser/${userId}`)
       .then((response) => {
         if (response.status === 200) {
           setComplaints(response?.data);
@@ -25,7 +25,7 @@ function ComplaintList(props) {
   };
 
   const onDelete = (id) => {
-    axios.delete(`http://localhost:8081/api/complaints/${id}`).then(() => {
+    axios.delete(`/complaints/${id}`).then(() => {
       getComplaints();
     });
   };

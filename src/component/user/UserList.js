@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import axios from "../../axiosInstance";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Select from "react-select";
@@ -66,7 +66,7 @@ function UserList(props) {
   };
 
   const onDelete = (id) => {
-    axios.delete(`http://localhost:8081/api/admin/users/${id}`).then(() => {
+    axios.delete(`/admin/users/${id}`).then(() => {
       getUsersData();
     });
   };

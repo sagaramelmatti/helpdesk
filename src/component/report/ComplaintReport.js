@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../axiosInstance";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
@@ -29,7 +29,7 @@ function ComplaintReport(props) {
   });
 
   const navigate = useNavigate();
-
+n
   useEffect(() => {
     getLocationList().then((response) => {
       if (response?.status === 200) {
@@ -57,12 +57,12 @@ function ComplaintReport(props) {
     }
     axios
       .post(
-        `http://localhost:8081/api/admin/reports/complaints/?${
+        `/admin/reports/complaints/?${
           queryString ? queryString : ""
         }`
       )
       .then(() =>
-        axios.get("http://localhost:8081/api/admin/reports/complaints/", {
+        axios.get("/admin/reports/complaints/", {
           responseType: "blob",
         })
       )

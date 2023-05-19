@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../../axiosInstance";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
@@ -73,7 +73,7 @@ function AdminComplaintList(props) {
 
   const onDelete = (id) => {
     axios
-      .delete(`http://localhost:8081/api/admin/complaints/${id}`)
+      .delete(`/admin/complaints/${id}`)
       .then(() => {
         getComplaints();
       });

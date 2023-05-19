@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import axios from "../../axiosInstance";
 import { useLocation, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -14,7 +14,7 @@ function LocationList(props) {
     // get locations
     const getLocations = () => {
         axios
-            .get("http://localhost:8081/api/locations/")
+            .get("/locations/")
             .then((response) => {
                 if (response.status === 200) {
                     setLocations(response?.data);
@@ -26,7 +26,7 @@ function LocationList(props) {
     };
 
     const onDelete = (id) => {
-        axios.delete(`http://localhost:8081/api/locations/${id}`)
+        axios.delete(`/locations/${id}`)
         .then(() => {
             getLocations();
         })

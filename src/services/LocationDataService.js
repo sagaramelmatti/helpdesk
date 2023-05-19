@@ -1,19 +1,19 @@
 import http from "../http-common";
 
   const getAll = () => {
-    return http.get("/api/locations/");
+    return http.get("/locations/");
   };
   const get = id => {
-    return http.get(`/api/locations/${id}`);
+    return http.get(`/locations/${id}`);
   };
   const create = data => {
-    return http.post("/api/locations/", data);
+    return http.post("/locations/", data);
   };
   const update = (id, data) => {
-    return http.put(`/api/locations/${id}`, data);
+    return http.put(`/locations/${id}`, data);
   };
   const remove = id => {
-    return http.delete(`/api/locations/${id}`);
+    return http.delete(`/locations/${id}`);
   };
 
 const LocationsDataService =  {

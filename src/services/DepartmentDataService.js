@@ -1,19 +1,19 @@
 import http from "../http-common";
 
   const getAll = () => {
-    return http.get("/api/departments/");
+    return http.get("/departments/");
   };
   const get = id => {
-    return http.get(`/api/departments/${id}`);
+    return http.get(`/departments/${id}`);
   };
   const create = data => {
-    return http.post("/api/departments/", data);
+    return http.post("/departments/", data);
   };
   const update = (id, data) => {
-    return http.put(`/api/departments/${id}`, data);
+    return http.put(`/departments/${id}`, data);
   };
   const remove = id => {
-    return http.delete(`/api/departments/${id}`);
+    return http.delete(`/departments/${id}`);
   };
 
 const DepartmentDataService =  {
