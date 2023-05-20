@@ -6,7 +6,6 @@ import Select from "react-select";
 
 import {
   sendAdminComplaint,
-  getDepartmentList,
   getLocationList,
   getUsers,
   getAdminComplaints,
@@ -31,15 +30,7 @@ function AdminComplaintList(props) {
   }, []);
 
   useEffect(() => {
-    getDepartmentList().then((response) => {
-      if (response?.status === 200) {
-        const departmentListTemp = response?.data?.map((item) => {
-          return { value: item?.id, label: item?.name };
-        });
-        setDepartmentList(departmentListTemp);
-      }
-    });
-
+    
     getLocationList().then((response) => {
       if (response?.status === 200) {
         const locationListTemp = response?.data?.map((item) => {
@@ -241,18 +232,6 @@ function AdminComplaintList(props) {
                           <button
                             type="button"
                             data-dismiss="modal"
-                            className="btn btn-success"
-                            onClick={() => {
-                              setComplaintId("");
-                              sendComplaints("Approved");
-                              setCommentMessage("");
-                            }}
-                          >
-                            Approve
-                          </button>
-                          <button
-                            type="button"
-                            data-dismiss="modal"
                             className="btn btn-danger"
                             onClick={() => {
                               setComplaintId("");
@@ -260,7 +239,7 @@ function AdminComplaintList(props) {
                               setCommentMessage("");
                             }}
                           >
-                            Denied
+                            Reject
                           </button>
                           <button
                             type="button"
@@ -289,32 +268,31 @@ function AdminComplaintList(props) {
                           <th>Sr. No. </th>
                           <th width="10%">Complaint Date</th>
                           <th width="10%">Resolved Date</th>
+                          <th width="10%">Ticket Number</th>
                           <th width="10%">Subject</th>
                           <th width="10%">Description</th>
-                          <th width="10%">User name</th>
-                          <th width="10%">User email</th>
-                          <th width="5%">User location</th>
-                          <th width="5%">Status</th>
+                          <th width="10%">User Name</th>
+                          <th width="5%">Location</th>
                           <th width="10%">Comment</th>
-                          <th width="5%">change status</th>
-                          <th width="10%">Action</th>
+                          <th width="10%">Status</th>
+                          <th width="5%">Action</th>
+                          <th width="10%"></th>
                         </tr>
                       </thead>
                       <tbody>
                         {complaints?.length ? (
-                          complaints.map((complaint) => (
+                          complaints.map((complaint,index) => (
                             <tr key={complaint?.id}>
-                              <td> {complaint?.id} </td>
+                              <td> {++index} </td>
                               <td>{complaint?.complaint_added_date} </td>
                               <td>{complaint?.complaint_resolved_date} </td>
+                              <td>{complaint?.ticketNumberSequance}</td>
                               <td>{complaint?.title}</td>
                               <td>{complaint?.description}</td>
                               <td>{complaint?.user?.name}</td>
-                              <td>{complaint?.user?.email}</td>
                               <td>{complaint?.location?.name}</td>
-                              <td>{complaint?.department?.name}</td>
-                              <td>{complaint?.status}</td>
                               <td>{complaint?.comment}</td>
+                              <td>{complaint?.status}</td>
                               <td>
                                 <button
                                   href="#myModal"
@@ -327,6 +305,7 @@ function AdminComplaintList(props) {
                                 >
                                   Change{" "}
                                 </button>
+                                &nbsp;&nbsp;
                               </td>
                               <td>
                                 <button

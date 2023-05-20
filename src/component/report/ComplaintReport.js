@@ -140,11 +140,11 @@ function ComplaintReport(props) {
                       style={{ width: "250px" }}
                       onClick={() => createAndDownloadPdf()}
                       className="btn btn-success btn-block btn-flat r-btn"
-                      /*
-					  disabled={Object.values(reportParam)?.some(
-                        (item) => item === "" || item === null
-                      )}
-					  */
+                              /*
+                    disabled={Object.values(reportParam)?.some(
+                                (item) => item === "" || item === null
+                              )}
+                    */
                     >
                       Download PDF
                     </button>

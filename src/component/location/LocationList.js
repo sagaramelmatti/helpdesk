@@ -33,9 +33,11 @@ function LocationList(props) {
     }
 
     const setData = (data) => {
-        let { id, name } = data;
+        let { id, name, headName , email } = data;
         localStorage.setItem('id', id);
         localStorage.setItem('name', name);
+        localStorage.setItem('headName', headName);
+        localStorage.setItem('email', email);
     }
 
 
@@ -64,6 +66,7 @@ function LocationList(props) {
                                                 <th width="20%">Name</th>
                                                 <th width="20%">Location Incharge</th>
                                                 <th width="20%">Incharge Email</th>
+                                                <th width="20%">Edit</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -74,6 +77,12 @@ function LocationList(props) {
                                                         <td>{location?.name}</td>
                                                         <td>{location?.headName}</td>
                                                         <td>{location?.email}</td>
+                                                        <td>
+                                                            <Link to={"/locations/" + location?.id} title={"Edit"}>
+                                                            {" "}
+                                                            Edit{" "}
+                                                            </Link>
+                                                        </td>
                                                     </tr>
                                                 ))}
                                         </tbody>

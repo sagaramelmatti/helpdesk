@@ -68,39 +68,45 @@ function ComplaintList(props) {
                   >
                     <thead>
                       <tr>
-                        <th>Sr. No. </th>
-                        <th>Subject</th>
-                        <th>Description</th>
-                        <th>Location</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th width="5%">Sr. No. </th>
+                        <th width="10%">Ticket Number</th>
+                        <th width="10%">Complaint Date</th>
+                        <th width="10%">Resolved Date</th>
+                        <th width="15%">Subject</th>
+                        <th width="20%">Description</th>
+                        <th width="10%">Location</th>
+                        <th width="10%">Status</th>
+                        <th width="5%">Edit</th>
+                        <th width="5%">Delete</th>
                       </tr>
                     </thead>
                     <tbody>
                       {complaints &&
-                        complaints.map((post) => (
-                          <tr key={post?.id}>
-                            <td> {post?.id} </td>
-                            <td>{post?.title}</td>
-                            <td>{post?.description}</td>
-                            <td>{post?.location?.name}</td>
-
-                            <td>{post?.status}</td>
+                        complaints.map((complaint,index) => (
+                          <tr key={complaint?.id}>
+                            <td> {++index} </td>
+                            <td>{complaint?.ticketNumberSequance}</td>
+                            <td>{complaint?.complaint_added_date}</td>
+                            <td>{complaint?.complaint_resolved_date}</td>
+                            <td>{complaint?.title}</td>
+                            <td>{complaint?.description}</td>
+                            <td>{complaint?.location?.name}</td>
+                            <td>{complaint?.status}</td>
                             <td>
                               <Link
-                                to={`/editComplaint/${post?.id}`}
+                                to={`/editComplaint/${complaint?.id}`}
                                 title={"Edit"}
                               >
                                 {" "}
-                                Edit{" "}
+                                <i className="fa fa-pencil-o"></i> Edit{" "}
                               </Link>
-                            </td>
-                            <td>
+                              </td>
+                              <td>
                               <button
                                 className="btn btn-danger"
-                                onClick={() => onDelete(post?.id)}
+                                onClick={() => onDelete(complaint?.id)}
                               >
-                                <i className="fa fa-trash-o"></i> Delete{" "}
+                                <i className="fa fa-trash-o"></i>{" "}
                               </button>
                             </td>
                           </tr>

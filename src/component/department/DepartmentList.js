@@ -73,6 +73,7 @@ function DepartmentList(props) {
                                                         <td> {++index} </td>
                                                         <td>{department?.name}</td>
                                                         <td>{department?.location.name}</td>
+                                                        
                                                     </tr>
                                             ))}
                                         </tbody>

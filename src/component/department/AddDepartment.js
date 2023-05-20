@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../axiosInstance";
 import DepartmentDataService from "../../services/DepartmentDataService";
+import { LOCATION_LIST } from "../constants";
 
 function AddDepartment(props) {
   const navigate = useNavigate(); // <-- hooks must be INSIDE the component
@@ -9,21 +11,21 @@ function AddDepartment(props) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [locationId, setLocationId] = useState("");
-
+  const [locationList, setLocationList] = React.useState([]);
 
   React.useEffect(() => {
-
-    async function getLocations() {
-      const response = await fetch("/api/locations/");
-      const body = await response.json();
-      setLocation(body.map(item => {
+    async function getLocationList() {
+      const response = await axiosInstance.get(LOCATION_LIST);
+      const body = await response.data;
+      setLocationList(body.map(item => {
           return { value: item.id, label: item.name };
         }));
     }
 
-    getLocations();
-  }, []);
+    getLocationList();
 
+  }, []);
+    
   const handleSubmit = (event) => {
     event.preventDefault();
     var data = {
@@ -77,7 +79,7 @@ function AddDepartment(props) {
                         <label className="control-label">Location</label>
                         <select className='form-control select2' value={locationId} onChange={(e) => setLocationId(e.target.value)}>
                           <option key="" value="">Select Location</option>
-                            {location.map(o => (
+                            {locationList.map(o => (
                                 <option key={o.value} value={o.value}>{o.label}</option>
                             ))}
                         </select>

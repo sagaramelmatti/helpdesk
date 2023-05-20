@@ -1,83 +1,123 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import LocationDataService from '../../services/LocationDataService';
+
+import {
+    getLocationList,
+} from "../../api";
+
 
 function EditLocation(props) {
 
-    const navigate = useNavigate() // <-- hooks must be INSIDE the component
+    const { id } = useParams();
+    let navigate = useNavigate();
 
-    const [id, setId] = useState("");
-    const [name, setName] = useState("");
-    const [headName, setHeadName] = useState("");
-    const [email, setEmail] = useState("");
-
-    const saveLocation = () => {
-        var data = {
-            name : name,
-            headName : headName,
-            email : email
-        };
-        LocationDataService.create(data)
-          .then(response => {
-            console.log(response.data);
-            navigate("/locations");
-          })
-          .catch(e => {
-            console.log(e);
-          });
+    const initialLocationState = {
+        id: null,
+        name: "",
+        email: "",
+        headName: ""
     };
+
+    const [location, setCurrentLocation] = useState(initialLocationState);
+    const [message, setMessage] = useState("");
+
+    const getLocation = id => {
+        LocationDataService.get(id)
+            .then(response => {
+                console.log('response =' + response.data);
+                setCurrentLocation(response.data);
+
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+
+    useEffect(() => {
+        if (id)
+            getLocation(id);
+    }, [id]);
+
+    const handleInputChange = event => {
+        const { name, value } = event.target;
+        setCurrentLocation({ ...location, [name]: value });
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        LocationDataService.update(location.id, location)
+            .then(response => {
+                console.log(response.data);
+                navigate("/locations");
+                setMessage("The Location has been updated successfully!");
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+
 
     return (
         <>
-            <div className="content-wrapper">
-                <section className="content-header">
-                    <h1>Add New Location</h1>
-                </section>
-                <section className="content">
-                    <div className="row">
-                        <div className="col-xs-12">
-                            <div className="box">
-                                <div className="box-header">
-                                    <h3 className="box-title"> Location Master</h3>
-                                </div>
-                                <div className="box-body">
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="form-group required">
-                                                <label className="control-label">Location Name</label>
-                                                <input type="text" className="form-control" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+            {location ? (
+                <div className="content-wrapper">
+                    <section className="content-header">
+                        <h1>Add New Location</h1>
+                    </section>
+                    <section className="content">
+                        <div className="row">
+                            <div className="col-xs-12">
+                                <div className="box">
+                                    <div className="box-header">
+                                        <h3 className="box-title"> Location Master</h3>
+                                    </div>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="box-body">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="form-group required">
+                                                        <label className="control-label">Location Name</label>
+                                                        <input type="text" className="form-control" name="name" value={location.name} onChange={handleInputChange} />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group required">
+                                                        <label className="control-label">Incharge Name</label>
+                                                        <input type="text" className="form-control" name="headName" value={location.headName} onChange={handleInputChange} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="form-group required">
+                                                        <label className="control-label">Incharge Email</label>
+                                                        <input type="text" className="form-control" name="email" value={location.email} onChange={handleInputChange} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-3">
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <button type="submit" className="btn btn-success btn-block btn-flat r-btn">Save</button>
+                                                </div>
+                                                <div className="col-md-6">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-6">
-                                            <div className="form-group required">
-                                                <label className="control-label">Incharge Name</label>
-                                                <input type="text" className="form-control" name="headName" value={headName} onChange={(e) => setHeadName(e.target.value)} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="form-group required">
-                                                <label className="control-label">Incharge Email</label>
-                                                <input type="text" className="form-control" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-3">
-                                        </div>
-                                        <div className="col-md-3">
-                                            <button type="submit" className="btn btn-success btn-block btn-flat r-btn" onClick={saveLocation}>Save</button>
-                                        </div>
-                                        <div className="col-md-6">
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-            </div>
+                    </section>
+                </div>
+            ) : (
+                <div>
+                    <br />
+                    <p>Please click on a Location...</p>
+                </div>
+            )}
         </>
     );
 }
