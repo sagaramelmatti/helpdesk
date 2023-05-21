@@ -23,7 +23,17 @@ function Topmenu(props) {
         <li key={role.label}>
           <Link
             to={item?.path}
-            onClick={() => (item?.key === "log_out" ? signOut() : null)}
+            onClick={() => {
+              if(item?.iconName === 'fa-power-off'){
+                const confirmBox = window.confirm(
+                  "Do you really want to Logout?"
+                )
+                if (confirmBox === true) {
+                  signOut()
+                }
+              }
+              
+            }}
           >
             <i className={`fa ${item?.iconName}`}></i> {item?.label}
           </Link>

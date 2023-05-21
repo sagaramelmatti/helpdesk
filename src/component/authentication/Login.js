@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { toast } from "react-toastify";
@@ -8,6 +8,8 @@ import { signIn, signUp, getDepartmentList , getLocationList } from "../../api";
 import AuthContext from "../../context/AuthProvider";
 
 export const Login = () => {
+
+  const submitBtnRef= useRef(null);
   const [loginFormFields, setLoginFormFields] = useState({});
   const [registerFormFields, setRegisterFormFields] = useState({
     password: "",
@@ -245,21 +247,11 @@ export const Login = () => {
                 <div className="row">
                   <div className="col-12">
                     <button
-                      type="submit"
+                      type="submit" 
                       className="btn btn-success btn-block btn-flat r-btn login-btn"
-                      onClick={() =>
-                        showForm === "login" ? handleLogin() : handleRegister()
-                      }
-                      disabled={
-                        showForm !== "login"
-                          ? Object.values(registerFormFields).includes(
-                              "" || null
-                            ) ||
-                            passwordError ||
-                            emailError
-                          : false
-                      }
-                    >
+                      onClick={() => handleLogin() } 
+                      ref={submitBtnRef}
+                      >
                       {showForm === "login" ? "Sign In" : "Register"}
                     </button>
                   </div>
