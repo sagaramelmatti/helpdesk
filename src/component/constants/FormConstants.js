@@ -6,6 +6,7 @@ import {
   COMPLAINTS,
   REPORTS,
   PATH_PROFILE,
+  PATH_SUPERVISOR_COMPLAINTS,
 } from "./RouteConstants";
 
 export const loginFormConstantants = [
@@ -94,11 +95,18 @@ export const navigationConstants = [
     rolesList: ["ROLE_ADMIN", "ROLE_USER"],
   },
   {
+    // key: "Complaint List",
+    label: "Complaint List",
+    path: PATH_SUPERVISOR_COMPLAINTS,
+    iconName: "fa-address-book",
+    rolesList: ["ROLE_SUPERVISOR"],
+  },
+  {
     key: "log_out",
     label: "",
     path: "",
     iconName: "fa-power-off",
-    rolesList: ["ROLE_ADMIN", "ROLE_USER"],
+    rolesList: ["ROLE_ADMIN", "ROLE_USER", "ROLE_SUPERVISOR"],
   },
 ];
 

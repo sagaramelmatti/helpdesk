@@ -12,11 +12,26 @@ import {
   API_USER_COMPLAINTS,
   API_ADMIN_COMPLAINTS,
   API_ADMIN_COMPLAINTS_REPORT,
+  API_SUPERVISOR_COMPLAINTS,
+  API_SUPERVISOR_UPDATE_COMPLAINT_STATUS,
 } from "../component/constants";
 
 export const sendAdminComplaint = async (data, id) => {
   const result = axiosInstance
     .put(`${API_UPDATE_COMPLAINT_STATUS}${id}`, data)
+    .catch((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  return result;
+};
+
+export const sendSupervisorComplaint = async (data, id) => {
+  const result = axiosInstance
+    .put(`${API_SUPERVISOR_UPDATE_COMPLAINT_STATUS}${id}`, data)
     .catch((response) => {
       return response;
     })
@@ -170,5 +185,17 @@ export const getAdminComplaintsReport = async (filterParams) => {
       console.log(error);
     });
 
+  return result;
+};
+
+export const getSupervisorComplaintByLocationId = async (locationId) => {
+  const result = await axiosInstance
+    .get(`${API_SUPERVISOR_COMPLAINTS}/${locationId}`)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
   return result;
 };

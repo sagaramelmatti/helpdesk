@@ -122,14 +122,14 @@ function AdminComplaintList(props) {
     <>
       <div className="content-wrapper">
         <section className="content-header">
-          <h1>Add New Complaint</h1>
+          <h1>Admin Complaint List</h1>
         </section>
         <section className="content">
           <div className="row">
             <div className="col-xs-12">
               <div className="box">
                 <div className="box-header">
-                  <h3 className="box-title"> Complaint List</h3>
+                  <h3 className="box-title">Admin Complaint List</h3>
                 </div>
                 <div className="box-body">
                   <div className="row">
@@ -235,7 +235,7 @@ function AdminComplaintList(props) {
                             className="btn btn-danger"
                             onClick={() => {
                               setComplaintId("");
-                              sendComplaints("Denied");
+                              sendComplaints("Reject");
                               setCommentMessage("");
                             }}
                           >

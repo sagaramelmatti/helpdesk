@@ -3,6 +3,7 @@ import {
   PATH_LOGIN,
   PATH_PROFILE,
   PATH_PAGE_NOT_FOUND,
+  PATH_SUPERVISOR_COMPLAINTS
   // PATH_ROOT,
   // ADD_CUSTOMER,
   // CUSTOMERS,
@@ -36,6 +37,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import Toaster from "./component/common/Toaster";
 import Profile from "./component/common/Profile";
 import PageNotFound from "./component/common/PageNotFound";
+import SupervisorComplaints from "./component/complaint/SupervisorComplaints";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -102,6 +104,11 @@ function App() {
                   <Route path="/complaints" element={<ComplaintList />} />
                   <Route path="/reports" element={<ComplaintReport />} />
                   <Route path={PATH_PROFILE} element={<Profile />} />
+
+                  <Route
+                    path="/supervisorComplaints"
+                    element={<SupervisorComplaints />}
+                  />
                 </Route>
               </Routes>
             </AuthProvider>

@@ -261,7 +261,7 @@ function UserList(props) {
                               <td>{user?.department?.name}</td>
                               <td>{user?.location?.name}</td>
                               <td>
-                                {user?.status === "A" ? "Active" : "Denied"}
+                                {user?.status === "A" ? "Active" : "Reject"}
                               </td>
                               <td>
                                 <Link to={"/users/" + user?.id} title={"Edit"}>

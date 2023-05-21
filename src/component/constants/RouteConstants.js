@@ -10,4 +10,5 @@ export const LOCATIONS = "/locations";
 export const COMPLAINTS = "/complaints";
 export const PATH_PROFILE = "/profile";
 export const REPORTS = "/reports";
+export const PATH_SUPERVISOR_COMPLAINTS = "/supervisorComplaints";
 export const PATH_PAGE_NOT_FOUND = "*";

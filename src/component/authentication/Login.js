@@ -145,6 +145,7 @@ export const Login = () => {
         localStorage.setItem("role", res.data.roles[0]);
         localStorage.setItem("email", res.data.email);
         localStorage.setItem("userId", res.data.id);
+        localStorage.setItem("locationId", res.data.locationId);
         const updatedUser = {
           token: res.data.accessToken,
           name: res.data.name,
@@ -152,7 +153,9 @@ export const Login = () => {
         setAuth?.(updatedUser);
         if (res.data.roles[0] === "ROLE_ADMIN") {
           navigate("/", { replace: true });
-        } else {
+        } else if (res.data.roles[0] === "ROLE_SUPERVISOR") {
+          navigate("/supervisorComplaints", { replace: true });
+        }else {
           navigate("/complaints", { replace: true });
         }
       }

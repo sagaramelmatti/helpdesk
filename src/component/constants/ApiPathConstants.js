@@ -10,6 +10,8 @@ export const API_UPDATE_COMPLAINT_STATUS = "/admin/complaint/updateStatus/";
 export const API_UPDATE_USER_STATUS = "/admin/user/updateStatus/";
 export const API_USER_COMPLAINTS = "/complaints";
 export const API_ADMIN_COMPLAINTS = "/admin/complaints";
+export const API_SUPERVISOR_COMPLAINTS = "/supervisor/complaints";
+export const API_SUPERVISOR_UPDATE_COMPLAINT_STATUS = "/supervisor/complaint/updateStatus/";
 
 // dropdown
 
