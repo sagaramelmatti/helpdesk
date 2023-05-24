@@ -42,7 +42,7 @@ export const sendSupervisorComplaint = async (data, id) => {
   return result;
 };
 
-export const sendUserComplaint = async (data, id) => {
+export const sendUserStatus = async (data, id) => {
   const result = axiosInstance
     .put(`${API_UPDATE_USER_STATUS}${id}`, data)
     .then((response) => {
