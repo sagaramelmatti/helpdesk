@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import Select from "react-select";
 
 import {
-  sendUserComplaint,
   getLocationList,
   getDepartmentList,
   getUsers,
@@ -17,9 +16,6 @@ const page = "user_list";
 
 function UserList(props) {
   const [users, setUsers] = useState([]);
-  const [complaints, setComplaints] = useState([]);
-  const [complaintId, setComplaintId] = useState("");
-  const [commentMessage, setCommentMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [locationList, setLocationList] = useState({});
   const [departmentList, setDepartmentList] = useState({});
@@ -31,6 +27,7 @@ function UserList(props) {
   }, []);
 
   useEffect(() => {
+    
     getLocationList().then((response) => {
       if (response?.status === 200) {
         const locationListTemp = response?.data?.map((item) => {
@@ -72,40 +69,22 @@ function UserList(props) {
   };
 
   const setData = (data) => {
-    let { id, username, name, email, departmentId, status } = data;
+    let { id, name, email, departmentId, locationId, status } = data;
     localStorage.setItem("id", id);
-    localStorage.setItem("username", username);
     localStorage.setItem("name", name);
     localStorage.setItem("email", email);
     localStorage.setItem("departmentId", departmentId);
+    localStorage.setItem("locationId", locationId);
     localStorage.setItem("status", status);
-  };
-
-  const sendComplaints = (statusParam) => {
-    const complaintChangeData = {
-      status: statusParam,
-      // comment: commentMessage,
-    };
-
-    sendUserComplaint(complaintChangeData, complaintId).then((response) => {
-      if (response?.status === 200) {
-        toast.success("Status Updated");
-        setIsLoading(false);
-        getUsersData();
-      }
-      setIsLoading(false);
-    });
   };
 
   const showOptionsList = (formFieldKey) => {
     switch (formFieldKey) {
-      case "departmentId":
-        return departmentList;
       case "userId":
         return userOptionList;
       case "locationId":
         return locationList;
-      case "statusId":
+      case "status":
         return userStatusList;
       default:
         return "";
@@ -140,7 +119,7 @@ function UserList(props) {
                   <div className="row">
                     <div className="col-xs-4">
                       <br />
-                      <Link to="/addUser"> <button className="btn btn-success">
+                      <Link to="/admin/users/add"> <button className="btn btn-success">
                           <i className="glyphicon glyphicon-plus"></i> Add User
                         </button> </Link> 
                         
@@ -197,42 +176,6 @@ function UserList(props) {
                   <br />
                   <br />
 
-                  <div id="myModal" className="modal fade">
-                    <div className="modal-dialog">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h5 className="modal-title">Your Feedback</h5>
-                          <button
-                            type="button"
-                            className="close"
-                            data-dismiss="modal"
-                            onClick={() => {
-                              setComplaintId("");
-                            }}
-                          >
-                            &times;
-                          </button>
-                        </div>
-                        <div className="modal-body">
-                          <form>
-                            <div className="form-group">
-                              <label for="inputComment">Comments</label>
-                              <textarea
-                                className="form-control"
-                                id="inputComment"
-                                rows="2"
-                                value={commentMessage}
-                                onChange={(e) =>
-                                  setCommentMessage(e.target.value)
-                                }
-                              ></textarea>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
                   {isLoading ? (
                     <PageLoader />
                   ) : (
@@ -264,7 +207,7 @@ function UserList(props) {
                                 {user?.status === "A" ? "Active" : "Reject"}
                               </td>
                               <td>
-                                <Link to={"/users/" + user?.id} title={"Edit"}>
+                                <Link to={"/admin/users/" + user?.id} title={"Edit"}>
                                   {" "}
                                   Edit{" "}
                                 </Link>

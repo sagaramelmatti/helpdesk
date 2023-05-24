@@ -195,7 +195,7 @@ function SupervisorComplaints(props) {
                               </td>
                             <td>
                               <Link
-                                to={`/editComplaint/${complaint?.id}`}
+                                to={`/supervisor/complaints/${complaint?.id}`}
                                 title={"Edit"}
                               >
                                 {" "}

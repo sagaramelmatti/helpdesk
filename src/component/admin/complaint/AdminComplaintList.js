@@ -3,6 +3,7 @@ import axios from "../../../axiosInstance";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { Link } from "react-router-dom";
 
 import {
   sendAdminComplaint,
@@ -11,7 +12,7 @@ import {
   getAdminComplaints,
 } from "../../../api/CommonApi";
 import PageLoader from "../../common/PageLoader";
-import { filterFormFields, userStatusList } from "../../constants";
+import { filterFormFields, complaintStatusList } from "../../constants";
 
 function AdminComplaintList(props) {
   const [complaints, setComplaints] = useState([]);
@@ -100,8 +101,8 @@ function AdminComplaintList(props) {
         return userList;
       case "locationId":
         return locationList;
-      case "statusId":
-        return userStatusList;
+      case "status":
+        return complaintStatusList;
       default:
         return "";
     }
@@ -133,21 +134,6 @@ function AdminComplaintList(props) {
                 </div>
                 <div className="box-body">
                   <div className="row">
-                    <div className="col-xs-2">
-                      <br />
-                      <a href="addComplaint">
-                        <button className="btn btn-success">
-                          <i className="glyphicon glyphicon-plus"></i> Add
-                          Complaint
-                        </button>
-                      </a>
-                      <button
-                        className="btn btn-default"
-                        onClick="reload_table()"
-                      >
-                        <i className="glyphicon glyphicon-refresh"></i> Reload
-                      </button>
-                    </div>
                     {filterFormFields?.map((formField) => {
                       return (
                         <div className="col-xs-2">
@@ -318,7 +304,7 @@ function AdminComplaintList(props) {
                                 <button
                                   className="btn btn-success"
                                   onClick={() =>
-                                    navigate(`/editComplaint/${complaint?.id}`)
+                                    navigate(`/user/complaints/${complaint?.id}`)
                                   }
                                 >
                                   <i className="fa fa-pencil"></i>{" "}

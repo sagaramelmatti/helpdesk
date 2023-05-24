@@ -68,7 +68,7 @@ function EditUser(props) {
     updateUser(params?.id, userData).then((res) => {
       if (res.status === 200) {
         toast.success(res?.data?.message);
-        navigate("/users");
+        navigate("/admin/users");
       } else {
         toast.error("Something went wrong, please try again");
       }

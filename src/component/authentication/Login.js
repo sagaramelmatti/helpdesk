@@ -154,11 +154,11 @@ export const Login = () => {
         };
         setAuth?.(updatedUser);
         if (res.data.roles[0] === "ROLE_ADMIN") {
-          navigate("/", { replace: true });
+          navigate("/admin/complaints", { replace: true });
         } else if (res.data.roles[0] === "ROLE_SUPERVISOR") {
-          navigate("/supervisorComplaints", { replace: true });
+          navigate("/supervisor/complaints", { replace: true });
         }else {
-          navigate("/complaints", { replace: true });
+          navigate("/user/complaints", { replace: true });
         }
       }
       if (res?.response?.status === 401 || res?.response?.status === 404) {

@@ -19,7 +19,7 @@ function AddLocation(props) {
     };
     LocationDataService.create(data)
       .then((response) => {
-        navigate("/locations");
+        navigate("/admin/locations");
       })
       .catch((e) => {});
   };

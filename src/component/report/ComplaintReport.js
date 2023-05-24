@@ -23,7 +23,7 @@ function ComplaintReport(props) {
   const [filterParams, setFilterParams] = useState({});
   const [locationList, setLocationList] = useState({});
   const [reportParam, setReportParam] = useState({
-    location: "",
+    locationId: "",
     from_date: "",
     to_date: "",
   });
@@ -57,12 +57,12 @@ function ComplaintReport(props) {
     }
     axios
       .post(
-        `/admin/reports/complaints/?${
+        `/admin/reports/complaints?${
           queryString ? queryString : ""
         }`
       )
       .then(() =>
-        axios.get("/admin/reports/complaints/", {
+        axios.get("/admin/reports/complaints", {
           responseType: "blob",
         })
       )

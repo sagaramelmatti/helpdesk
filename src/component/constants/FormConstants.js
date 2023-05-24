@@ -4,6 +4,7 @@ import {
   DEPARTMENTS,
   LOCATIONS,
   COMPLAINTS,
+  PASSWORDCHANGE,
   REPORTS,
   PATH_PROFILE,
   PATH_SUPERVISOR_COMPLAINTS,
@@ -54,6 +55,12 @@ export const navigationConstants = [
   {
     label: "Complaint List",
     path: COMPLAINTS,
+    iconName: "fa-address-book",
+    rolesList: ["ROLE_USER"],
+  },
+  {
+    label: "Change Password",
+    path: PASSWORDCHANGE,
     iconName: "fa-address-book",
     rolesList: ["ROLE_USER"],
   },
@@ -188,7 +195,7 @@ export const filterFormFields = [
     pageName: ["admin_complaints_list", "user_list"],
   },
   {
-    key: "statusId",
+    key: "status",
     label: "Status",
     type: "select",
     listName: "statusList",
@@ -204,6 +211,21 @@ export const userStatusList = [
   {
     label: "Deactive",
     value: "D",
+  },
+];
+
+export const complaintStatusList = [
+  {
+    label: "New Complaint",
+    value: "New Complaint",
+  },
+  {
+    label: "Resolved",
+    value: "Resolved",
+  },
+  {
+    label: "Reject",
+    value: "Reject",
   },
 ];
 

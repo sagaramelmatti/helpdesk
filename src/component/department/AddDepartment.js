@@ -37,7 +37,7 @@ function AddDepartment(props) {
     DepartmentDataService.create(data)
       .then(response => {
         console.log(response.data);
-        navigate("/departments");
+        navigate("/admin/departments");
       })
       .catch(e => {
         console.log(e);
