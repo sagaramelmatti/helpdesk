@@ -128,6 +128,49 @@ function AdminComplaintList(props) {
                   <h3 className="box-title">Complaint List</h3>
                 </div>
                 <div className="box-body">
+                <div className="row">
+                    {filterFormFields?.map((formField) => {
+                      return (
+                        <div className="col-xs-2">
+                          <label className="control-label">
+                            {formField?.label}
+                          </label>
+                          <Select
+                            onChange={(e) =>
+                              setFilterParams({
+                                ...filterParams,
+                                [formField.key]: e.value,
+                              })
+                            }
+                            options={showOptionsList(formField?.key)}
+                            value={findSelectedValue(formField?.key)}
+                          />
+                        </div>
+                      );
+                    })}
+                    <div className="col-xs-2">
+                      <br />
+                      <button
+                        className="btn btn-success"
+                        onClick={() => {
+                          getComplaints(filterParams);
+                        }}
+                      >
+                        <i className="glyphicon glyphicon-search"></i> Search
+                      </button>
+                      <button
+                        className="btn btn-default"
+                        onClick={() => {
+                          setFilterParams({});
+                          getComplaints(null);
+                        }}
+                      >
+                        <i className="glyphicon glyphicon-refresh"></i> Clear
+                      </button>
+                    </div>
+                  </div>
+                  <br />
+                  <br />
                   <div id="myAdminModal" className="modal fade">
                     <div className="modal-dialog">
                       <div className="modal-content">
