@@ -121,3 +121,7 @@
   width: 100%;
   cursor: pointer;
 }
+
+.content {
+  min-height: 500px !important;
+}

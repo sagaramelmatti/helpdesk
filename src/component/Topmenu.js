@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, Navigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import useLogout from "./authentication/useLogOut";
 import { PATH_LOGIN } from "./constants";
 
@@ -7,8 +7,9 @@ import { navigationConstants } from "./constants";
 import { removeUserLocalStorageData } from "../component/common/StoreLocalData";
 
 function Topmenu(props) {
+  const [logoutPath, setLogoutPath] = useState(false);
   const role = localStorage.getItem("role");
-
+  const location = useLocation();
   const logout = useLogout();
 
   const signOut = async () => {
@@ -22,17 +23,23 @@ function Topmenu(props) {
       item?.rolesList?.includes(role) ? (
         <li key={role.label}>
           <Link
-            to={item?.path}
+            to={
+              item?.iconName === "fa-power-off" || logoutPath === true
+                ? location?.pathname
+                : item?.path
+            }
             onClick={() => {
-              if(item?.iconName === 'fa-power-off'){
+              if (item?.iconName === "fa-power-off") {
                 const confirmBox = window.confirm(
                   "Do you really want to Logout?"
-                )
+                );
+                setLogoutPath(confirmBox);
                 if (confirmBox === true) {
-                  signOut()
+                  signOut();
+                } else {
+                  return null;
                 }
               }
-              
             }}
           >
             <i className={`fa ${item?.iconName}`}></i> {item?.label}
