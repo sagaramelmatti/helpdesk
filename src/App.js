@@ -3,7 +3,7 @@ import {
   PATH_LOGIN,
   PATH_PROFILE,
   PATH_PAGE_NOT_FOUND,
-  PATH_SUPERVISOR_COMPLAINTS
+  SUPERVISOR_COMPLAINTS
   // PATH_ROOT,
   // ADD_CUSTOMER,
   // CUSTOMERS,
@@ -39,6 +39,8 @@ import Toaster from "./component/common/Toaster";
 import Profile from "./component/common/Profile";
 import PageNotFound from "./component/common/PageNotFound";
 import SupervisorComplaints from "./component/complaint/SupervisorComplaints";
+import EditSupervisorComplaint from "./component/complaint/EditSupervisorComplaint";
+import EditAdminComplaint from "./component/complaint/EditAdminComplaint";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -70,49 +72,39 @@ function App() {
                 <Route path={PATH_LOGIN} element={<Login />} />
                 <Route path={PATH_PAGE_NOT_FOUND} element={<PageNotFound />} />
                 <Route element={<ProtectedRoutes />}>
+
                   <Route path="/" exact element={<Login />} />
                   <Route path="/admin/users/add" exact element={<AddUser />} />
                   <Route path="/admin/users" element={<UserList />} />
                   <Route path="/admin/users/:id" element={<EditUser />} />
-                  <Route
-                    path="/user/complaints/add"
-                    exact
-                    element={<AddComplaint />}
-                  />
-                  <Route
-                    path="/user/complaints/:id"
-                    exact
-                    element={<EditComplaint />}
-                  />
+                  
+                  
                   <Route path="/admin/departments" element={<DepartmentList />} />
                   <Route path="/admin/departments/:id" element={<EditDepartment />} />
-                  <Route
-                    path="/admin/departments/add"
-                    exact
-                    element={<AddDepartment />}
-                  />
+                  <Route path="/admin/departments/add" exact element={<AddDepartment />} />
+
                   <Route path="/admin/locations" element={<LocationList />} />
                   <Route path="/admin/locations/:id" element={<EditLocation />} />
-                  <Route
-                    path="/admin/locations/add"
-                    exact
-                    element={<AddLocation />}
-                  />
-                  <Route
-                    path="/admin/complaints"
-                    element={<AdminComplaintList />}
-                  />
+                  <Route path="/admin/locations/add" exact element={<AddLocation />} />
+
                   <Route path="/admin/complaints" element={<AdminComplaintList />} />
-                  <Route path="/admin/complaints/:id" element={<EditComplaint />} />
-                  <Route path="/user/complaints/" element={<ComplaintList />} />
-                  <Route path="/user/password/change" element={<ChangePassword />} />
+                  <Route path="/admin/complaints/:id" element={<EditAdminComplaint />} />
+                  
                   <Route path="/admin/reports/complaints" element={<ComplaintReport />} />
+                  
+
+
+                  <Route path="/user/complaints/" element={<ComplaintList />} />
+                  <Route path="/user/complaints/add" exact element={<AddComplaint />} />
+                  <Route  path="/user/complaints/:userId/:id" exact element={<EditComplaint />} />
+                  <Route path="/user/password/change" element={<ChangePassword />} />
                   <Route path={PATH_PROFILE} element={<Profile />} />
 
-                  <Route
-                    path="/supervisor/complaints"
-                    element={<SupervisorComplaints />}
-                  />
+                
+                  <Route path="/supervisor/complaints" element={<SupervisorComplaints />} />
+                  <Route path="/supervisor/complaints/:locationId/:id" exact element={<EditSupervisorComplaint />} />
+
+
                 </Route>
               </Routes>
             </AuthProvider>
