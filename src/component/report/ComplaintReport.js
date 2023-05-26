@@ -22,6 +22,7 @@ function ComplaintReport(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [filterParams, setFilterParams] = useState({});
   const [locationList, setLocationList] = useState({});
+  
   const [reportParam, setReportParam] = useState({
     locationId: "",
     from_date: "",
@@ -56,11 +57,7 @@ function ComplaintReport(props) {
         .join("&");
     }
     axios
-      .post(
-        `/admin/reports/complaints?${
-          queryString ? queryString : ""
-        }`
-      )
+      .post(`/admin/reports/complaints?${queryString ? queryString : ""}`)
       .then(() =>
         axios.get("/admin/reports/complaints", {
           responseType: "blob",
@@ -86,7 +83,7 @@ function ComplaintReport(props) {
           onChange={(e) => {
             setReportParam({
               ...reportParam,
-              [keyParam]: e.label,
+              locationId: e.value,
             });
           }}
           options={locationList}
@@ -140,11 +137,9 @@ function ComplaintReport(props) {
                       style={{ width: "250px" }}
                       onClick={() => createAndDownloadPdf()}
                       className="btn btn-success btn-block btn-flat r-btn"
-                              /*
-                    disabled={Object.values(reportParam)?.some(
-                                (item) => item === "" || item === null
-                              )}
-                    */
+                      disabled={Object.values(reportParam)?.some(
+                        (item) => item === "" || item === null
+                      )}
                     >
                       Download PDF
                     </button>

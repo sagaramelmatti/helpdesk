@@ -66,9 +66,7 @@ function AddComplaint(props) {
         toast.success("Complaint added successfully");
         if (role === "ROLE_ADMIN") {
           navigate("/admin/complaints");
-        } else if (role === "ROLE_SUPERVISOR") {
-          navigate("/supervisor/complaints");
-        }else {
+        } else if (role === "ROLE_USER") {
           navigate("/user/complaints");
         }
       } else {

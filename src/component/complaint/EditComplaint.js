@@ -35,7 +35,7 @@ function EditComplaint(props) {
 
   useEffect(() => {
     if (params?.id) {
-      getComplaintById(params?.id).then((res) => {
+      getComplaintById(params?.userId, params?.id).then((res) => {
         setAddComplaintFormFields({
           title: res?.data?.title || "",
           description: res?.data?.description || "",
@@ -78,13 +78,7 @@ function EditComplaint(props) {
       (response) => {
         if (response?.status === 200) {
           toast.success("Complaint added successfully");
-          if (role === "ROLE_ADMIN") {
-            navigate("/admin/complaints");
-          } else if (role === "ROLE_SUPERVISOR") {
-            navigate("/supervisor/complaints");
-          } else {
-            navigate("/user/complaints");
-          }
+          navigate("/user/complaints");
         } else {
           toast.error("Something went wrong, please try again");
         }

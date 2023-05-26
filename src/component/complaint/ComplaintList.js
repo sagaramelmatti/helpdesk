@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "../../axiosInstance";
 import { useLocation, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { API_USER_COMPLAINTS } from "../constants";
+
 
 function ComplaintList(props) {
   const [complaints, setComplaints] = useState([]);
@@ -15,7 +17,7 @@ function ComplaintList(props) {
   // get complaints
   const getComplaints = () => {
     axios
-      .get(`/user/complaints/${userId}`)
+      .get(`${API_USER_COMPLAINTS}/${userId}`)
       .then((response) => {
         if (response.status === 200) {
           setComplaints(response?.data);
@@ -94,7 +96,7 @@ function ComplaintList(props) {
                             <td>{complaint?.status}</td>
                             <td>
                               <Link
-                                to={`/user/complaints/${complaint?.userId}/${complaint?.id}`}
+                                to={`${API_USER_COMPLAINTS}/${complaint?.userId}/${complaint?.id}`}
                                 title={"Edit"}
                               >
                                 {" "}
