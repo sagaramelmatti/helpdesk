@@ -26,6 +26,7 @@ function AdminComplaintList(props) {
   const [locationList, setLocationList] = useState({});
   const [userList, setUserList] = useState({});
   const [filterParams, setFilterParams] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     getComplaints();
@@ -65,7 +66,7 @@ function AdminComplaintList(props) {
     });
   };
 
-  const onDelete = (id) => {
+  const onDelete = async (id) => {
     axios
       .delete(`/admin/complaints/${id}`)
       .then(() => {
@@ -213,6 +214,7 @@ function AdminComplaintList(props) {
                             type="button"
                             data-dismiss="modal"
                             className="btn btn-success"
+                            
                             onClick={() => {
                               setComplaintId("");
                               sendComplaints("Reject");
@@ -284,13 +286,6 @@ function AdminComplaintList(props) {
                               </td>
                               <td>
                                 <button
-                                  className="btn btn-danger"
-                                  onClick={() => onDelete(complaint?.id)}
-                                >
-                                  <i className="fa fa-trash-o"></i>{" "}
-                                </button>{" "}
-                                &nbsp;
-                                <button
                                   className="btn btn-success"
                                   onClick={() =>
                                     navigate(`/admin/complaints/${complaint?.id}`)
@@ -298,6 +293,20 @@ function AdminComplaintList(props) {
                                 >
                                   <i className="fa fa-pencil"></i>{" "}
                                 </button>
+                                &nbsp; &nbsp;
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={() => {
+                                    const confirmBox = window.confirm(
+                                      "Do you really want to delete this Complaint?"
+                                    )
+                                    if (confirmBox === true) {
+                                      onDelete(complaint?.id)
+                                    }
+                                  }}
+                                >
+                                  <i className="fa fa-trash-o"></i>{" "}
+                                </button>{" "}
                               </td>
                           </tr>
                         ))}

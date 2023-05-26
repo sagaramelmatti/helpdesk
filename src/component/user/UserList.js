@@ -215,7 +215,14 @@ function UserList(props) {
                               <td>
                                 <button
                                   className="btn btn-danger"
-                                  onClick={() => onDelete(user?.id)}
+                                  onClick={() => {
+                                    const confirmBox = window.confirm(
+                                      "Do you really want to delete this User?"
+                                    )
+                                    if (confirmBox === true) {
+                                      onDelete(user?.id)
+                                    }
+                                  }}
                                 >
                                   <i className="fa fa-trash-o"></i> Delete{" "}
                                 </button>

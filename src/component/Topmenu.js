@@ -58,7 +58,7 @@ function Topmenu(props) {
             <div className="container">
               <div className="navbar-header">
                 <a href="#" className="navbar-brand">
-                  <b>IT Helpdesk Portal</b>
+                  <b><img src="/resource/ledzer-backend/images/logobrpl.png" width="120" ></img>&nbsp;&nbsp; &nbsp; IT Helpdesk Portal</b>
                 </a>
                 <button
                   type="button"
