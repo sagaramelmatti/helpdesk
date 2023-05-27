@@ -8,6 +8,7 @@ import {
   getLocationList,
   getDepartmentList,
   getUsers,
+  searchUsers,
 } from "../../api/CommonApi";
 import PageLoader from "../common/PageLoader";
 import { filterFormFields, userStatusList } from "../constants";
@@ -62,6 +63,21 @@ function UserList(props) {
     });
   };
 
+  // get users
+  const searchUsersData = (filterParamsFields) => {
+    setIsLoading(true);
+    searchUsers(filterParamsFields).then((response) => {
+      setIsLoading(false);
+      if (response.status === 200) {
+        const userListTemp = response?.data?.map((item) => {
+          return { value: item?.id, label: item?.name };
+        });
+        setUserOptionList(userListTemp);
+        setUsers(response?.data);
+      }
+    });
+  };
+
   const onDelete = (id) => {
     axios.delete(`/admin/users/${id}`).then(() => {
       getUsersData();
@@ -80,8 +96,6 @@ function UserList(props) {
 
   const showOptionsList = (formFieldKey) => {
     switch (formFieldKey) {
-      case "userId":
-        return userOptionList;
       case "locationId":
         return locationList;
       case "status":
@@ -156,7 +170,7 @@ function UserList(props) {
                       <button
                         className="btn btn-success"
                         onClick={() => {
-                          getUsersData(filterParams);
+                          searchUsersData(filterParams);
                         }}
                       >
                         <i className="glyphicon glyphicon-search"></i> Search

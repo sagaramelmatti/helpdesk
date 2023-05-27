@@ -10,6 +10,7 @@ export const API_ADD_ADMIN_COMPLAINTS = "/admin/complaints";
 
 // Admin user
 export const API_GET_ADMIN_USERS = "/admin/users";
+export const API_GET_ADMIN_SEARCH_USERS = "/admin/users/search";
 
 //Admin Report
 export const API_ADMIN_COMPLAINTS_REPORT = "/admin/reports/complaints";
