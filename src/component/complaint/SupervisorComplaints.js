@@ -72,7 +72,7 @@ function SupervisorComplaints(props) {
                   <h3 className="box-title">Complaint List</h3>
                 </div>
                 <div className="box-body">
-                <div id="myModal" className="modal fade">
+                <div id="supervisorMyModal" className="modal fade">
                     <div className="modal-dialog">
                       <div className="modal-content">
                         <div className="modal-header">
@@ -184,7 +184,7 @@ function SupervisorComplaints(props) {
                               <td>{complaint?.status}</td>
                               <td>
                                 <button
-                                  href="#myModal"
+                                  href="#supervisorMyModal"
                                   className="btn btn-primary"
                                   data-toggle="modal"
                                   onClick={() => {

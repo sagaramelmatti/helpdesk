@@ -115,7 +115,7 @@ export const getUsers = async (filterParams) => {
 
 export const updateUser = async (userId, data) => {
   const result = await axiosInstance
-    .put(`${API_GET_ADMIN_USERS}${userId}`, data)
+    .put(`${API_GET_ADMIN_USERS}/${userId}`, data)
     .then((response) => {
       return response;
     })
