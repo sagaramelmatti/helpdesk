@@ -18,32 +18,23 @@ function AddComplaint(props) {
     title: "",
     description: "",
     userId: "",
+    locationId: "",
+    departmentId: "",
     status: "New Complaint",
   });
   const [locationList, setLocationList] = useState({});
 
   const localUserId = localStorage.getItem("userId");
+  const localDepartmentId = localStorage.getItem("departmentId");
   const role = localStorage.getItem("role");
 
+  console.log("localDepartmentId"+localDepartmentId);
   useEffect(() => {
     if (localUserId) {
-      if (role === "ROLE_USER") {
         setAddComplaintFormFields({
           ...addComplaintFormFields,
-          userId: localUserId,
+          departmentId: localDepartmentId,
         });
-      }
-    }
-    if (role === "ROLE_ADMIN") {
-      getUsers().then((response) => {
-        if (response?.status === 200) {
-          const userListTemp = response?.data?.map((item) => {
-            return { value: item?.id, label: item?.name };
-          });
-          setUserList(userListTemp);
-          return response?.data;
-        }
-      });
     }
   }, [localUserId, role]);
 
@@ -64,11 +55,7 @@ function AddComplaint(props) {
     addComplaints(addComplaintFormFields).then((response) => {
       if (response?.status === 200) {
         toast.success("Complaint added successfully");
-        if (role === "ROLE_ADMIN") {
-          navigate("/admin/complaints");
-        } else if (role === "ROLE_USER") {
-          navigate("/user/complaints");
-        }
+        navigate("/user/complaints");
       } else {
         toast.error("Something went wrong, please try again");
       }
@@ -77,8 +64,6 @@ function AddComplaint(props) {
 
   const showOptionsList = (formFieldKey) => {
     switch (formFieldKey) {
-      case "userId":
-        return userList;
       case "locationId":
         return locationList;
       default:
@@ -154,9 +139,12 @@ function AddComplaint(props) {
                         onClick={(e) => {
                           handleSubmit(e);
                         }}
-                        disabled={Object.values(addComplaintFormFields)?.some(
-                          (item) => item === "" || item === null
-                        )}
+                        disabled={
+                          !addComplaintFormFields?.title ||
+                          !addComplaintFormFields?.description |
+                          !addComplaintFormFields?.locationId
+                        }
+
                       >
                         Save
                       </button>

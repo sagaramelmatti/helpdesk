@@ -172,11 +172,11 @@ function AdminComplaintList(props) {
                   </div>
                   <br />
                   <br />
-                  <div id="myAdminModal" className="modal fade">
+                  <div id="myAdminModal" className="modal">
                     <div className="modal-dialog">
                       <div className="modal-content">
                         <div className="modal-header">
-                          <h5 className="modal-title">Your Feedback</h5>
+                          <h5 className="modal-title">Comment</h5>
                           <button
                             type="button"
                             className="close"
@@ -191,17 +191,11 @@ function AdminComplaintList(props) {
                         <div className="modal-body">
                           <form>
                             <div className="form-group">
-                              <label htmlFor="inputComment">Comments</label>
                               <textarea
                                 className="form-control"
                                 id="inputComment"
                                 rows="2"
-                                value={commentMessage}
-                                // value={
-                                //   complaints?.find(
-                                //     (complaint) => complaint?.id === complaintId
-                                //   )?.comment
-                                // }
+                                value=""
                                 onChange={(e) =>
                                   setCommentMessage(e.target.value)
                                 }
@@ -245,17 +239,18 @@ function AdminComplaintList(props) {
                   >
                     <thead>
                         <tr>
-                        <th>Sr. No. </th>
-                          <th width="10%">Complaint Date</th>
-                          <th width="10%">Reject Date</th>
-                          <th width="10%">Ticket Number</th>
+                        <th width="4%">Sr. No. </th>
+                          <th width="8%">Complaint Date</th>
+                          <th width="8%">Resolved Date</th>
+                          <th width="5%%">Ticket Number</th>
                           <th width="10%">Subject</th>
-                          <th width="10%">Description</th>
+                          <th width="15%">Description</th>
                           <th width="10%">User Name</th>
-                          <th width="5%">Location</th>
+                          <th width="10%">Location</th>
+                          <th width="5%">Department</th>
                           <th width="10%">Comment</th>
-                          <th width="10%">Status</th>
-                          <th width="10%">Action</th>
+                          <th width="5%">Status</th>
+                          <th width="15%">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -268,31 +263,23 @@ function AdminComplaintList(props) {
                               <td>{complaint?.ticketNumberSequance}</td>
                               <td>{complaint?.title}</td>
                               <td>{complaint?.description}</td>
-                              <td>{complaint?.user?.name}</td>
+                              <td>{complaint?.user.name}</td>
+                              <td>{complaint?.location?.name}</td>
+                              <td>{complaint?.department?.name}</td>
                               <td>{complaint?.comment}</td>
                               <td>{complaint?.status}</td>
                               <td>
-                                <button
+                              <button
                                   href="#myAdminModal"
                                   className="btn btn-primary"
                                   data-toggle="modal"
                                   onClick={() => {
                                     setComplaintId(complaint?.id);
-                                    setCommentMessage(complaint?.comment);
                                   }}
-                                >
-                                  Change{" "}
-                                </button>
-                              </td>
-                              <td>
-                                <button
-                                  className="btn btn-success"
-                                  onClick={() =>
-                                    navigate(`/admin/complaints/${complaint?.id}`)
-                                  }
                                 >
                                   <i className="fa fa-pencil"></i>{" "}
                                 </button>
+
                                 &nbsp; &nbsp;
                                 <button
                                   className="btn btn-danger"

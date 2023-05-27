@@ -77,6 +77,7 @@ function ComplaintList(props) {
                         <th width="15%">Subject</th>
                         <th width="20%">Description</th>
                         <th width="10%">Location</th>
+                        <th width="5%">Department</th>
                         <th width="10%">Status</th>
                         <th width="5%">Edit</th>
                         <th width="5%">Delete</th>
@@ -93,6 +94,7 @@ function ComplaintList(props) {
                             <td>{complaint?.title}</td>
                             <td>{complaint?.description}</td>
                             <td>{complaint?.location?.name}</td>
+                            <td>{complaint?.department?.name}</td>
                             <td>{complaint?.status}</td>
                             <td>
                               <Link

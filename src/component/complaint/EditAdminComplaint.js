@@ -28,6 +28,7 @@ function EditAdminComplaint(props) {
     userId: "",
     status: "",
     locationId: "",
+    departmentId: "",
   });
 
   const role = localStorage.getItem("role");
@@ -42,6 +43,7 @@ function EditAdminComplaint(props) {
           userId: res?.data?.userId || "",
           status: res?.data?.status || "",
           locationId: res?.data?.locationId || "",
+          departmentId: res?.data?.departmentId || "",
         });
       });
     }

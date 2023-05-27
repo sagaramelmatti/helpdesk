@@ -27,10 +27,12 @@ function EditComplaint(props) {
     userId: "",
     status: "",
     locationId: "",
+    locationId: "",
   });
 
   const localUserId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
+  const departmentId = localStorage.getItem("departmentId");
   const params = useParams();
 
   useEffect(() => {
@@ -42,6 +44,7 @@ function EditComplaint(props) {
           userId: res?.data?.userId || "",
           status: res?.data?.status || "",
           locationId: res?.data?.locationId || "",
+          departmentId: res?.data?.departmentId || "",
         });
       });
     }
@@ -72,9 +75,8 @@ function EditComplaint(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const apiPath =
-      role === "ROLE_USER" ? API_USER_COMPLAINTS : API_ADMIN_COMPLAINTS;
-    updateComplaintById(apiPath, params?.id, addComplaintFormFields).then(
+    
+    updateComplaintById(API_USER_COMPLAINTS, params?.id, addComplaintFormFields).then(
       (response) => {
         if (response?.status === 200) {
           toast.success("Complaint added successfully");
