@@ -14,6 +14,7 @@ import {
   API_ADMIN_COMPLAINTS_REPORT,
   API_SUPERVISOR_COMPLAINTS,
   API_SUPERVISOR_UPDATE_COMPLAINT_STATUS,
+  API_GET_ADMIN_SEARCH_USERS
 } from "../component/constants";
 
 export const sendAdminComplaint = async (data, id) => {
@@ -103,6 +104,25 @@ export const getUsers = async (filterParams) => {
   }
   const result = await axiosInstance
     .get(`${API_GET_ADMIN_USERS}?${queryString ? queryString : ""}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  return result;
+};
+
+export const searchUsers = async (filterParams) => {
+  let queryString;
+  if (filterParams) {
+    queryString = Object.keys(filterParams)
+      .map((key) => key + "=" + filterParams[key])
+      .join("&");
+  }
+  const result = await axiosInstance
+    .get(`${API_GET_ADMIN_SEARCH_USERS}?${queryString ? queryString : ""}`)
     .then((response) => {
       return response;
     })

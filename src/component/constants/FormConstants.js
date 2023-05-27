@@ -188,13 +188,6 @@ export const filterFormFields = [
     pageName: ["admin_complaints_list", "user_list"],
   },
   {
-    key: "userId",
-    label: "User",
-    type: "select",
-    listName: "userList",
-    pageName: ["admin_complaints_list", "user_list"],
-  },
-  {
     key: "status",
     label: "Status",
     type: "select",
