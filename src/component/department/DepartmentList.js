@@ -14,7 +14,7 @@ function DepartmentList(props) {
     // get departments
     const getDepartments = () => {
         axios
-            .get("/departments/")
+            .get("/admin/departments/")
             .then((response) => {
                 if (response.status === 200) {
                     setDepartments(response?.data);
@@ -26,7 +26,7 @@ function DepartmentList(props) {
     };
 
     const onDelete = (id) => {
-        axios.delete(`/departments/${id}`)
+        axios.delete(`/admin/departments/${id}`)
         .then(() => {
             getDepartments();
         })
@@ -53,7 +53,13 @@ function DepartmentList(props) {
                                     <h3 className="box-title"> Department List</h3>
                                 </div>
                                 <div className="box-body">
-                                    <a href="/addDepartment"><button className="btn btn-success"><i className="glyphicon glyphicon-plus"></i> Add Department</button></a>
+
+                                    <Link to="/admin/departments/add"> 
+                                        <button className="btn btn-success">
+                                            <i className="glyphicon glyphicon-plus"></i> Add Department
+                                        </button> 
+                                    </Link> 
+
                                     <button className="btn btn-default" onClick="reload_table()"><i className="glyphicon glyphicon-refresh"></i> Reload</button>
                                     <br />
                                     <br />

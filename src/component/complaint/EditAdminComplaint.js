@@ -12,15 +12,16 @@ import {
 import { addComplaintFormConstants } from "../constants";
 import { toast } from "react-toastify";
 import {
-  API_USER_COMPLAINTS,
-  API_ADMIN_COMPLAINTS,
+  API_ADMIN_COMPLAINTS
 } from "../../component/constants";
 
-function EditComplaint(props) {
+function EditAdminComplaint(props) {
+
   const navigate = useNavigate();
 
   const [userList, setUserList] = useState({});
   const [locationList, setLocationList] = useState({});
+
   const [addComplaintFormFields, setAddComplaintFormFields] = useState({
     title: "",
     description: "",
@@ -29,7 +30,6 @@ function EditComplaint(props) {
     locationId: "",
   });
 
-  const localUserId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
   const params = useParams();
 
@@ -72,13 +72,12 @@ function EditComplaint(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const apiPath =
-      role === "ROLE_USER" ? API_USER_COMPLAINTS : API_ADMIN_COMPLAINTS;
-    updateComplaintById(apiPath, params?.id, addComplaintFormFields).then(
+
+    updateComplaintById(API_ADMIN_COMPLAINTS, params?.id, addComplaintFormFields).then(
       (response) => {
         if (response?.status === 200) {
           toast.success("Complaint added successfully");
-          navigate("/user/complaints");
+            navigate("/admin/complaints");
         } else {
           toast.error("Something went wrong, please try again");
         }
@@ -194,4 +193,4 @@ function EditComplaint(props) {
   );
 }
 
-export default EditComplaint;
+export default EditAdminComplaint;

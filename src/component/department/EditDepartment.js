@@ -62,7 +62,7 @@ function EditDepartment(props) {
     DepartmentDataService.update(department.id, department)
       .then(response => {
         console.log(response.data);
-        navigate("/departments");
+        navigate("/admin/departments");
         setMessage("The Department has been updated successfully!");
       })
       .catch(e => {

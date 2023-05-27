@@ -14,7 +14,7 @@ function LocationList(props) {
     // get locations
     const getLocations = () => {
         axios
-            .get("/locations/")
+            .get("/admin/locations")
             .then((response) => {
                 if (response.status === 200) {
                     setLocations(response?.data);
@@ -26,7 +26,7 @@ function LocationList(props) {
     };
 
     const onDelete = (id) => {
-        axios.delete(`/locations/${id}`)
+        axios.delete(`/admin/locations/${id}`)
         .then(() => {
             getLocations();
         })
@@ -55,7 +55,13 @@ function LocationList(props) {
                                     <h3 className="box-title"> Location List</h3>
                                 </div>
                                 <div className="box-body">
-                                    <a href="/addLocation"><button className="btn btn-success"><i className="glyphicon glyphicon-plus"></i> Add Location</button></a>
+
+                                    <Link to="/admin/locations/add"> 
+                                        <button className="btn btn-success">
+                                            <i className="glyphicon glyphicon-plus"></i> Add Location
+                                        </button> 
+                                    </Link>
+
                                     <button className="btn btn-default" onClick="reload_table()"><i className="glyphicon glyphicon-refresh"></i> Reload</button>
                                     <br />
                                     <br />
@@ -78,7 +84,7 @@ function LocationList(props) {
                                                         <td>{location?.headName}</td>
                                                         <td>{location?.email}</td>
                                                         <td>
-                                                            <Link to={"/locations/" + location?.id} title={"Edit"}>
+                                                            <Link to={"/admin/locations/" + location?.id} title={"Edit"}>
                                                             {" "}
                                                             Edit{" "}
                                                             </Link>

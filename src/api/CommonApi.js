@@ -42,7 +42,7 @@ export const sendSupervisorComplaint = async (data, id) => {
   return result;
 };
 
-export const sendUserComplaint = async (data, id) => {
+export const sendUserStatus = async (data, id) => {
   const result = axiosInstance
     .put(`${API_UPDATE_USER_STATUS}${id}`, data)
     .then((response) => {
@@ -125,9 +125,9 @@ export const updateUser = async (userId, data) => {
   return result;
 };
 
-export const getComplaintById = async (complaintId) => {
+export const getComplaintById = async (userId, complaintId) => {
   const result = await axiosInstance
-    .get(`${API_USER_COMPLAINTS}/${complaintId}`)
+    .get(`${API_USER_COMPLAINTS}/${userId}/${complaintId}`)
     .then((res) => {
       return res;
     })
@@ -146,6 +146,25 @@ export const updateComplaintById = async (apiPath, complaintId, data) => {
     .catch((err) => {
       return err;
     });
+  return result;
+};
+
+export const getUserComplaints = async (filterParams) => {
+  let queryString;
+  if (filterParams) {
+    queryString = Object.keys(filterParams)
+      .map((key) => key + "=" + filterParams[key])
+      .join("&");
+  }
+  const result = await axiosInstance
+    .get(`${API_USER_COMPLAINTS}?${queryString ? queryString : ""}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+
   return result;
 };
 
@@ -191,6 +210,18 @@ export const getAdminComplaintsReport = async (filterParams) => {
 export const getSupervisorComplaintByLocationId = async (locationId) => {
   const result = await axiosInstance
     .get(`${API_SUPERVISOR_COMPLAINTS}/${locationId}`)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+  return result;
+};
+
+export const getSupervisorComplaintByComplaintId = async (locationId, id) => {
+  const result = await axiosInstance
+    .get(`${API_SUPERVISOR_COMPLAINTS}/${locationId}/${id}`)
     .then((res) => {
       return res;
     })

@@ -3,6 +3,7 @@ import axios from "../../axiosInstance";
 import { useLocation, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import {
   sendSupervisorComplaint,
@@ -11,6 +12,7 @@ import {
 
 function SupervisorComplaints(props) {
 
+  const navigate = useNavigate();
   const [complaints, setComplaints] = useState([]);
   const [complaintId, setComplaintId] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
@@ -24,7 +26,7 @@ function SupervisorComplaints(props) {
   // get complaints
   const getComplaints = () => {
     axios
-      .get(`/supervisor/complaints/${locationId}`)
+    .get(`/supervisor/complaints/${locationId}`)
       .then((response) => {
         if (response.status === 200) {
           setComplaints(response?.data);
@@ -194,13 +196,14 @@ function SupervisorComplaints(props) {
                                 </button>
                               </td>
                             <td>
-                              <Link
-                                to={`/editComplaint/${complaint?.id}`}
-                                title={"Edit"}
-                              >
-                                {" "}
-                                Edit{" "}
-                              </Link>
+                              <button
+                                  className="btn btn-warning"
+                                  onClick={() =>
+                                    navigate(`/supervisor/complaints/${complaint.location?.id}/${complaint?.id}`)
+                                  }
+                                >
+                                  <i className="fa fa-pencil"></i>{" "}
+                                </button>
                               &nbsp; &nbsp; &nbsp;
                               <button
                                 className="btn btn-danger"

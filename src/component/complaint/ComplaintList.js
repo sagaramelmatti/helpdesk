@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "../../axiosInstance";
 import { useLocation, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { API_USER_COMPLAINTS } from "../constants";
+
 
 function ComplaintList(props) {
   const [complaints, setComplaints] = useState([]);
@@ -15,7 +17,7 @@ function ComplaintList(props) {
   // get complaints
   const getComplaints = () => {
     axios
-      .get(`/complaints/findByUser/${userId}`)
+      .get(`${API_USER_COMPLAINTS}/${userId}`)
       .then((response) => {
         if (response.status === 200) {
           setComplaints(response?.data);
@@ -25,7 +27,7 @@ function ComplaintList(props) {
   };
 
   const onDelete = (id) => {
-    axios.delete(`/complaints/${id}`).then(() => {
+    axios.delete(`/user/complaints/${id}`).then(() => {
       getComplaints();
     });
   };
@@ -52,7 +54,7 @@ function ComplaintList(props) {
                   <h3 className="box-title"> Complaint List</h3>
                 </div>
                 <div className="box-body">
-                  <Link to="/addComplaint">  
+                  <Link to="/user/complaints/add">  
                       <button className="btn btn-success">
                       <i className="glyphicon glyphicon-plus"></i> Add Complaint
                       </button> 
@@ -94,7 +96,7 @@ function ComplaintList(props) {
                             <td>{complaint?.status}</td>
                             <td>
                               <Link
-                                to={`/editComplaint/${complaint?.id}`}
+                                to={`${API_USER_COMPLAINTS}/${complaint?.userId}/${complaint?.id}`}
                                 title={"Edit"}
                               >
                                 {" "}

@@ -49,7 +49,7 @@ function EditLocation(props) {
         LocationDataService.update(location.id, location)
             .then(response => {
                 console.log(response.data);
-                navigate("/locations");
+                navigate("/admin/locations");
                 setMessage("The Location has been updated successfully!");
             })
             .catch(e => {

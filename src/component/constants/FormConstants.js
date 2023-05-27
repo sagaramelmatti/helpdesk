@@ -3,10 +3,11 @@ import {
   USERS,
   DEPARTMENTS,
   LOCATIONS,
-  COMPLAINTS,
+  USERCOMPLAINTS,
+  PASSWORDCHANGE,
   REPORTS,
   PATH_PROFILE,
-  PATH_SUPERVISOR_COMPLAINTS,
+  SUPERVISOR_COMPLAINTS,
 } from "./RouteConstants";
 
 export const loginFormConstantants = [
@@ -53,7 +54,13 @@ export const registerFormConstantants = [
 export const navigationConstants = [
   {
     label: "Complaint List",
-    path: COMPLAINTS,
+    path: USERCOMPLAINTS,
+    iconName: "fa-address-book",
+    rolesList: ["ROLE_USER"],
+  },
+  {
+    label: "Change Password",
+    path: PASSWORDCHANGE,
     iconName: "fa-address-book",
     rolesList: ["ROLE_USER"],
   },
@@ -76,7 +83,7 @@ export const navigationConstants = [
     rolesList: ["ROLE_ADMIN"],
   },
   {
-    label: "User List",
+    label: "User",
     path: USERS,
     iconName: "fa-address-book",
     rolesList: ["ROLE_ADMIN"],
@@ -97,7 +104,7 @@ export const navigationConstants = [
   {
     // key: "Complaint List",
     label: "Complaint List",
-    path: PATH_SUPERVISOR_COMPLAINTS,
+    path: SUPERVISOR_COMPLAINTS,
     iconName: "fa-address-book",
     rolesList: ["ROLE_SUPERVISOR"],
   },
@@ -117,25 +124,25 @@ export const addComplaintFormConstants = [
     key: "title",
     label: "Subject",
     type: "text",
-    roleList: ["ROLE_ADMIN", "ROLE_USER"],
+    roleList: ["ROLE_ADMIN", "ROLE_USER", "ROLE_SUPERVISOR"],
   },
   {
     key: "description",
     label: "Description",
     type: "text",
-    roleList: ["ROLE_ADMIN", "ROLE_USER"],
+    roleList: ["ROLE_ADMIN", "ROLE_USER", "ROLE_SUPERVISOR"],
   },
   {
     key: "locationId",
     label: "Location",
     type: "select",
-    roleList: ["ROLE_ADMIN", "ROLE_USER"],
+    roleList: ["ROLE_ADMIN", "ROLE_USER", "ROLE_SUPERVISOR"],
   },
   {
     key: "userId",
-    label: "User List",
+    label: "User",
     type: "select",
-    roleList: ["ROLE_ADMIN"],
+    roleList: ["ROLE_ADMIN", "ROLE_SUPERVISOR"],
   },
 ];
 
@@ -188,7 +195,7 @@ export const filterFormFields = [
     pageName: ["admin_complaints_list", "user_list"],
   },
   {
-    key: "statusId",
+    key: "status",
     label: "Status",
     type: "select",
     listName: "statusList",
@@ -204,6 +211,21 @@ export const userStatusList = [
   {
     label: "Deactive",
     value: "D",
+  },
+];
+
+export const complaintStatusList = [
+  {
+    label: "New Complaint",
+    value: "New Complaint",
+  },
+  {
+    label: "Resolved",
+    value: "Resolved",
+  },
+  {
+    label: "Reject",
+    value: "Reject",
   },
 ];
 

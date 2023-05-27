@@ -3,24 +3,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 
 import {
-  addComplaints,
   getUsers,
-  getComplaintById,
   updateComplaintById,
   getLocationList,
+  getSupervisorComplaintByComplaintId
 } from "../../api";
 import { addComplaintFormConstants } from "../constants";
 import { toast } from "react-toastify";
 import {
-  API_USER_COMPLAINTS,
-  API_ADMIN_COMPLAINTS,
+  API_SUPERVISOR_COMPLAINTS,
 } from "../../component/constants";
 
-function EditComplaint(props) {
+function EditSupervisorComplaint(props) {
+
   const navigate = useNavigate();
 
   const [userList, setUserList] = useState({});
   const [locationList, setLocationList] = useState({});
+
   const [addComplaintFormFields, setAddComplaintFormFields] = useState({
     title: "",
     description: "",
@@ -35,7 +35,7 @@ function EditComplaint(props) {
 
   useEffect(() => {
     if (params?.id) {
-      getComplaintById(params?.userId, params?.id).then((res) => {
+      getSupervisorComplaintByComplaintId(params?.locationId, params?.id).then((res) => {
         setAddComplaintFormFields({
           title: res?.data?.title || "",
           description: res?.data?.description || "",
@@ -45,7 +45,7 @@ function EditComplaint(props) {
         });
       });
     }
-    if (role === "ROLE_ADMIN") {
+    if (role === "ROLE_SUPERVISOR") {
       getUsers().then((response) => {
         if (response?.status === 200) {
           const userListTemp = response?.data?.map((item) => {
@@ -72,13 +72,12 @@ function EditComplaint(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const apiPath =
-      role === "ROLE_USER" ? API_USER_COMPLAINTS : API_ADMIN_COMPLAINTS;
-    updateComplaintById(apiPath, params?.id, addComplaintFormFields).then(
+
+    updateComplaintById(API_SUPERVISOR_COMPLAINTS, params?.id, addComplaintFormFields).then(
       (response) => {
         if (response?.status === 200) {
           toast.success("Complaint added successfully");
-          navigate("/user/complaints");
+          navigate("/supervisor/complaints");
         } else {
           toast.error("Something went wrong, please try again");
         }
@@ -194,4 +193,4 @@ function EditComplaint(props) {
   );
 }
 
-export default EditComplaint;
+export default EditSupervisorComplaint;

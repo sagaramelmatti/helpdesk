@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "../../../axiosInstance";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Select from "react-select";
+import { Link } from "react-router-dom";
 
 import {
   sendAdminComplaint,
@@ -11,23 +12,25 @@ import {
   getAdminComplaints,
 } from "../../../api/CommonApi";
 import PageLoader from "../../common/PageLoader";
-import { filterFormFields, userStatusList } from "../../constants";
+import { filterFormFields, complaintStatusList } from "../../constants";
 
 function AdminComplaintList(props) {
+
+  const navigate = useNavigate();
   const [complaints, setComplaints] = useState([]);
   const [complaintId, setComplaintId] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const locationId = localStorage.getItem("locationId");
   const [departmentList, setDepartmentList] = useState({});
   const [locationList, setLocationList] = useState({});
   const [userList, setUserList] = useState({});
   const [filterParams, setFilterParams] = useState({});
-
-  const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     getComplaints();
-  }, []);
+  }, [locationId]);
 
   useEffect(() => {
     
@@ -51,6 +54,7 @@ function AdminComplaintList(props) {
     });
   }, []);
 
+
   // get complaints
   const getComplaints = (filterFormFieldsParams) => {
     setIsLoading(true);
@@ -62,20 +66,12 @@ function AdminComplaintList(props) {
     });
   };
 
-  const onDelete = (id) => {
+  const onDelete = async (id) => {
     axios
       .delete(`/admin/complaints/${id}`)
       .then(() => {
         getComplaints();
       });
-  };
-
-  const setData = (data) => {
-    let { id, title, description, status } = data;
-    localStorage.setItem("id", id);
-    localStorage.setItem("title", title);
-    localStorage.setItem("description", description);
-    localStorage.setItem("status", status);
   };
 
   const sendComplaints = (statusParam) => {
@@ -100,8 +96,8 @@ function AdminComplaintList(props) {
         return userList;
       case "locationId":
         return locationList;
-      case "statusId":
-        return userStatusList;
+      case "status":
+        return complaintStatusList;
       default:
         return "";
     }
@@ -118,36 +114,22 @@ function AdminComplaintList(props) {
     return "";
   };
 
+
   return (
     <>
       <div className="content-wrapper">
         <section className="content-header">
-          <h1>Admin Complaint List</h1>
+          <h1>Complaint List</h1>
         </section>
         <section className="content">
           <div className="row">
             <div className="col-xs-12">
               <div className="box">
                 <div className="box-header">
-                  <h3 className="box-title">Admin Complaint List</h3>
+                  <h3 className="box-title">Complaint List</h3>
                 </div>
                 <div className="box-body">
-                  <div className="row">
-                    <div className="col-xs-2">
-                      <br />
-                      <a href="addComplaint">
-                        <button className="btn btn-success">
-                          <i className="glyphicon glyphicon-plus"></i> Add
-                          Complaint
-                        </button>
-                      </a>
-                      <button
-                        className="btn btn-default"
-                        onClick="reload_table()"
-                      >
-                        <i className="glyphicon glyphicon-refresh"></i> Reload
-                      </button>
-                    </div>
+                <div className="row">
                     {filterFormFields?.map((formField) => {
                       return (
                         <div className="col-xs-2">
@@ -190,8 +172,7 @@ function AdminComplaintList(props) {
                   </div>
                   <br />
                   <br />
-
-                  <div id="myModal" className="modal fade">
+                  <div id="myAdminModal" className="modal fade">
                     <div className="modal-dialog">
                       <div className="modal-content">
                         <div className="modal-header">
@@ -229,10 +210,11 @@ function AdminComplaintList(props) {
                           </form>
                         </div>
                         <div className="modal-footer">
-                          <button
+                        <button
                             type="button"
                             data-dismiss="modal"
-                            className="btn btn-danger"
+                            className="btn btn-success"
+                            
                             onClick={() => {
                               setComplaintId("");
                               sendComplaints("Reject");
@@ -256,18 +238,16 @@ function AdminComplaintList(props) {
                       </div>
                     </div>
                   </div>
-                  {isLoading ? (
-                    <PageLoader />
-                  ) : (
-                    <table
-                      id="table"
-                      className="table table-bordered table-hover"
-                    >
-                      <thead>
+                  <br />
+                  <table
+                    id="table"
+                    className="table table-bordered table-hover"
+                  >
+                    <thead>
                         <tr>
-                          <th>Sr. No. </th>
+                        <th>Sr. No. </th>
                           <th width="10%">Complaint Date</th>
-                          <th width="10%">Resolved Date</th>
+                          <th width="10%">Reject Date</th>
                           <th width="10%">Ticket Number</th>
                           <th width="10%">Subject</th>
                           <th width="10%">Description</th>
@@ -275,27 +255,25 @@ function AdminComplaintList(props) {
                           <th width="5%">Location</th>
                           <th width="10%">Comment</th>
                           <th width="10%">Status</th>
-                          <th width="5%">Action</th>
-                          <th width="10%"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {complaints?.length ? (
-                          complaints.map((complaint,index) => (
-                            <tr key={complaint?.id}>
-                              <td> {++index} </td>
+                          <th width="10%">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {complaints &&
+                        complaints.map((complaint, index) => (
+                          <tr key={complaint?.id}>
+                            <td> {++index} </td>
                               <td>{complaint?.complaint_added_date} </td>
                               <td>{complaint?.complaint_resolved_date} </td>
                               <td>{complaint?.ticketNumberSequance}</td>
                               <td>{complaint?.title}</td>
                               <td>{complaint?.description}</td>
                               <td>{complaint?.user?.name}</td>
-                              <td>{complaint?.location?.name}</td>
                               <td>{complaint?.comment}</td>
                               <td>{complaint?.status}</td>
                               <td>
                                 <button
-                                  href="#myModal"
+                                  href="#myAdminModal"
                                   className="btn btn-primary"
                                   data-toggle="modal"
                                   onClick={() => {
@@ -305,37 +283,35 @@ function AdminComplaintList(props) {
                                 >
                                   Change{" "}
                                 </button>
-                                &nbsp;&nbsp;
                               </td>
                               <td>
                                 <button
-                                  className="btn btn-danger"
-                                  onClick={() => onDelete(complaint?.id)}
-                                >
-                                  <i className="fa fa-trash-o"></i>{" "}
-                                </button>{" "}
-                                &nbsp;
-                                <button
                                   className="btn btn-success"
                                   onClick={() =>
-                                    navigate(`/editComplaint/${complaint?.id}`)
+                                    navigate(`/admin/complaints/${complaint?.id}`)
                                   }
                                 >
                                   <i className="fa fa-pencil"></i>{" "}
                                 </button>
+                                &nbsp; &nbsp;
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={() => {
+                                    const confirmBox = window.confirm(
+                                      "Do you really want to delete this Complaint?"
+                                    )
+                                    if (confirmBox === true) {
+                                      onDelete(complaint?.id)
+                                    }
+                                  }}
+                                >
+                                  <i className="fa fa-trash-o"></i>{" "}
+                                </button>{" "}
                               </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colspan="10" className="text-center">
-                              <h3>No records found</h3>
-                            </td>
                           </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  )}
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
