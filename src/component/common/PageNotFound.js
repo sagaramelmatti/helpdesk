@@ -1,10 +1,6 @@
 import React from "react";
-import { getUserLocalStorageData } from "./StoreLocalData";
 
 function PageNotFound() {
-  const localStorageData = getUserLocalStorageData();
-  console.log("localStorageData", localStorageData);
-
   return (
     <>
       <div className="content-wrapper">

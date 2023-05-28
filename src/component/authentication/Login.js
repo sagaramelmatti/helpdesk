@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { loginFormConstantants, registerFormConstantants } from "../constants";
 import { signIn, signUp, getDepartmentList, getLocationList } from "../../api";
 import AuthContext from "../../context/AuthProvider";
+import Topmenu from "../Topmenu";
 
 export const Login = () => {
 
@@ -196,6 +197,7 @@ export const Login = () => {
   const renderFormLink = (text, formValue) => {
     return (
       <>
+        <Topmenu />
         <div
           className="register-login-link"
           onClick={() => setShowForm(formValue)}
@@ -261,7 +263,10 @@ export const Login = () => {
                 <div className="row">
                   <div className="col-md-12 col-md-offset-7">
                     <Link to="/user/password/forgot">
-                      <span STYLE="font-size:12.0pt;color:red; text-decoration:underline "> Forgot Password </span>
+                      <span STYLE="font-size:12.0pt;color:red; text-decoration:underline ">
+                        {" "}
+                        Forgot Password{" "}
+                      </span>
                     </Link>
                   </div>
                 </div>
