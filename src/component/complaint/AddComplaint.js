@@ -33,6 +33,7 @@ function AddComplaint(props) {
     if (localUserId) {
         setAddComplaintFormFields({
           ...addComplaintFormFields,
+          userId: localUserId,
           departmentId: localDepartmentId,
         });
     }
