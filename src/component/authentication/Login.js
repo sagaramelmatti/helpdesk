@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { loginFormConstantants, registerFormConstantants } from "../constants";
 import { signIn, signUp, getDepartmentList, getLocationList } from "../../api";
 import AuthContext from "../../context/AuthProvider";
+import Topmenu from "../Topmenu";
 
 export const Login = () => {
-
   const submitBtnRef = useRef(null);
   const [loginFormFields, setLoginFormFields] = useState({});
   const [registerFormFields, setRegisterFormFields] = useState({
@@ -48,7 +48,6 @@ export const Login = () => {
         setLocationList(locationListTemp);
       }
     });
-
   }, []);
 
   // Check Email Validation
@@ -94,9 +93,9 @@ export const Login = () => {
                     // eslint-disable-next-line no-unused-expressions
                     showForm === "login"
                       ? (setLoginFormFields({
-                        ...loginFormFields,
-                        [item.key]: e.target.value,
-                      }),
+                          ...loginFormFields,
+                          [item.key]: e.target.value,
+                        }),
                         setErrorMessage(""))
                       : registerFormHandlers(item?.key, e.target.value);
                   }}
@@ -186,7 +185,7 @@ export const Login = () => {
         } else {
           toast.error(
             response?.response?.data?.message ||
-            "Something went wrong please try again latter!"
+              "Something went wrong please try again latter!"
           );
         }
       });
@@ -214,6 +213,7 @@ export const Login = () => {
   };
   return (
     <>
+      <Topmenu />
       <div className="content-wrapper">
         <section className="content">
           <div className="login-wrapper">
@@ -261,7 +261,10 @@ export const Login = () => {
                 <div className="row">
                   <div className="col-md-12 col-md-offset-7">
                     <Link to="/user/password/forgot">
-                      <span STYLE="font-size:12.0pt;color:red; text-decoration:underline "> Forgot Password </span>
+                      <span STYLE="font-size:12.0pt;color:red; text-decoration:underline ">
+                        {" "}
+                        Forgot Password{" "}
+                      </span>
                     </Link>
                   </div>
                 </div>
