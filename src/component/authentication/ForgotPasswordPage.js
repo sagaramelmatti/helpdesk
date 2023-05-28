@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import UserDataService from "../../services/UserDataService";
 import { Link } from "react-router-dom";
+import Topmenu from "../Topmenu";
 
 export const ForgotPasswordPage = () => {
 
@@ -37,6 +38,7 @@ export const ForgotPasswordPage = () => {
 
     return (
         <>
+            <Topmenu />
             <div className="content-wrapper">
                 <section className="content">
                     <div className="login-wrapper">
