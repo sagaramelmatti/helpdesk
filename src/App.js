@@ -44,9 +44,9 @@ import EditAdminComplaint from "./component/complaint/EditAdminComplaint";
 import { ForgotPasswordPage } from "./component/authentication/ForgotPasswordPage";
 
 function App() {
-  function AdminComponent({ children }) {
-    const role = localStorage.getItem("role");
 
+   function AdminComponent({ children }) {
+    const role = localStorage.getItem("role");
     if (role === "ROLE_ADMIN" || "") {
       return <>{("admin", children)}</>;
     } else {
