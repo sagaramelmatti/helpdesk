@@ -41,6 +41,7 @@ import PageNotFound from "./component/common/PageNotFound";
 import SupervisorComplaints from "./component/complaint/SupervisorComplaints";
 import EditSupervisorComplaint from "./component/complaint/EditSupervisorComplaint";
 import EditAdminComplaint from "./component/complaint/EditAdminComplaint";
+import { ForgotPasswordPage } from "./component/authentication/ForgotPasswordPage";
 
 function App() {
   const role = localStorage.getItem("role");
@@ -106,6 +107,7 @@ function App() {
 
 
                 </Route>
+                <Route path="/user/password/forgot" element={<ForgotPasswordPage />} />
               </Routes>
             </AuthProvider>
           </Router>

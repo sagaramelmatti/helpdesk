@@ -139,6 +139,12 @@ export const addComplaintFormConstants = [
     roleList: ["ROLE_ADMIN", "ROLE_USER", "ROLE_SUPERVISOR"],
   },
   {
+    key: "departmentId",
+    label: "Department",
+    type: "hidden",
+    roleList: ["ROLE_ADMIN", "ROLE_SUPERVISOR"],
+  },
+  {
     key: "userId",
     label: "User",
     type: "select",

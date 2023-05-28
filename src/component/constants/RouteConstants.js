@@ -9,6 +9,7 @@ export const DEPARTMENTS = "/admin/departments";
 export const LOCATIONS = "/admin/locations";
 export const USERCOMPLAINTS = "/user/complaints";
 export const PASSWORDCHANGE = "/user/password/change";
+export const FORGOTPASSWORD = "/user/password/change";
 export const PATH_PROFILE = "/profile";
 export const REPORTS = "/admin/reports/complaints";
 export const SUPERVISOR_COMPLAINTS = "/supervisor/complaints";

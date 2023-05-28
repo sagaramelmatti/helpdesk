@@ -36,6 +36,16 @@
   color: red;
 }
 
+.success-message {
+  text-align: right;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  margin-left: -20px;
+  color: green;
+  font-size: 15px;
+  font-weight: 700;
+}
+
 .login-btn {
   margin-top: 10px;
 }

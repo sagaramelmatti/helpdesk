@@ -19,6 +19,10 @@ const updatePassword = (id, data) => {
   return http.put(`/auth/changePassword/${id}`, data);
 };
 
+const forgotPassword = (data) => {
+  return http.post(`/auth/forgotPassword`, data);
+};
+
 const UserDataService = {
   getAll,
   get,
@@ -26,6 +30,7 @@ const UserDataService = {
   update,
   remove,
   updatePassword,
+  forgotPassword,
 };
 
 export default UserDataService;
