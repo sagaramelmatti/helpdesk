@@ -29,16 +29,17 @@ function SupervisorComplaints(props) {
   const [commentMessage, setCommentMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const locationId = localStorage.getItem("locationId");
+  const userId = localStorage.getItem("userId");
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   useEffect(() => {
     getComplaints();
-  }, [locationId]);
+  }, [userId]);
 
   // get complaints
   const getComplaints = () => {
     axios
-      .get(`/supervisor/complaints/${locationId}`)
+      .get(`/supervisor/locations/${userId}`)
       .then((response) => {
         if (response.status === 200) {
           setComplaints(response?.data);
@@ -62,6 +63,7 @@ function SupervisorComplaints(props) {
     sendSupervisorComplaint(complaintChangeData, complaintId).then(
       (response) => {
         if (response?.status === 200) {
+          console.log("status"+response?.status);
           setIsLoading(false);
           getComplaints();
           toast.success("Status Updated");
@@ -95,7 +97,7 @@ function SupervisorComplaints(props) {
                       <div className="modal-dialog">
                         <div className="modal-content">
                           <div className="modal-header">
-                            <h5 className="modal-title">Your Feedback</h5>
+                            <h6 className="modal-title">Comment</h6>
                             <button
                               type="button"
                               className="close"
@@ -111,7 +113,6 @@ function SupervisorComplaints(props) {
                           <div className="modal-body">
                             <form>
                               <div className="form-group">
-                                <label htmlFor="inputComment">Comments</label>
                                 <textarea
                                   className="form-control"
                                   id="inputComment"
@@ -288,12 +289,10 @@ function SupervisorComplaints(props) {
                             <td>
                               <button
                                 className="btn btn-warning"
-                                onClick={
-                                  () => setModalIsOpen(true)
-                                  // navigate(
-                                  //   `/supervisor/complaints/${complaint.location?.id}/${complaint?.id}`
-                                  // )
-                                }
+                                onClick={() => {
+                                  setComplaintId(complaint?.id);
+                                  setModalIsOpen(true);
+                                }}
                               >
                                 <i className="fa fa-pencil"></i>{" "}
                               </button>

@@ -188,7 +188,6 @@ function AdminComplaintList(props) {
                     >
                       <div className="modal-dialog">
                         <div className="modal-content">
-                          <div className="modal-header">
                             <h5 className="modal-title">Comment</h5>
                             <button
                               type="button"
@@ -201,7 +200,6 @@ function AdminComplaintList(props) {
                             >
                               &times;
                             </button>
-                          </div>
                           <div className="modal-body">
                             <form>
                               <div className="form-group">
@@ -221,7 +219,7 @@ function AdminComplaintList(props) {
                             <button
                               type="button"
                               data-dismiss="modal"
-                              className="btn btn-success"
+                              className="btn btn-danger"
                               onClick={() => {
                                 setComplaintId("");
                                 sendComplaints("Reject");
