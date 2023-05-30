@@ -2,47 +2,39 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
-import {
-  addComplaints,
-  getLocationList,
-  getUsers,
-} from "../../api";
+import { addComplaints, getLocationList, getUsers } from "../../api";
+
 import { addComplaintFormConstants } from "../constants";
 import { toast } from "react-toastify";
 
 function AddComplaint(props) {
+	
   const navigate = useNavigate();
-
   const [userList, setUserList] = useState({});
+  const localUserId = localStorage.getItem("userId");
+  const localDepartmentId = localStorage.getItem("departmentId");
+  const role = localStorage.getItem("role");
+  const locationId = localStorage.getItem("locationId");
+
+
   const [addComplaintFormFields, setAddComplaintFormFields] = useState({
     title: "",
     description: "",
     userId: "",
+    locationId: "",
+    departmentId: "",
     status: "New Complaint",
   });
   const [locationList, setLocationList] = useState({});
 
-  const localUserId = localStorage.getItem("userId");
-  const role = localStorage.getItem("role");
+  
 
   useEffect(() => {
     if (localUserId) {
-      if (role === "ROLE_USER") {
-        setAddComplaintFormFields({
-          ...addComplaintFormFields,
-          userId: localUserId,
-        });
-      }
-    }
-    if (role === "ROLE_ADMIN") {
-      getUsers().then((response) => {
-        if (response?.status === 200) {
-          const userListTemp = response?.data?.map((item) => {
-            return { value: item?.id, label: item?.name };
-          });
-          setUserList(userListTemp);
-          return response?.data;
-        }
+      setAddComplaintFormFields({
+        ...addComplaintFormFields,
+        userId: localUserId,
+        departmentId: localDepartmentId,
       });
     }
   }, [localUserId, role]);
@@ -54,6 +46,21 @@ function AddComplaint(props) {
           return { value: item?.id, label: item?.name };
         });
         setLocationList(locationListTemp);
+
+        //
+        if (role === "ROLE_USER") {
+          const defaultLocationId =
+            response?.data?.length &&
+            response?.data?.find(
+              (item) => Number(item?.id) === Number(locationId)
+            );
+          setAddComplaintFormFields({
+            ...addComplaintFormFields,
+            locationId: defaultLocationId.id,
+            userId: localUserId,
+            departmentId: localDepartmentId,
+          });
+        }
       }
     });
   }, []);
@@ -64,11 +71,7 @@ function AddComplaint(props) {
     addComplaints(addComplaintFormFields).then((response) => {
       if (response?.status === 200) {
         toast.success("Complaint added successfully");
-        if (role === "ROLE_ADMIN") {
-          navigate("/admin/complaints");
-        } else if (role === "ROLE_USER") {
-          navigate("/user/complaints");
-        }
+        navigate("/user/complaints");
       } else {
         toast.error("Something went wrong, please try again");
       }
@@ -77,8 +80,6 @@ function AddComplaint(props) {
 
   const showOptionsList = (formFieldKey) => {
     switch (formFieldKey) {
-      case "userId":
-        return userList;
       case "locationId":
         return locationList;
       default:
@@ -86,14 +87,15 @@ function AddComplaint(props) {
     }
   };
 
-  console.log("addComplaintFormFields", addComplaintFormFields);
-
   const renderFormFields = () => {
     return addComplaintFormConstants?.map((formField) => {
       if (formField?.roleList?.includes(role)) {
         return formField?.type === "text" ? (
           <div className="col-md-6" key={formField?.key}>
-            <div className="form-group required">
+            <div
+              className={`form-group ${formField?.isRequired ? "required" : ""
+                }`}
+            >
               <label className="control-label">{formField?.label}</label>
               <input
                 type={formField?.type}
@@ -121,6 +123,15 @@ function AddComplaint(props) {
                   })
                 }
                 options={showOptionsList(formField?.key)}
+                value={
+                  role === "ROLE_USER"
+                    ? showOptionsList(formField?.key)?.length &&
+                    showOptionsList(formField?.key)?.find(
+                      (item1) =>
+                        item1.value === addComplaintFormFields?.locationId
+                    )
+                    : ""
+                }
               />
             </div>
           </div>
@@ -154,9 +165,11 @@ function AddComplaint(props) {
                         onClick={(e) => {
                           handleSubmit(e);
                         }}
-                        disabled={Object.values(addComplaintFormFields)?.some(
-                          (item) => item === "" || item === null
-                        )}
+                        disabled={
+                          !addComplaintFormFields?.title ||
+
+                          !addComplaintFormFields?.locationId
+                        }
                       >
                         Save
                       </button>

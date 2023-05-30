@@ -18,6 +18,7 @@ function AddUser(props) {
     status: "A",
   });
 
+  const [originalDepartmentList, setOriginalDepartmentList] = useState({});																			
   const [departmentList, setDepartmentList] = useState({});
   const [locationList, setLocationList] = useState({});
 
@@ -25,9 +26,13 @@ function AddUser(props) {
     getDepartmentList().then((response) => {
       if (response?.status === 200) {
         const departmentListTemp = response?.data?.map((item) => {
-          return { value: item?.id, label: item?.name };
+          return {
+            value: item?.id,
+            label: item?.name,
+            locationId: item?.locationId,
+          };
         });
-        setDepartmentList(departmentListTemp);
+        setOriginalDepartmentList(departmentListTemp);
       }
     });
 
@@ -41,6 +46,15 @@ function AddUser(props) {
     });
   }, []);
 
+	useEffect(() => {
+    const filteredDepartmentList =
+      originalDepartmentList?.length &&
+      originalDepartmentList?.filter(
+        (department) => department?.locationId === userData?.locationId
+      );
+    setDepartmentList(filteredDepartmentList);
+    setUserData({ ...userData, departmentId: "" });
+  }, [userData?.locationId]);			   
   const handleUserSave = () => {
     signUp(userData).then((res) => {
       if (res.status === 200) {
@@ -82,6 +96,22 @@ function AddUser(props) {
                 formField?.key === "departmentId"
                   ? departmentList
                   : locationList
+              }
+			  value={
+                formField?.key === "departmentId"
+                  ? departmentList?.length &&
+                    departmentList?.find((item1) => {
+                      return item1?.value === userData?.departmentId;
+                    })
+                  : locationList?.length &&
+                    locationList?.find(
+                      (item1) => item1?.value === userData?.locationId
+                    )
+              }
+              isDisabled={
+                formField?.label === "Department" && !userData?.locationId
+                  ? true
+                  : false
               }
             />
           </div>

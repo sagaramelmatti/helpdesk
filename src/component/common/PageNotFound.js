@@ -1,10 +1,6 @@
 import React from "react";
-import { getUserLocalStorageData } from "./StoreLocalData";
 
 function PageNotFound() {
-  const localStorageData = getUserLocalStorageData();
-  console.log("localStorageData", localStorageData);
-
   return (
     <>
       <div className="content-wrapper">
@@ -19,7 +15,9 @@ function PageNotFound() {
                 <div className="box-body">
                   <div className="row">
                     <div className="col-xs-12 text-center">
-                      <h1>Page Not Found</h1>
+                      <h1>Not Authorized </h1>
+                      <br/>
+                      <h4>You are Not Authorized to view requested page , you can click to <a href="/login"><u> Sign In </u></a> to login again</h4>
                     </div>
                   </div>
                 </div>

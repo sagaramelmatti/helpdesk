@@ -2,14 +2,14 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { toast } from "react-toastify";
-
+import { Link } from "react-router-dom";
 import { loginFormConstantants, registerFormConstantants } from "../constants";
-import { signIn, signUp, getDepartmentList , getLocationList } from "../../api";
+import { signIn, signUp, getDepartmentList, getLocationList } from "../../api";
 import AuthContext from "../../context/AuthProvider";
+import Topmenu from "../Topmenu";
 
 export const Login = () => {
-
-  const submitBtnRef= useRef(null);
+  const submitBtnRef = useRef(null);
   const [loginFormFields, setLoginFormFields] = useState({});
   const [registerFormFields, setRegisterFormFields] = useState({
     password: "",
@@ -48,7 +48,6 @@ export const Login = () => {
         setLocationList(locationListTemp);
       }
     });
-
   }, []);
 
   // Check Email Validation
@@ -148,6 +147,7 @@ export const Login = () => {
         localStorage.setItem("email", res.data.email);
         localStorage.setItem("userId", res.data.id);
         localStorage.setItem("locationId", res.data.locationId);
+        localStorage.setItem("departmentId", res.data.departmentId);
         const updatedUser = {
           token: res.data.accessToken,
           name: res.data.name,
@@ -157,7 +157,7 @@ export const Login = () => {
           navigate("/admin/complaints", { replace: true });
         } else if (res.data.roles[0] === "ROLE_SUPERVISOR") {
           navigate("/supervisor/complaints", { replace: true });
-        }else {
+        } else {
           navigate("/user/complaints", { replace: true });
         }
       }
@@ -195,6 +195,7 @@ export const Login = () => {
   const renderFormLink = (text, formValue) => {
     return (
       <>
+        <Topmenu />
         <div
           className="register-login-link"
           onClick={() => setShowForm(formValue)}
@@ -247,16 +248,26 @@ export const Login = () => {
                 <div className="row">
                   <div className="col-12">
                     <button
-                      type="submit" 
+                      type="submit"
                       className="btn btn-success btn-block btn-flat r-btn login-btn"
-                      onClick={() => handleLogin() } 
+                      onClick={() => handleLogin()}
                       ref={submitBtnRef}
-                      >
+                    >
                       {showForm === "login" ? "Sign In" : "Register"}
                     </button>
                   </div>
                 </div>
-                
+                <br />
+                <div className="row">
+                  <div className="col-md-12 col-md-offset-7">
+                    <Link to="/user/password/forgot">
+                      <span STYLE="font-size:12.0pt;color:red; text-decoration:underline ">
+                        {" "}
+                        Forgot Password{" "}
+                      </span>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

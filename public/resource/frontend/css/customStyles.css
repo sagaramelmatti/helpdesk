@@ -36,6 +36,16 @@
   color: red;
 }
 
+.success-message {
+  text-align: right;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  margin-left: -20px;
+  color: green;
+  font-size: 15px;
+  font-weight: 700;
+}
+
 .login-btn {
   margin-top: 10px;
 }
@@ -51,7 +61,7 @@
 }
 
 .modal-title {
-  font-size: 24px;
+  font-size: 16px;
 }
 
 .cross-icon {
@@ -124,4 +134,17 @@
 
 .content {
   min-height: 500px !important;
+}
+
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+.modal-title {
+  display: inline-block;
+}
+
+.close {
+  font-size: 31px;
+  color: black !important;
 }

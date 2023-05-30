@@ -3,7 +3,7 @@ import {
   PATH_LOGIN,
   PATH_PROFILE,
   PATH_PAGE_NOT_FOUND,
-  SUPERVISOR_COMPLAINTS
+  SUPERVISOR_COMPLAINTS,
   // PATH_ROOT,
   // ADD_CUSTOMER,
   // CUSTOMERS,
@@ -41,12 +41,13 @@ import PageNotFound from "./component/common/PageNotFound";
 import SupervisorComplaints from "./component/complaint/SupervisorComplaints";
 import EditSupervisorComplaint from "./component/complaint/EditSupervisorComplaint";
 import EditAdminComplaint from "./component/complaint/EditAdminComplaint";
+import { ForgotPasswordPage } from "./component/authentication/ForgotPasswordPage";
 
 function App() {
-  const role = localStorage.getItem("role");
 
-  function ShowRoleWiseComponent({ children }) {
-    if (role === "ROLE_ADMIN") {
+   function AdminComponent({ children }) {
+    const role = localStorage.getItem("role");
+    if (role === "ROLE_ADMIN" || "") {
       return <>{("admin", children)}</>;
     } else {
       return <PageNotFound />;
@@ -54,7 +55,17 @@ function App() {
   }
 
   function UserComponent({ children }) {
-    if (role === "ROLE_USER") {
+    const role = localStorage.getItem("role");
+    if (role === "ROLE_USER" || "") {
+      return <>{("user", children)}</>;
+    } else {
+      return <PageNotFound />;
+    }
+  }
+
+  function SupervisorComponent({ children }) {
+    const role = localStorage.getItem("role");
+    if (role === "ROLE_SUPERVISOR" || "") {
       return <>{("user", children)}</>;
     } else {
       return <PageNotFound />;
@@ -72,40 +83,166 @@ function App() {
                 <Route path={PATH_LOGIN} element={<Login />} />
                 <Route path={PATH_PAGE_NOT_FOUND} element={<PageNotFound />} />
                 <Route element={<ProtectedRoutes />}>
-
                   <Route path="/" exact element={<Login />} />
-                  <Route path="/admin/users/add" exact element={<AddUser />} />
-                  <Route path="/admin/users" element={<UserList />} />
-                  <Route path="/admin/users/:id" element={<EditUser />} />
-                  
-                  
-                  <Route path="/admin/departments" element={<DepartmentList />} />
-                  <Route path="/admin/departments/:id" element={<EditDepartment />} />
-                  <Route path="/admin/departments/add" exact element={<AddDepartment />} />
+                  <Route
+                    path="/admin/users/add"
+                    exact
+                    element={
+                      <AdminComponent>
+                        <AddUser />
+                      </AdminComponent>
+                    }
+                  />
+                  <Route
+                    path="/admin/users"
+                    element={
+                      <AdminComponent>
+                        <UserList />
+                      </AdminComponent>
+                    }
+                  />
+                  <Route
+                    path="/admin/users/:id"
+                    element={
+                      <AdminComponent>
+                        <EditUser />
+                      </AdminComponent>
+                    }
+                  />
 
-                  <Route path="/admin/locations" element={<LocationList />} />
-                  <Route path="/admin/locations/:id" element={<EditLocation />} />
-                  <Route path="/admin/locations/add" exact element={<AddLocation />} />
+                  <Route
+                    path="/admin/departments"
+                    element={
+                      <AdminComponent>
+                        <DepartmentList />
+                      </AdminComponent>
+                    }
+                  />
+                  <Route
+                    path="/admin/departments/:id"
+                    element={
+                      <AdminComponent>
+                        <EditDepartment />
+                      </AdminComponent>
+                    }
+                  />
+                  <Route
+                    path="/admin/departments/add"
+                    exact
+                    element={
+                      <AdminComponent>
+                        <AddDepartment />
+                      </AdminComponent>
+                    }
+                  />
 
-                  <Route path="/admin/complaints" element={<AdminComplaintList />} />
-                  <Route path="/admin/complaints/:id" element={<EditAdminComplaint />} />
-                  
-                  <Route path="/admin/reports/complaints" element={<ComplaintReport />} />
-                  
+                  <Route
+                    path="/admin/locations"
+                    element={
+                      <AdminComponent>
+                        <LocationList />
+                      </AdminComponent>
+                    }
+                  />
+                  <Route
+                    path="/admin/locations/:id"
+                    element={
+                      <AdminComponent>
+                        <EditLocation />
+                      </AdminComponent>
+                    }
+                  />
+                  <Route
+                    path="/admin/locations/add"
+                    exact
+                    element={
+                      <AdminComponent>
+                        <AddLocation />
+                      </AdminComponent>
+                    }
+                  />
 
+                  <Route
+                    path="/admin/complaints"
+                    element={
+                      <AdminComponent>
+                        <AdminComplaintList />
+                      </AdminComponent>
+                    }
+                  />
+                  <Route
+                    path="/admin/complaints/:id"
+                    element={
+                      <AdminComponent>
+                        <EditAdminComplaint />
+                      </AdminComponent>
+                    }
+                  />
 
-                  <Route path="/user/complaints/" element={<ComplaintList />} />
-                  <Route path="/user/complaints/add" exact element={<AddComplaint />} />
-                  <Route  path="/user/complaints/:userId/:id" exact element={<EditComplaint />} />
-                  <Route path="/user/password/change" element={<ChangePassword />} />
+                  <Route
+                    path="/admin/reports/complaints"
+                    element={
+                      <AdminComponent>
+                        <ComplaintReport />
+                      </AdminComponent>
+                    }
+                  />
+
+                  <Route
+                    path="/user/complaints/"
+                    element={
+                      <UserComponent>
+                        <ComplaintList />
+                      </UserComponent>
+                    }
+                  />
+                  <Route
+                    path="/user/complaints/add"
+                    exact
+                    element={
+                      <UserComponent>
+                        <AddComplaint />
+                      </UserComponent>
+                    }
+                  />
+                  <Route
+                    path="/user/complaints/:userId/:id"
+                    exact
+                    element={
+                      <UserComponent>
+                        <EditComplaint />
+                      </UserComponent>
+                    }
+                  />
+                  <Route
+                    path="/user/password/change"
+                    element={
+                      <UserComponent>
+                        <ChangePassword />
+                      </UserComponent>
+                    }
+                  />
                   <Route path={PATH_PROFILE} element={<Profile />} />
 
-                
-                  <Route path="/supervisor/complaints" element={<SupervisorComplaints />} />
-                  <Route path="/supervisor/complaints/:locationId/:id" exact element={<EditSupervisorComplaint />} />
-
-
+                  <Route
+                    path="/supervisor/complaints"
+                    element={
+                      <SupervisorComponent>
+                        <SupervisorComplaints />
+                      </SupervisorComponent>
+                    }
+                  />
+                  <Route
+                    path="/supervisor/complaints/:locationId/:id"
+                    exact
+                    element={
+                      <SupervisorComponent>
+                        <EditSupervisorComplaint />
+                      </SupervisorComponent>
+                    }
+                  />
                 </Route>
+                <Route path="/user/password/forgot" element={<ForgotPasswordPage />} />
               </Routes>
             </AuthProvider>
           </Router>
