@@ -322,7 +322,14 @@ function SupervisorComplaints(props) {
                               &nbsp; &nbsp; &nbsp;
                               <button
                                 className="btn btn-danger"
-                                onClick={() => onDelete(complaint?.id)}
+                                onClick={() => {
+                                  const confirmBox = window.confirm(
+                                    "Do you really want to delete this Complaint?"
+                                  );
+                                  if (confirmBox === true) {
+                                    onDelete(complaint?.id);
+                                  }
+                                }}
                               >
                                 <i className="fa fa-trash-o"></i>{" "}
                               </button>
