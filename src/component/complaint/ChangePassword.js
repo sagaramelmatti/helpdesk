@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Select from "react-select";
 
-import {
-    addComplaints,
-} from "../../api";
-
-import { addComplaintFormConstants } from "../constants";
 import { toast } from "react-toastify";
 import UserDataService from "../../services/UserDataService";
 
@@ -25,10 +19,10 @@ function ChangePassword(props) {
             newPassword: newPassword
         };
 
-        //console.log(`data=`+data.taxId);
         UserDataService.updatePassword(userId,data)
             .then(response => {
                 console.log(response.data);
+                toast.success("Your Password has been changed succesfully !");
                 navigate("/profile");
             })
             .catch(e => {
