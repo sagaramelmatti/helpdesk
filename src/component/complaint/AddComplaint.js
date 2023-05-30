@@ -2,18 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
-import {
-  addComplaints,
-  getLocationList,
-  getUsers,
-} from "../../api";
+import { addComplaints, getLocationList, getUsers } from "../../api";
+
 import { addComplaintFormConstants } from "../constants";
 import { toast } from "react-toastify";
 
 function AddComplaint(props) {
+	
   const navigate = useNavigate();
-
   const [userList, setUserList] = useState({});
+  const localUserId = localStorage.getItem("userId");
+  const localDepartmentId = localStorage.getItem("departmentId");
+  const role = localStorage.getItem("role");
+  const locationId = localStorage.getItem("locationId");
+
+
   const [addComplaintFormFields, setAddComplaintFormFields] = useState({
     title: "",
     description: "",
@@ -24,18 +27,15 @@ function AddComplaint(props) {
   });
   const [locationList, setLocationList] = useState({});
 
-  const localUserId = localStorage.getItem("userId");
-  const localDepartmentId = localStorage.getItem("departmentId");
-  const role = localStorage.getItem("role");
+  
 
-  console.log("localDepartmentId"+localDepartmentId);
   useEffect(() => {
     if (localUserId) {
-        setAddComplaintFormFields({
-          ...addComplaintFormFields,
-          userId: localUserId,
-          departmentId: localDepartmentId,
-        });
+      setAddComplaintFormFields({
+        ...addComplaintFormFields,
+        userId: localUserId,
+        departmentId: localDepartmentId,
+      });
     }
   }, [localUserId, role]);
 
@@ -46,6 +46,21 @@ function AddComplaint(props) {
           return { value: item?.id, label: item?.name };
         });
         setLocationList(locationListTemp);
+
+        //
+        if (role === "ROLE_USER") {
+          const defaultLocationId =
+            response?.data?.length &&
+            response?.data?.find(
+              (item) => Number(item?.id) === Number(locationId)
+            );
+          setAddComplaintFormFields({
+            ...addComplaintFormFields,
+            locationId: defaultLocationId.id,
+            userId: localUserId,
+            departmentId: localDepartmentId,
+          });
+        }
       }
     });
   }, []);
@@ -72,14 +87,15 @@ function AddComplaint(props) {
     }
   };
 
-  console.log("addComplaintFormFields", addComplaintFormFields);
-
   const renderFormFields = () => {
     return addComplaintFormConstants?.map((formField) => {
       if (formField?.roleList?.includes(role)) {
         return formField?.type === "text" ? (
           <div className="col-md-6" key={formField?.key}>
-            <div className="form-group required">
+            <div
+              className={`form-group ${formField?.isRequired ? "required" : ""
+                }`}
+            >
               <label className="control-label">{formField?.label}</label>
               <input
                 type={formField?.type}
@@ -107,6 +123,15 @@ function AddComplaint(props) {
                   })
                 }
                 options={showOptionsList(formField?.key)}
+                value={
+                  role === "ROLE_USER"
+                    ? showOptionsList(formField?.key)?.length &&
+                    showOptionsList(formField?.key)?.find(
+                      (item1) =>
+                        item1.value === addComplaintFormFields?.locationId
+                    )
+                    : ""
+                }
               />
             </div>
           </div>
@@ -142,10 +167,9 @@ function AddComplaint(props) {
                         }}
                         disabled={
                           !addComplaintFormFields?.title ||
-                          !addComplaintFormFields?.description |
+
                           !addComplaintFormFields?.locationId
                         }
-
                       >
                         Save
                       </button>
