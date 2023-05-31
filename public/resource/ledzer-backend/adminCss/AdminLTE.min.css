@@ -382,7 +382,8 @@ a:focus {
 }
 @media (max-width: 991px) {
     .navbar-collapse.pull-left {
-        float: none!important
+        /*float: none!important*/
+        
     }
     .navbar-collapse.pull-left+.navbar-custom-menu {
         display: block;

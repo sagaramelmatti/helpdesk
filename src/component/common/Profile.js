@@ -20,22 +20,20 @@ function Profile() {
                 </div>
                 <div className="box-body">
                   <div className="row">
-                    <div className="col-xs-3">
+                    <div className="col-xs-4">
                       <label>User Name</label>
                     </div>
-                    <div className="col-xs-3">
+                    <div className="col-xs-8">
                       <label>: {localStorageData?.name}</label>
                     </div>
-                    <div className="col-xs-6"></div>
                   </div>
                   <div className="row">
-                    <div className="col-xs-3">
+                    <div className="col-xs-4">
                       <label>Email</label>
                     </div>
-                    <div className="col-xs-3">
+                    <div className="col-xs-8">
                       <label>: {localStorageData?.email}</label>
                     </div>
-                    <div className="col-xs-6"></div>
                   </div>
                 </div>
               </div>

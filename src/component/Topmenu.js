@@ -5,12 +5,14 @@ import { PATH_LOGIN } from "./constants";
 
 import { navigationConstants } from "./constants";
 import { removeUserLocalStorageData } from "../component/common/StoreLocalData";
+import { isMobile } from 'react-device-detect';
 
 function Topmenu(props) {
   const [logoutPath, setLogoutPath] = useState(false);
   const role = localStorage.getItem("role");
   const location = useLocation();
   const logout = useLogout();
+  const [toggle, setToggle] = useState(false);
 
   const signOut = async () => {
     await logout();
@@ -18,7 +20,17 @@ function Topmenu(props) {
     Navigate(PATH_LOGIN, { replace: true });
   };
 
+  function setToggleValue (event, value){
+    setToggle(value);
+}
+
   const renderNavBar = () => {
+    /*
+    if(isMobile) {
+      setToggle(true);
+    }
+    */
+
     return navigationConstants?.map((item) =>
       item?.rolesList?.includes(role) ? (
         <li key={role.label}>
@@ -52,7 +64,6 @@ function Topmenu(props) {
   };
   return (
     <>
-      <div className="wrapper">
         <header className="main-header">
           <nav className="navbar navbar-static-top">
             <div className="container">
@@ -60,25 +71,20 @@ function Topmenu(props) {
                 <a href="#" className="navbar-brand">
                   <b><img src="/resource/ledzer-backend/images/logobrpl.png" width="120" ></img>&nbsp;&nbsp; &nbsp; IT Helpdesk Portal</b>
                 </a>
-                <button
-                  type="button"
-                  className="navbar-toggle collapsed"
-                  data-toggle="collapse"
-                  data-target="#navbar-collapse"
-                >
+                <button 
+                  onClick={e => setToggleValue(e, !toggle)} 
+                  className="btn btn-primary mb-5" id="fabar">
                   <i className="fa fa-bars"></i>
                 </button>
               </div>
-              <div
-                className="collapse navbar-collapse pull-left"
-                id="navbar-collapse"
-              >
-                <ul className="nav navbar-nav">{renderNavBar()}</ul>
+              <div className="collapse navbar-collapse pull-left" id="navbar-collapse" >
+                {toggle && (
+                  <ul className="nav navbar-nav">{renderNavBar()}</ul>
+                )}
               </div>
             </div>
           </nav>
         </header>
-      </div>
     </>
   );
 }

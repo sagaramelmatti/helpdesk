@@ -2316,7 +2316,7 @@ input[type="button"].btn-block {
     opacity: 1
 }
 .collapse {
-    display: none
+    display: inline-block
 }
 .collapse.in {
     display: block
