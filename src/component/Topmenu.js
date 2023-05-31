@@ -8,11 +8,9 @@ import { removeUserLocalStorageData } from "../component/common/StoreLocalData";
 
 function Topmenu(props) {
 
-  const windowWidth = useRef(window.innerWidth);
-  const windowHeight = useRef(window.innerHeight);
-
   const [logoutPath, setLogoutPath] = useState(false);
   const role = localStorage.getItem("role");
+  const userId = localStorage.getItem("userId");
   const location = useLocation();
   const logout = useLogout();
   const [toggle, setToggle] = useState(false);
@@ -92,11 +90,13 @@ function Topmenu(props) {
               <a href="#" className="navbar-brand">
                 <b><img src="/resource/ledzer-backend/images/logobrpl.png" width="120" ></img>&nbsp;&nbsp; &nbsp; IT Helpdesk Portal</b>
               </a>
-              <button
-                onClick={e => setToggleValue(e, !toggle)}
-                className="btn btn-primary mb-5" id="fabar">
-                <i className="fa fa-bars"></i>
-              </button>
+              {userId != null && (
+                <button
+                  onClick={e => setToggleValue(e, !toggle)}
+                  className="btn btn-primary mb-5" id="fabar">
+                  <i className="fa fa-bars"></i>
+                </button>
+              )}
             </div>
             <div className="collapse navbar-collapse pull-left" id="navbar-collapse" >
               {toggle && (
