@@ -99,7 +99,7 @@ export const navigationConstants = [
     label: "Profile",
     path: PATH_PROFILE,
     iconName: "fa-address-book",
-    rolesList: ["ROLE_ADMIN", "ROLE_USER", "ROLE_SUPERVISOR"],
+    rolesList: [ "ROLE_USER", "ROLE_SUPERVISOR"],
   },
   {
     // key: "Complaint List",
@@ -110,7 +110,7 @@ export const navigationConstants = [
   },
   {
     key: "log_out",
-    label: "",
+    label: "Logout",
     path: "",
     iconName: "fa-power-off",
     rolesList: ["ROLE_ADMIN", "ROLE_USER", "ROLE_SUPERVISOR"],

@@ -254,90 +254,92 @@ function SupervisorComplaints(props) {
                     </div>
                   </div> */}
                   <br />
-                  <table
-                    id="table"
-                    className="table table-bordered table-hover"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Sr. No. </th>
-                        <th width="10%">Complaint Date</th>
-                        <th width="10%">Resolved Date</th>
-                        <th width="10%">Ticket Number</th>
-                        <th width="10%">Subject</th>
-                        <th width="10%">Description</th>
-                        <th width="10%">User Name</th>
-                        <th width="10%">Comment</th>
-                        <th width="10%">Status</th>
-                        {/* <th width="5%">Change Status</th> */}
-                        <th width="10%">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {complaints &&
-                        complaints.map((complaint, index) => (
-                          <tr key={complaint?.id}>
-                            <td> {++index} </td>
-                            <td>{complaint?.complaint_added_date} </td>
-                            <td>{complaint?.complaint_resolved_date} </td>
-                            <td>{complaint?.ticketNumberSequance}</td>
-                            <td>{complaint?.title}</td>
-                            <td>{complaint?.description}</td>
-                            <td>{complaint?.user?.name}</td>
-                            <td>{complaint?.comment}</td>
-                            <td>{complaint?.status}</td>
-                            <td>
-                              <button
-                                className="btn btn-warning"
-                                onClick={() => {
-                                  setComplaintId(complaint?.id);
-                                  setModalIsOpen(true);
-                                }}
-                              >
-                                <i className="fa fa-pencil"></i>{" "}
-                              </button>
-                              {/* <button
-                                href="#supervisorMyModal"
-                                className="btn btn-primary"
-                                data-toggle="modal"
-                                onClick={() => {
-                                  setComplaintId(complaint?.id);
-                                  // setCommentMessage(complaint?.comment);
-                                }}
-                              >
-                                Change{" "}
-                              </button> */}
-                              {/* </td>
-                            <td> */}
-                              {/* <button
-                                className="btn btn-warning"
-                                onClick={() =>
-                                  navigate(
-                                    `/supervisor/complaints/${complaint.location?.id}/${complaint?.id}`
-                                  )
-                                }
-                              >
-                                <i className="fa fa-pencil"></i>{" "}
-                              </button> */}
-                              &nbsp; &nbsp; &nbsp;
-                              <button
-                                className="btn btn-danger"
-                                onClick={() => {
-                                  const confirmBox = window.confirm(
-                                    "Do you really want to delete this Complaint?"
-                                  );
-                                  if (confirmBox === true) {
-                                    onDelete(complaint?.id);
-                                  }
-                                }}
-                              >
-                                <i className="fa fa-trash-o"></i>{" "}
-                              </button>
-                            </td>
+                  <div class="table-responsive">
+                      <table
+                        id="table"
+                        className="table table-bordered table-hover"
+                      >
+                        <thead>
+                          <tr>
+                            <th>Sr. No. </th>
+                            <th width="10%">Complaint Date</th>
+                            <th width="10%">Resolved Date</th>
+                            <th width="10%">Ticket Number</th>
+                            <th width="10%">Subject</th>
+                            <th width="10%">Description</th>
+                            <th width="10%">User Name</th>
+                            <th width="10%">Comment</th>
+                            <th width="10%">Status</th>
+                            {/* <th width="5%">Change Status</th> */}
+                            <th width="10%">Action</th>
                           </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                        </thead>
+                        <tbody>
+                          {complaints &&
+                            complaints.map((complaint, index) => (
+                              <tr key={complaint?.id}>
+                                <td> {++index} </td>
+                                <td>{complaint?.complaint_added_date} </td>
+                                <td>{complaint?.complaint_resolved_date} </td>
+                                <td>{complaint?.ticketNumberSequance}</td>
+                                <td>{complaint?.title}</td>
+                                <td>{complaint?.description}</td>
+                                <td>{complaint?.user?.name}</td>
+                                <td>{complaint?.comment}</td>
+                                <td>{complaint?.status}</td>
+                                <td>
+                                  <button
+                                    className="btn btn-warning"
+                                    onClick={() => {
+                                      setComplaintId(complaint?.id);
+                                      setModalIsOpen(true);
+                                    }}
+                                  >
+                                    <i className="fa fa-pencil"></i>{" "}
+                                  </button>
+                                  {/* <button
+                                    href="#supervisorMyModal"
+                                    className="btn btn-primary"
+                                    data-toggle="modal"
+                                    onClick={() => {
+                                      setComplaintId(complaint?.id);
+                                      // setCommentMessage(complaint?.comment);
+                                    }}
+                                  >
+                                    Change{" "}
+                                  </button> */}
+                                  {/* </td>
+                                <td> */}
+                                  {/* <button
+                                    className="btn btn-warning"
+                                    onClick={() =>
+                                      navigate(
+                                        `/supervisor/complaints/${complaint.location?.id}/${complaint?.id}`
+                                      )
+                                    }
+                                  >
+                                    <i className="fa fa-pencil"></i>{" "}
+                                  </button> */}
+                                  &nbsp; &nbsp; &nbsp;
+                                  <button
+                                    className="btn btn-danger"
+                                    onClick={() => {
+                                      const confirmBox = window.confirm(
+                                        "Do you really want to delete this Complaint?"
+                                      );
+                                      if (confirmBox === true) {
+                                        onDelete(complaint?.id);
+                                      }
+                                    }}
+                                  >
+                                    <i className="fa fa-trash-o"></i>{" "}
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                  </div>
                 </div>
               </div>
             </div>
