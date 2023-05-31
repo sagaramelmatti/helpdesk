@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useRef} from "react";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import useLogout from "./authentication/useLogOut";
 import { PATH_LOGIN } from "./constants";
@@ -8,6 +8,11 @@ import { removeUserLocalStorageData } from "../component/common/StoreLocalData";
 import { isMobile } from 'react-device-detect';
 
 function Topmenu(props) {
+
+  const windowWidth = useRef(window.innerWidth);
+  const windowHeight = useRef(window.innerHeight);
+
+  
   const [logoutPath, setLogoutPath] = useState(false);
   const role = localStorage.getItem("role");
   const location = useLocation();
