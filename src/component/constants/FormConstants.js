@@ -13,7 +13,7 @@ import {
 export const loginFormConstantants = [
   {
     key: "email",
-    label: "email",
+    label: "Email/Login Id",
     type: "text",
   },
   {
