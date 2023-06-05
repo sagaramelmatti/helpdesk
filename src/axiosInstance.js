@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: 'http://helpdesk.brplind.com:8081/api', //process.env.REACT_APP_BASE_APP_URL,
+  baseURL: 'https://helpdesk.brplind.com:8081/api', //process.env.REACT_APP_BASE_APP_URL,
   headers: {
     "Content-Type": "application/json",
   },

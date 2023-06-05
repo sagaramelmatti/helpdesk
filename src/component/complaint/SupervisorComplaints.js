@@ -268,6 +268,7 @@ function SupervisorComplaints(props) {
                             <th width="10%">Subject</th>
                             <th width="10%">Description</th>
                             <th width="10%">User Name</th>
+                            <th width="10%">Location</th>
                             <th width="10%">Department</th>
                             <th width="10%">Comment</th>
                             <th width="10%">Status</th>
@@ -286,6 +287,7 @@ function SupervisorComplaints(props) {
                                 <td>{complaint?.title}</td>
                                 <td>{complaint?.description}</td>
                                 <td>{complaint?.user?.name}</td>
+                                <td>{complaint?.location?.name}</td>
                                 <td>{complaint?.department?.name}</td>
                                 <td>{complaint?.comment}</td>
                                 <td>{complaint?.status}</td>
