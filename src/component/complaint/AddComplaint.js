@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 
@@ -15,6 +15,7 @@ function AddComplaint(props) {
   const localDepartmentId = localStorage.getItem("departmentId");
   const role = localStorage.getItem("role");
   const locationId = localStorage.getItem("locationId");
+  const submitBtnRef = useRef(null);
 
 
   const [addComplaintFormFields, setAddComplaintFormFields] = useState({
@@ -165,6 +166,7 @@ function AddComplaint(props) {
                         onClick={(e) => {
                           handleSubmit(e);
                         }}
+                        ref={submitBtnRef}
                         disabled={
                           !addComplaintFormFields?.title ||
 
