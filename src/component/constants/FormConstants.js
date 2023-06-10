@@ -240,6 +240,11 @@ export const adminReportsSelectConstants = [
     type: "select",
   },
   {
+    key: "complaint_status",
+    label: "Complaint Status",
+    type: "select",
+  },
+  {
     key: "from_date",
     label: "From date",
     type: "calender",

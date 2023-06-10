@@ -9,7 +9,11 @@ import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 
 import PageLoader from "../common/PageLoader";
-import { adminReportsSelectConstants, filterFormFields } from "../constants";
+import {
+  adminReportsSelectConstants,
+  complaintStatusList,
+  filterFormFields,
+} from "../constants";
 import { getLocationList } from "../../api/CommonApi";
 
 import { getAdminComplaintsReport } from "../../api/CommonApi";
@@ -77,19 +81,27 @@ function ComplaintReport(props) {
   };
 
   const renderDropdown = (typeParam, keyParam) => {
+	const objKeyParam = keyParam === "location" ? "locationId" : "status";						
     if (typeParam === "select") {
       return (
         <Select
           onChange={(e) => {
             setReportParam({
               ...reportParam,
-              locationId: e.value,
+              [objKeyParam]: e.value,
             });
           }}
-          options={locationList}
+          options={keyParam === "location" ? locationList : complaintStatusList}
           value={
-            locationList?.length &&
-            locationList?.find((loc) => loc?.label === reportParam?.[keyParam])
+            keyParam === "location"
+              ? locationList?.length &&
+                locationList?.find(
+                  (loc) => loc?.label === reportParam?.[keyParam]
+                )
+              : complaintStatusList?.length &&
+                complaintStatusList?.find(
+                  (loc) => loc?.label === reportParam?.[keyParam]
+                )
           }
         />
       );

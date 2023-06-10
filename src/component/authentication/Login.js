@@ -99,6 +99,7 @@ export const Login = () => {
                         setErrorMessage(""))
                       : registerFormHandlers(item?.key, e.target.value);
                   }}
+				          onKeyDown={(e) => (e.code === "Enter" ? handleLogin() : "")}															  
                 />
                 {item?.key === "email" && showForm !== "login" && emailError ? (
                   <p
@@ -251,7 +252,7 @@ export const Login = () => {
                       type="submit"
                       className="btn btn-success btn-block btn-flat r-btn login-btn"
                       onClick={() => handleLogin()}
-                      ref={submitBtnRef}
+                      //ref={submitBtnRef}
                     >
                       {showForm === "login" ? "Sign In" : "Register"}
                     </button>
